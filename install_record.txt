@@ -1,0 +1,9 @@
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/hamming.cpython-38-darwin.so
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/hamming.py
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/EGG-INFO/PKG-INFO
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/EGG-INFO/not-zip-safe
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/EGG-INFO/SOURCES.txt
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/EGG-INFO/native_libs.txt
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/EGG-INFO/top_level.txt
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/EGG-INFO/dependency_links.txt
+/Users/yangbo/opt/anaconda3/lib/python3.8/site-packages/libs_qrem-0.0.0-py3.8-macosx-10.9-x86_64.egg/__pycache__/hamming.cpython-38.pyc
