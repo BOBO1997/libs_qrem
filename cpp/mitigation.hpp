@@ -4,39 +4,30 @@
 #include <time.h>
 
 using namespace std;
-using Eigen::MatrixXd;
-
-using namespace std;
+using namespace Eigen;
 
 namespace libs_qrem {
     class QREM_Filter {
         public:
 
-            /*
-            int num_clbits;
-            vector<MatrixXd> cal_matrices;
-            vector<vector<int>> mit_pattern;
-            vector<int> meas_layout;
+            int _num_clbits;
+            vector<Matrix2d> _cal_matrices;
+            vector<vector<int>> _mit_pattern;
+            vector<int> _meas_layout;
             
-            vector<MatrixXd> svd_matrices;
-            vector<MatrixXd> Us;
-            vector<MatrixXd> Sigmas;
-            vector<MatrixXd> Vs;
+            // vector<Matrix2d> _svd_matrices;
+            // vector<Matrix2d> _Us;
+            // vector<Matrix2d> _Sigmas;
+            // vector<Matrix2d> _Vs;
 
-            vector<MatrixXd> pinv_matrices;
-            vector<MatrixXd> pinvUs;
-            vector<MatrixXd> pinvSigmas;
-            vector<MatrixXd> pinvVs;
+            vector<Matrix2d> _pinv_matrices;
+            // vector<Matrix2d> _pinvUs;
+            // vector<Matrix2d> _pinvSigmas;
+            // vector<Matrix2d> _pinvVs;
 
-            vector<int> qubits_to_clbits;
-            */
+            vector<int> _qubits_to_clbits;
 
-            // QREM_Filter(vector<MatrixXd> cal_matrices);
-            QREM_Filter(vector<double> cal_matrices);
-
-
-            
-
-            void apply(map<string, double> hist);
+            QREM_Filter(vector< vector< vector<double> > > cal_matrices);
+            void apply(map<string, int> hist);
     };
 }
