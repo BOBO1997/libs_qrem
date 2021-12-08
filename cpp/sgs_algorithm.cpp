@@ -33,7 +33,7 @@ vector<double> sgs_algorithm(vector<double> x) {
         }
     }
     int denominator = pq.size();
-    vector<double> x_tilde = vector<double>(denominator, 0);
+    vector<double> x_tilde = vector<double>(x.size(), 0);
     while (pq.size() > 0) {
         pair<double, int> top = pq.top();
         x_tilde[top.second] = top.first + negative_accumulator / denominator;

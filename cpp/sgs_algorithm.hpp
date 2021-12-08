@@ -7,5 +7,5 @@ using namespace std;
 
 namespace libs_qrem
 {
-    vector<double> sgs_algorithm(vector<double>);
+    vector<double> sgs_algorithm(vector<double> x);
 }

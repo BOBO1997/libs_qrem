@@ -3,22 +3,24 @@ cimport cython
 
 from libcpp.map cimport map
 from libcpp.string cimport string
-from libcpp.vector cimport vector
 
-include "qrem_filter.pyx"
+cdef class QREM_Filter_Cython:
+    cdef QREM_Filter* ptr
 
-def test_qrem_filter_cython():
-    cdef vector[vector[vector[double]]] cal_matrices
-    cal_matrices.push_back([[0.95,0.05],[0.1,0.9]])
-    cal_matrices.push_back([[0.9,0.1],[0.2,0.8]])
-    print("cal_matrices:", cal_matrices)
-    meas_filter = QREM_Filter_Cython(2, cal_matrices)
-
-    cdef map[string, int] hist
-    hist["00".encode()] = 44
-    hist["01".encode()] = 8
-    hist["10".encode()] = 12
-    hist["11".encode()] = 36
-    print("hist: ", hist)
-    mitigated_hist = meas_filter.apply(hist)
-    print("mitigated_hist:", mitigated_hist)
+    def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
+        self.ptr = new QREM_Filter(n, cal_matrices, mit_pattern, meas_layout)
+    
+    def __deadaloc(self):
+        del self.ptr
+    
+    def apply(self, hist, d = 0, threshold = 0.1):
+        cdef map[string, int] cpp_hist
+        for key, value in hist.items():
+            cpp_hist[key.encode()] = value
+        mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
+        print("finished!!!")
+        print()
+        hist_dict = dict()
+        for item in mitigated_hist:
+            hist_dict[item.first] = item.second
+        return hist_dict

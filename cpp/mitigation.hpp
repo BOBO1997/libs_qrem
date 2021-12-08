@@ -16,11 +16,10 @@ namespace libs_qrem {
 
             int _num_clbits;
             vector<Matrix2d> _cal_matrices;
-            // vector< vector< vector <double> > > _cal_matrices;
             vector< vector<int> > _mit_pattern;
             vector<int> _meas_layout;
             
-            vector< JacobiSVD< Matrix<double, 2, 2> > > _svd_matrices;
+            vector< JacobiSVD<Matrix2d> > _svd_matrices;
             vector<Matrix2d> _Us;
             vector<Matrix2d> _Sigmas;
             vector<Matrix2d> _Vs;
@@ -32,8 +31,6 @@ namespace libs_qrem {
 
             vector<int> _qubits_to_clbits;
 
-            // MatrixXd A_tilde;
-            
             map<string, double> _durations;
             vector< vector<double> > _mitigatd_hists;
 
@@ -52,12 +49,9 @@ namespace libs_qrem {
                                      set<string> labels, 
                                      vector<Matrix2d> pinv_mats,
                                      map<string, int> keys_to_indices);
-            // vector<double> col_basis(int col_idx, set<string> labels, vector< vector< vector<double> > > pinv_mats);
             vector<Vector2d> choose_vecs(string state, 
                                          vector<Matrix2d> matrices);
-            // vector< vector<double> > choose_vecs(int state_idx, vector< vector< vector<double> > > matrices);
             double sum_of_tensored_vector(vector<Vector2d> vecs);
-            // double sum_of_tensored_vector(vector< vector<double> > vecs);
 
             map<string, double> apply(map<string, int> hist, 
                                       int d, 

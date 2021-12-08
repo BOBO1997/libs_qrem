@@ -34,7 +34,6 @@ namespace libs_qrem {
         this->_num_clbits = num_clbits;
 
         // convert vector obj to Matrix obj
-        
         for (auto& cal_matrix: cal_matrices) {
             this->_cal_matrices.push_back(vector_to_matrix2d(cal_matrix));
         }
@@ -46,7 +45,6 @@ namespace libs_qrem {
 
         // svd of each matrix
         for (auto& matrix: this->_cal_matrices) {
-            // JacobiSVD< Matrix<double, 2, 2> > svd(matrix, Eigen::ComputeFullU | Eigen::ComputeFullV);
             JacobiSVD<Matrix2d> svd(matrix, Eigen::ComputeFullU | Eigen::ComputeFullV);
             this->_svd_matrices.push_back(svd);
             this->_Us.push_back(svd.matrixU());
@@ -60,6 +58,14 @@ namespace libs_qrem {
             this->_Sigmas.push_back(svd.singularValues().asDiagonal().inverse());
             this->_Vs.push_back(svd.matrixV().inverse());
         }
+
+        // set mit_pattern
+        if (mit_pattern.size() == 0) {
+            for (int i = 0; i < num_clbits; i++) {
+                mit_pattern.push_back(vector<int>(1, i));
+            }
+        }
+        this->_mit_pattern = mit_pattern;
 
         // set meas_layout
         if (meas_layout.size() == 0) {
@@ -78,10 +84,12 @@ namespace libs_qrem {
 
     int QREM_Filter::index_of_matrix(string state, vector<int> pos_clbits) {
         int index = 0;
+        int i = 0;
         for (const auto& pos: pos_clbits) {
             if (state[pos] == '1') {
-                index += 1 << pos;
+                index += 1 << i;
             }
+            i++;
         }
         return index;
     }
@@ -89,12 +97,12 @@ namespace libs_qrem {
     double QREM_Filter::mitigate_one_state(string target_state, 
                                            vector<double> extended_hist, 
                                            map<string, int> keys_to_indices) {
-        int new_count = 0;
+        double new_count = 0;
         for (const auto& item: keys_to_indices) {
             string source_state = item.first;
             int source_index = item.second;
             double tensor_elem = 1;
-            for (int i = 0; i < (int)this->_pinv_matrices.size(); i++) {
+            for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
                 vector<int> pos_clbits;
                 for (const auto& qubit: this->_mit_pattern[i]) {
                     pos_clbits.push_back(this->_qubits_to_clbits[qubit]);
@@ -112,12 +120,11 @@ namespace libs_qrem {
                                           set<string> labels, 
                                           vector<Matrix2d> pinv_mats, 
                                           map<string, int> keys_to_indices) {
-    // vector<double> QREM_Filter::col_basis(int col_idx, vector<string> labels, vector< vector< vector<double> > > pinv_mats) {
         
         vector<double> col_i(labels.size());
         for (const auto& label: labels) {
             double tensor_elem = 1;
-            for (int i = 0; i < (int)pinv_mats.size(); i++) {
+            for (size_t i = 0; i < pinv_mats.size(); i++) {
                 vector<int> pos_clbits;
                 for (const auto& qubit: this->_mit_pattern[i]) {
                     pos_clbits.push_back(this->_qubits_to_clbits[qubit]);
@@ -132,22 +139,18 @@ namespace libs_qrem {
     }
     
     vector<Vector2d> QREM_Filter::choose_vecs(string state, vector<Matrix2d> matrices) {
-    // vector< vector<double> > QREM_Filter::choose_vecs(int state_idx, vector< vector< vector<double> > > matrices) {
-        // vector<Vector2d> vecs;
         vector<Vector2d> vecs(matrices.size());
-        for (int i = 0; i < (int)matrices.size(); i++) {
+        for (size_t i = 0; i < matrices.size(); i++) {
             vector<int> pos_clbits;
             for (const auto& qubit: this->_mit_pattern[i]) {
                 pos_clbits.push_back(this->_qubits_to_clbits[qubit]);
             }
-            // vecs.push_back(matrices[i][this->index_of_matrix(state, pos_clbits)]);
             vecs[i] = matrices[i].row(this->index_of_matrix(state, pos_clbits));
         }
         return vecs;
     }
 
     double QREM_Filter::sum_of_tensored_vector(vector<Vector2d> vecs) {
-    // double QREM_Filter::sum_of_tensored_vector(vector< vector<double> > vecs) {
         double sum_val = 1;
         for (const auto& vec: vecs) {
             sum_val *= vec.sum();
@@ -178,9 +181,11 @@ namespace libs_qrem {
         vector<string> extended_keys_vector(extended_keys.begin(), extended_keys.end());
 
         map<string, int> keys_to_indices;
+        map<int, string> indices_to_keys;
         int i = 0;
         for (const auto& key: extended_keys) {
             keys_to_indices.insert(make_pair(key, i));
+            indices_to_keys.insert(make_pair(i, key));
             i++;
         }
 
@@ -192,7 +197,6 @@ namespace libs_qrem {
         this->_durations.insert(make_pair("preprocess", dur_prep));
 
         // proposed method
-
         vector<double> x_s = vector<double>(extended_y.size(), 0);
         int sum_of_x = 0;
         for (int state_idx = 0; state_idx < (int)extended_keys.size(); state_idx++) {
