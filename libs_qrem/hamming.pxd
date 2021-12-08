@@ -13,4 +13,4 @@ cdef extern from "../cpp/combinations.hpp" namespace "libs_qrem":
 cdef extern from "../cpp/hamming.hpp" namespace "libs_qrem":
     cdef void print_vec1d()
     cdef set[string] extend_keys(set[string] original_keys, int max_dist)
-    cdef vector[double] extended_vectors(map[string, double] y, map[string, int] keys_to_indices)
+    cdef vector[double] extend_vectors(map[string, double] y, map[string, int] keys_to_indices)

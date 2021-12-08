@@ -12,7 +12,7 @@ namespace libs_qrem {
 vector<double> sgs_algorithm(vector<double> x) {
     priority_queue< pair<double, int> > pq;
     double sum_of_x = 0;
-    for (int state_idx = 0; state_idx < x.size(); state_idx++) {
+    for (int state_idx = 0; state_idx < (int)x.size(); state_idx++) {
         if (x[state_idx] > 0) {
             pq.push(make_pair(x[state_idx], state_idx));
             sum_of_x += x[state_idx];
