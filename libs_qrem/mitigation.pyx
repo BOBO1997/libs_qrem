@@ -21,7 +21,7 @@ cdef class QREM_Filter_Cython:
         times = self.ptr._durations
         print("finished")
         for item in times:
-            print("time of", item.first.decode(), "is", times.second, "msec")
+            print("time of", item.first.decode(), "is", item.second, "msec")
         hist_dict = dict()
         for item in mitigated_hist:
             hist_dict[item.first] = item.second
