@@ -19,7 +19,9 @@ cdef class QREM_Filter_Cython:
             cpp_hist[key.encode()] = value
         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
         times = self.ptr._durations
-        print("finished, time duration:", times, "msec")
+        print("finished")
+        for item in times:
+            print("time of", item.first.decode(), "is", times.second, "msec")
         hist_dict = dict()
         for item in mitigated_hist:
             hist_dict[item.first] = item.second
