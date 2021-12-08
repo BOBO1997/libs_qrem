@@ -82,7 +82,7 @@ namespace libs_qrem {
         }
     };
 
-    int QREM_Filter::index_of_matrix(string state, vector<int> pos_clbits) {
+    int QREM_Filter::index_of_matrix(string state, vector<int>& pos_clbits) {
         int index = 0;
         int i = 0;
         for (const auto& pos: pos_clbits) {
@@ -95,8 +95,8 @@ namespace libs_qrem {
     }
 
     double QREM_Filter::mitigate_one_state(string target_state, 
-                                           vector<double> extended_hist, 
-                                           map<string, int> keys_to_indices) {
+                                           vector<double>& extended_hist, 
+                                           map<string, int>& keys_to_indices) {
         double new_count = 0;
         for (const auto& item: keys_to_indices) {
             string source_state = item.first;
@@ -117,9 +117,9 @@ namespace libs_qrem {
     }
 
     vector<double> QREM_Filter::col_basis(string col_state, 
-                                          set<string> labels, 
-                                          vector<Matrix2d> pinv_mats, 
-                                          map<string, int> keys_to_indices) {
+                                          set<string>& labels, 
+                                          vector<Matrix2d>& pinv_mats, 
+                                          map<string, int>& keys_to_indices) {
         
         vector<double> col_i(labels.size());
         for (const auto& label: labels) {
@@ -159,8 +159,8 @@ namespace libs_qrem {
     }
 
     map<string, double> QREM_Filter::apply(map<string, int> hist,
-                            int d = 0,
-                            double threshold = 0.1) {
+                                           int d = 0,
+                                           double threshold = 0.1) {
         int shots = 0;
         for (const auto& item: hist) {
             shots += item.second;

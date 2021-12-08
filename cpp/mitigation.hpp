@@ -40,15 +40,15 @@ namespace libs_qrem {
                         vector<int> meas_layout);
 
             int index_of_matrix(string state, 
-                                vector<int> pos_clbits);
+                                vector<int>& pos_clbits);
             double mitigate_one_state(string target_state, 
-                                      vector<double> extended_hist, 
-                                      map<string, int> keys_to_indices);
+                                      vector<double>& extended_hist, 
+                                      map<string, int>& keys_to_indices);
 
             vector<double> col_basis(string col_state, 
-                                     set<string> labels, 
-                                     vector<Matrix2d> pinv_mats,
-                                     map<string, int> keys_to_indices);
+                                     set<string>& labels, 
+                                     vector<Matrix2d>& pinv_mats,
+                                     map<string, int>& keys_to_indices);
             vector<Vector2d> choose_vecs(string state, 
                                          vector<Matrix2d> matrices);
             double sum_of_tensored_vector(vector<Vector2d> vecs);
