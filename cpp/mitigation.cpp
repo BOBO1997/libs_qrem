@@ -40,7 +40,7 @@ namespace libs_qrem {
         }
         
         // inverse of each matrix
-        this->_cal_matrices = vector<Matrix2d>(this->_cal_matrices.size());
+        this->_pinv_matrices = vector<Matrix2d>(this->_cal_matrices.size());
         for (size_t i = 0; i < this->_cal_matrices.size(); i++) {
             this->_pinv_matrices[i] = this->_cal_matrices[i].inverse();
         }
