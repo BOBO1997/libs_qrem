@@ -5,7 +5,6 @@ setup.py
 ./cpp/mitigation.cpp
 ./cpp/sgs_algorithm.cpp
 ./libs_qrem/mitigation.cpp
-libs_qrem/test_mitigation.py
 libs_qrem.egg-info/PKG-INFO
 libs_qrem.egg-info/SOURCES.txt
 libs_qrem.egg-info/dependency_links.txt
