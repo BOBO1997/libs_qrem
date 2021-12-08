@@ -34,29 +34,38 @@ namespace libs_qrem {
         this->_num_clbits = num_clbits;
 
         // convert vector obj to Matrix obj
-        for (auto& cal_matrix: cal_matrices) {
-            this->_cal_matrices.push_back(vector_to_matrix2d(cal_matrix));
+        this->_cal_matrices = vector<Matrix2d>(cal_matrices.size());
+        for (size_t i = 0; i < cal_matrices.size(); i++) {
+            this->_cal_matrices[i] = vector_to_matrix2d(cal_matrices[i]);
         }
         
         // inverse of each matrix
-        for (auto& matrix: this->_cal_matrices) {
-            this->_pinv_matrices.push_back(matrix.inverse());
+        this->_cal_matrices = vector<Matrix2d>(this->_cal_matrices.size());
+        for (size_t i = 0; i < this->_cal_matrices.size(); i++) {
+            this->_pinv_matrices[i] = this->_cal_matrices[i].inverse();
         }
 
         // svd of each matrix
-        for (auto& matrix: this->_cal_matrices) {
-            JacobiSVD<Matrix2d> svd(matrix, Eigen::ComputeFullU | Eigen::ComputeFullV);
-            this->_svd_matrices.push_back(svd);
-            this->_Us.push_back(svd.matrixU());
-            this->_Sigmas.push_back(svd.singularValues().asDiagonal());
-            this->_Vs.push_back(svd.matrixV());
+        this->_svd_matrices = vector< JacobiSVD<Matrix2d> >(this->_cal_matrices.size());
+        this->_Us = vector<Matrix2d>(this->_cal_matrices.size());
+        this->_Sigmas = vector<Matrix2d>(this->_cal_matrices.size());
+        this->_Vs = vector<Matrix2d>(this->_cal_matrices.size());
+        for (size_t i = 0; i < this->_cal_matrices.size(); i++) {
+            JacobiSVD<Matrix2d> svd(this->_cal_matrices[i], Eigen::ComputeFullU | Eigen::ComputeFullV);
+            this->_svd_matrices[i] = svd;
+            this->_Us[i] = svd.matrixU();
+            this->_Sigmas[i] = svd.singularValues().asDiagonal();
+            this->_Vs[i] = svd.matrixV();
         }
 
         // inverse of each svd matrices
-        for (auto& svd: this->_svd_matrices) {
-            this->_Us.push_back(svd.matrixU().inverse());
-            this->_Sigmas.push_back(svd.singularValues().asDiagonal().inverse());
-            this->_Vs.push_back(svd.matrixV().inverse());
+        this->_pinvUs = vector<Matrix2d>(this->_cal_matrices.size());
+        this->_pinvSigmas = vector<Matrix2d>(this->_cal_matrices.size()); 
+        this->_pinvVs = vector<Matrix2d>(this->_cal_matrices.size());
+        for (size_t i = 0; i < this->_svd_matrices.size(); i++) {
+            this->_pinvUs[i] = this->_svd_matrices[i].matrixU().inverse();
+            this->_pinvSigmas[i] = this->_svd_matrices[i].singularValues().asDiagonal().inverse();
+            this->_pinvVs[i] = this->_svd_matrices[i].matrixV().inverse();
         }
 
         // set mit_pattern
@@ -103,9 +112,9 @@ namespace libs_qrem {
             int source_index = item.second;
             double tensor_elem = 1;
             for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
-                vector<int> pos_clbits;
-                for (const auto& qubit: this->_mit_pattern[i]) {
-                    pos_clbits.push_back(this->_qubits_to_clbits[qubit]);
+                vector<int> pos_clbits(this->_mit_pattern[i].size());
+                for (size_t j = 0; j < this->_mit_pattern[i].size(); j++) {
+                    pos_clbits[j] = this->_qubits_to_clbits[ this->_mit_pattern[i][j] ];
                 }
                 int first_index = this->index_of_matrix(target_state, pos_clbits);
                 int second_index = this->index_of_matrix(source_state, pos_clbits);
@@ -125,9 +134,9 @@ namespace libs_qrem {
         for (const auto& label: labels) {
             double tensor_elem = 1;
             for (size_t i = 0; i < pinv_mats.size(); i++) {
-                vector<int> pos_clbits;
-                for (const auto& qubit: this->_mit_pattern[i]) {
-                    pos_clbits.push_back(this->_qubits_to_clbits[qubit]);
+                vector<int> pos_clbits(this->_mit_pattern[i].size());
+                for (size_t j = 0; j < this->_mit_pattern[i].size(); j++) {
+                    pos_clbits[j] = this->_qubits_to_clbits[ this->_mit_pattern[i][j] ];
                 }
                 int first_index = this->index_of_matrix(label, pos_clbits);
                 int second_index = this->index_of_matrix(col_state, pos_clbits);
@@ -141,9 +150,9 @@ namespace libs_qrem {
     vector<Vector2d> QREM_Filter::choose_vecs(string state, vector<Matrix2d> matrices) {
         vector<Vector2d> vecs(matrices.size());
         for (size_t i = 0; i < matrices.size(); i++) {
-            vector<int> pos_clbits;
-            for (const auto& qubit: this->_mit_pattern[i]) {
-                pos_clbits.push_back(this->_qubits_to_clbits[qubit]);
+            vector<int> pos_clbits(this->_mit_pattern[i].size());
+            for (size_t j = 0; j < this->_mit_pattern[i].size(); j++) {
+                pos_clbits[j] = this->_qubits_to_clbits[ this->_mit_pattern[i][j] ];
             }
             vecs[i] = matrices[i].row(this->index_of_matrix(state, pos_clbits));
         }
