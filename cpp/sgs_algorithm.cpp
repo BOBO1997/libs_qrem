@@ -25,8 +25,10 @@ vector<double> sgs_algorithm(vector<double> x) {
     }
     while (pq.size() > 0) {
         pair<double, int> top = pq.top();
+        cout << top.first << " " << top.second << endl;
         if (top.first + negative_accumulator / pq.size() < 0) {
             negative_accumulator += top.first;
+            cout << "negative accumulator " << negative_accumulator << endl;
             pq.pop();
         }
         else { 
