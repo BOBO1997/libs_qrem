@@ -259,10 +259,11 @@ namespace libs_qrem {
 
         /*------------ recovering histogram ------------*/
 
-        i = 0;
-        for (const auto& key: extended_keys) {
-            this->_mitigated_hist.insert(make_pair(key, x_tilde[i] * shots));
-            i++;
+        this->_mitigated_hist.clear();
+        for (size_t i = 0; i < indices_to_keys_vector.size(); i++) {
+            if (x_tilde[i] != 0) {
+                this->_mitigated_hist.insert(make_pair(indices_to_keys_vector[i], x_tilde[i] * shots));
+            }
         }
 
         // time for postprocess

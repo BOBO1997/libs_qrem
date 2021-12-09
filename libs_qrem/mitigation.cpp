@@ -1150,6 +1150,9 @@ static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* dict, int is_dict, 
 static CYTHON_INLINE int __Pyx_dict_iter_next(PyObject* dict_or_iter, Py_ssize_t orig_length, Py_ssize_t* ppos,
                                               PyObject** pkey, PyObject** pvalue, PyObject** pitem, int is_dict);
 
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
 /* IncludeCppStringH.proto */
 #include <string>
 
@@ -1381,6 +1384,7 @@ static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_first[] = "first";
 static const char __pyx_k_items[] = "items";
 static const char __pyx_k_print[] = "print";
+static const char __pyx_k_utf_8[] = "utf-8";
 static const char __pyx_k_decode[] = "decode";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_reduce[] = "__reduce__";
@@ -1430,6 +1434,7 @@ static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_threshold;
 static PyObject *__pyx_kp_u_time_of;
+static PyObject *__pyx_kp_u_utf_8;
 static int __pyx_pf_10mitigation_18QREM_Filter_Cython___cinit__(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, PyObject *__pyx_v_n, PyObject *__pyx_v_cal_matrices, PyObject *__pyx_v_mit_pattern, PyObject *__pyx_v_meas_layout); /* proto */
 static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_2__deadaloc(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4sum_of_x(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self); /* proto */
@@ -1813,7 +1818,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8times(struct __pyx_
  *     def times(self):
  *         times = dict()             # <<<<<<<<<<<<<<
  *         for item in times:
- *             times[item.first.decode()] = item.second
+ *             times[item.first.decode('utf-8')] = item.second
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1824,7 +1829,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8times(struct __pyx_
  *     def times(self):
  *         times = dict()
  *         for item in times:             # <<<<<<<<<<<<<<
- *             times[item.first.decode()] = item.second
+ *             times[item.first.decode('utf-8')] = item.second
  *         return self.ptr._durations
  */
   __pyx_t_2 = 0;
@@ -1844,7 +1849,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8times(struct __pyx_
     /* "mitigation.pyx":25
  *         times = dict()
  *         for item in times:
- *             times[item.first.decode()] = item.second             # <<<<<<<<<<<<<<
+ *             times[item.first.decode('utf-8')] = item.second             # <<<<<<<<<<<<<<
  *         return self.ptr._durations
  * 
  */
@@ -1865,7 +1870,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8times(struct __pyx_
         __Pyx_DECREF_SET(__pyx_t_9, function);
       }
     }
-    __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_9);
+    __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, __pyx_kp_u_utf_8) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_kp_u_utf_8);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
@@ -1878,7 +1883,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8times(struct __pyx_
 
   /* "mitigation.pyx":26
  *         for item in times:
- *             times[item.first.decode()] = item.second
+ *             times[item.first.decode('utf-8')] = item.second
  *         return self.ptr._durations             # <<<<<<<<<<<<<<
  * 
  *     def apply(self, hist, d = 0, threshold = 0.1):
@@ -2036,7 +2041,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
  *     def apply(self, hist, d = 0, threshold = 0.1):
  *         cdef map[string, int] cpp_hist
  *         for key, value in hist.items():             # <<<<<<<<<<<<<<
- *             cpp_hist[key.encode()] = value
+ *             cpp_hist[key.encode('utf-8')] = value
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
  */
   __pyx_t_2 = 0;
@@ -2063,7 +2068,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
     /* "mitigation.pyx":31
  *         cdef map[string, int] cpp_hist
  *         for key, value in hist.items():
- *             cpp_hist[key.encode()] = value             # <<<<<<<<<<<<<<
+ *             cpp_hist[key.encode('utf-8')] = value             # <<<<<<<<<<<<<<
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
  *         times = self.ptr._durations
  */
@@ -2080,7 +2085,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
         __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
-    __pyx_t_6 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+    __pyx_t_6 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_8, __pyx_kp_u_utf_8) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_kp_u_utf_8);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
@@ -2093,7 +2098,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
 
   /* "mitigation.pyx":32
  *         for key, value in hist.items():
- *             cpp_hist[key.encode()] = value
+ *             cpp_hist[key.encode('utf-8')] = value
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)             # <<<<<<<<<<<<<<
  *         times = self.ptr._durations
  *         print("finished")
@@ -2103,7 +2108,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
   __pyx_v_mitigated_hist = __pyx_v_self->ptr->apply(__pyx_v_cpp_hist, __pyx_t_4, __pyx_t_10);
 
   /* "mitigation.pyx":33
- *             cpp_hist[key.encode()] = value
+ *             cpp_hist[key.encode('utf-8')] = value
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
  *         times = self.ptr._durations             # <<<<<<<<<<<<<<
  *         print("finished")
@@ -2184,7 +2189,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
  *             print("time of", item.first.decode(), "is", item.second, "msec")
  *         hist_dict = dict()             # <<<<<<<<<<<<<<
  *         for item in mitigated_hist:
- *             hist_dict[item.first] = item.second
+ *             hist_dict[item.first.decode('utf-8')] = item.second
  */
   __pyx_t_6 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -2195,7 +2200,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
  *             print("time of", item.first.decode(), "is", item.second, "msec")
  *         hist_dict = dict()
  *         for item in mitigated_hist:             # <<<<<<<<<<<<<<
- *             hist_dict[item.first] = item.second
+ *             hist_dict[item.first.decode('utf-8')] = item.second
  *         return hist_dict
  */
   __pyx_t_12 = __pyx_v_mitigated_hist.begin();
@@ -2208,12 +2213,12 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
     /* "mitigation.pyx":39
  *         hist_dict = dict()
  *         for item in mitigated_hist:
- *             hist_dict[item.first] = item.second             # <<<<<<<<<<<<<<
+ *             hist_dict[item.first.decode('utf-8')] = item.second             # <<<<<<<<<<<<<<
  *         return hist_dict
  */
     __pyx_t_6 = PyFloat_FromDouble(__pyx_v_item.second); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_item.first); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_decode_cpp_string(__pyx_v_item.first, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (unlikely(PyDict_SetItem(__pyx_v_hist_dict, __pyx_t_5, __pyx_t_6) < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2223,14 +2228,14 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10apply(struct __pyx
  *             print("time of", item.first.decode(), "is", item.second, "msec")
  *         hist_dict = dict()
  *         for item in mitigated_hist:             # <<<<<<<<<<<<<<
- *             hist_dict[item.first] = item.second
+ *             hist_dict[item.first.decode('utf-8')] = item.second
  *         return hist_dict
  */
   }
 
   /* "mitigation.pyx":40
  *         for item in mitigated_hist:
- *             hist_dict[item.first] = item.second
+ *             hist_dict[item.first.decode('utf-8')] = item.second
  *         return hist_dict             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
@@ -3572,6 +3577,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_threshold, __pyx_k_threshold, sizeof(__pyx_k_threshold), 0, 0, 1, 1},
   {&__pyx_kp_u_time_of, __pyx_k_time_of, sizeof(__pyx_k_time_of), 0, 1, 0, 0},
+  {&__pyx_kp_u_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
@@ -4754,6 +4760,35 @@ static CYTHON_INLINE int __Pyx_dict_iter_next(
         *pvalue = next_item;
     }
     return 1;
+}
+
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
+    }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
+    return result;
 }
 
 /* decode_c_bytes */

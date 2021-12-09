@@ -11,7 +11,9 @@ using namespace std;
 namespace libs_qrem {
 
 vector<double> sgs_algorithm(vector<double> x) {
-    priority_queue< pair<double, int> > pq;
+    priority_queue< pair<double, int>, 
+                    vector< pair<double, int> >,
+                    greater< pair<double, int> > > pq;
     double sum_of_x = 0;
     for (int state_idx = 0; state_idx < (int)x.size(); state_idx++) {
         if (x[state_idx] > 0) {
@@ -25,10 +27,8 @@ vector<double> sgs_algorithm(vector<double> x) {
     }
     while (pq.size() > 0) {
         pair<double, int> top = pq.top();
-        cout << top.first << " " << top.second << endl;
         if (top.first + negative_accumulator / pq.size() < 0) {
             negative_accumulator += top.first;
-            cout << "negative accumulator " << negative_accumulator << endl;
             pq.pop();
         }
         else { 

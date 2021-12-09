@@ -22,13 +22,13 @@ cdef class QREM_Filter_Cython:
     def times(self):
         times = dict()
         for item in times:
-            times[item.first.decode()] = item.second
+            times[item.first.decode('utf-8')] = item.second
         return self.ptr._durations
 
     def apply(self, hist, d = 0, threshold = 0.1):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
-            cpp_hist[key.encode()] = value
+            cpp_hist[key.encode('utf-8')] = value
         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
         times = self.ptr._durations
         print("finished")
@@ -36,5 +36,5 @@ cdef class QREM_Filter_Cython:
             print("time of", item.first.decode(), "is", item.second, "msec")
         hist_dict = dict()
         for item in mitigated_hist:
-            hist_dict[item.first] = item.second
+            hist_dict[item.first.decode('utf-8')] = item.second
         return hist_dict
