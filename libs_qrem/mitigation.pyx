@@ -13,6 +13,12 @@ cdef class QREM_Filter_Cython:
     def __deadaloc(self):
         del self.ptr
     
+    def sum_of_x(self):
+        return self.ptr._sum_of_x
+
+    def sum_of_x_hat(self):
+        return self.ptr._sum_of_x_hat
+
     def times(self):
         times = dict()
         for item in times:

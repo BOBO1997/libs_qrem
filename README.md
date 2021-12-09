@@ -1,3 +1,8 @@
+# An Efficient Quantum Readout Error Mitigation Heuristic for Sparse Probability Distribution
+
+- Time Complexity: $O(ns^2)$
+- Space Complexity: $O(ns)$
+
 # build
 
 `python3 setup.py build_ext --inplace`

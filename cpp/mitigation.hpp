@@ -34,6 +34,9 @@ namespace libs_qrem {
 
             vector< vector<int> > _indices_of_matrices;
 
+            double _sum_of_x;
+            double _sum_of_x_hat;
+
             map<string, double> _durations;
             map<string, double> _mitigated_hist;
 

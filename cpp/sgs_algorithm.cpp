@@ -2,6 +2,7 @@
 #include <vector>
 #include <queue>
 #include <utility>
+#include <cassert>
 
 #include "sgs_algorithm.hpp"
 
@@ -37,6 +38,7 @@ vector<double> sgs_algorithm(vector<double> x) {
     while (pq.size() > 0) {
         pair<double, int> top = pq.top();
         x_tilde[top.second] = top.first + negative_accumulator / denominator;
+        assert(x_tilde[top.second] >= 0);
         pq.pop();
     }
     return x_tilde;

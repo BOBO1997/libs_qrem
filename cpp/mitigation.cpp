@@ -198,6 +198,7 @@ namespace libs_qrem {
 
         vector<double> extended_y = extend_vectors(prob_dist, keys_to_indices);
 
+        // set indices_of_matrices table
         this->_indices_of_matrices = vector< vector<int> >(indices_to_keys_vector.size(), vector<int>(this->_pinv_matrices.size(), 0));
         for (size_t source_index = 0; source_index < indices_to_keys_vector.size(); source_index++) {
             string source_state = indices_to_keys_vector[source_index];
@@ -215,11 +216,11 @@ namespace libs_qrem {
         /*------------ inverse operation ------------*/
 
         vector<double> x_s(extended_y.size(), 0);
-        int sum_of_x = 0;
+        this->_sum_of_x = 0;
         for (size_t state_idx = 0; state_idx < extended_keys.size(); state_idx++) {
             double mitigated_value = mitigate_one_state(state_idx, extended_y, indices_to_keys_vector);
             x_s[state_idx] = mitigated_value;
-            sum_of_x += mitigated_value;
+            this->_sum_of_x += mitigated_value;
         }
 
         // time for inverse operation
@@ -232,12 +233,14 @@ namespace libs_qrem {
         double sum_of_vi = this->sum_of_tensored_vector(this->choose_vecs(string(this->_num_clbits, '0'), this->_pinvVs));
         double lambda_i = this->sum_of_tensored_vector(this->choose_vecs(string(this->_num_clbits, '0'), this->_pinvSigmas));
         double delta_denom = (sum_of_vi * sum_of_vi) / (lambda_i * lambda_i);
-        double delta_coeff = (1 - sum_of_x) / delta_denom;
+        double delta_coeff = (1 - this->_sum_of_x) / delta_denom;
         double delta_col = sum_of_vi / (lambda_i * lambda_i);
         vector<double> v_col = this->col_basis(keys_to_indices[string(this->_num_clbits, '0')], this->_pinvVs, indices_to_keys_vector);
 
+        this->_sum_of_x_hat = 0;
         for (size_t state_idx = 0; state_idx < extended_keys.size(); state_idx++) {
             x_s[state_idx] += delta_coeff * delta_col * v_col[state_idx];
+            this->_sum_of_x_hat += x_s[state_idx];
         }
 
         // time for correction by delta
@@ -246,6 +249,7 @@ namespace libs_qrem {
         this->_durations.insert(make_pair("delta", dur_delta));
 
         /*------------ sgs algorithm ------------*/
+
         vector<double> x_tilde = sgs_algorithm(x_s);
 
         // time for sgs algorithm
@@ -254,6 +258,7 @@ namespace libs_qrem {
         this->_durations.insert(make_pair("sgs_algorithm", dur_sgs));
 
         /*------------ recovering histogram ------------*/
+
         i = 0;
         for (const auto& key: extended_keys) {
             this->_mitigated_hist.insert(make_pair(key, x_tilde[i] * shots));
