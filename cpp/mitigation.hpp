@@ -32,6 +32,8 @@ namespace libs_qrem {
             vector<int> _qubits_to_clbits;
             vector< vector<int> > _poses_clbits;
 
+            vector< vector<int> > _indices_of_matrices;
+
             map<string, double> _durations;
             map<string, double> _mitigated_hist;
 
@@ -42,11 +44,11 @@ namespace libs_qrem {
 
             int index_of_matrix(string state, 
                                 vector<int>& pos_clbits);
-            double mitigate_one_state(string target_state, 
+            double mitigate_one_state(int target_index, 
                                       vector<double>& extended_hist, 
                                       vector<string>& indices_to_keys_vector);
 
-            vector<double> col_basis(string col_state, 
+            vector<double> col_basis(int col_index, 
                                      vector<Matrix2d>& pinv_mats,
                                      vector<string>& indices_to_keys_vector);
             vector<Vector2d> choose_vecs(string state, 

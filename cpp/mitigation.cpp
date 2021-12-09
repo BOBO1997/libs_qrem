@@ -99,6 +99,7 @@ namespace libs_qrem {
             }
             this->_poses_clbits[i] = pos_clbits;
         }
+
     };
 
     int QREM_Filter::index_of_matrix(string state, vector<int>& pos_clbits) {
@@ -113,16 +114,15 @@ namespace libs_qrem {
         return index;
     }
 
-    double QREM_Filter::mitigate_one_state(string target_state, 
+    double QREM_Filter::mitigate_one_state(int target_index, 
                                            vector<double>& extended_hist, 
                                            vector<string>& indices_to_keys_vector) {
         double new_count = 0;
         for (size_t source_index = 0; source_index < indices_to_keys_vector.size(); source_index++) {
-            string source_state = indices_to_keys_vector[source_index];
             double tensor_elem = 1;
             for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
-                int first_index = this->index_of_matrix(target_state, this->_poses_clbits[i]);
-                int second_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
+                int first_index = this->_indices_of_matrices[target_index][i];
+                int second_index = this->_indices_of_matrices[source_index][i];
                 tensor_elem *= this->_pinv_matrices[i](first_index, second_index);
             }
             new_count += tensor_elem * extended_hist[source_index]; 
@@ -130,17 +130,16 @@ namespace libs_qrem {
         return new_count;
     }
 
-    vector<double> QREM_Filter::col_basis(string col_state, 
+    vector<double> QREM_Filter::col_basis(int col_index, 
                                           vector<Matrix2d>& pinv_mats, 
                                           vector<string>& indices_to_keys_vector) {
         
         vector<double> col_i(indices_to_keys_vector.size());
         for (size_t source_index = 0; source_index < indices_to_keys_vector.size(); source_index++) {
-            string label = indices_to_keys_vector[source_index];
             double tensor_elem = 1;
             for (size_t i = 0; i < pinv_mats.size(); i++) {
-                int first_index = this->index_of_matrix(label, this->_poses_clbits[i]);
-                int second_index = this->index_of_matrix(col_state, this->_poses_clbits[i]);
+                int first_index = this->_indices_of_matrices[source_index][i];
+                int second_index = this->_indices_of_matrices[col_index][i];
                 tensor_elem *= pinv_mats[i](first_index, second_index);
             }
             col_i[source_index] = tensor_elem;
@@ -174,7 +173,7 @@ namespace libs_qrem {
 
         chrono::system_clock::time_point t_start = chrono::system_clock::now();
 
-        // preprocess
+        /*------------ preprocess ------------*/
 
         set<string> keys;
         map<string, double> prob_dist;
@@ -198,17 +197,27 @@ namespace libs_qrem {
         }
 
         vector<double> extended_y = extend_vectors(prob_dist, keys_to_indices);
+
+        this->_indices_of_matrices = vector< vector<int> >(indices_to_keys_vector.size(), vector<int>(this->_pinv_matrices.size(), 0));
+        for (size_t source_index = 0; source_index < indices_to_keys_vector.size(); source_index++) {
+            string source_state = indices_to_keys_vector[source_index];
+            for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
+                int matrix_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
+                this->_indices_of_matrices[source_index][i] = matrix_index;
+            }
+        }
         
         // time for preprocess
         chrono::system_clock::time_point t_prep = chrono::system_clock::now();
         double dur_prep = std::chrono::duration_cast<std::chrono::milliseconds>(t_prep - t_start).count();
         this->_durations.insert(make_pair("preprocess", dur_prep));
 
-        // proposed method (inverse process)
+        /*------------ inverse operation ------------*/
+
         vector<double> x_s(extended_y.size(), 0);
         int sum_of_x = 0;
         for (size_t state_idx = 0; state_idx < extended_keys.size(); state_idx++) {
-            double mitigated_value = mitigate_one_state(extended_keys_vector[state_idx], extended_y, indices_to_keys_vector);
+            double mitigated_value = mitigate_one_state(state_idx, extended_y, indices_to_keys_vector);
             x_s[state_idx] = mitigated_value;
             sum_of_x += mitigated_value;
         }
@@ -218,12 +227,14 @@ namespace libs_qrem {
         double dur_inv = std::chrono::duration_cast<std::chrono::milliseconds>(t_inv - t_prep).count();
         this->_durations.insert(make_pair("inverse", dur_inv));
 
+        /*------------ correction by delta ------------*/
+
         double sum_of_vi = this->sum_of_tensored_vector(this->choose_vecs(string(this->_num_clbits, '0'), this->_pinvVs));
         double lambda_i = this->sum_of_tensored_vector(this->choose_vecs(string(this->_num_clbits, '0'), this->_pinvSigmas));
         double delta_denom = (sum_of_vi * sum_of_vi) / (lambda_i * lambda_i);
         double delta_coeff = (1 - sum_of_x) / delta_denom;
         double delta_col = sum_of_vi / (lambda_i * lambda_i);
-        vector<double> v_col = this->col_basis(string(this->_num_clbits, '0'), this->_pinvVs, indices_to_keys_vector);
+        vector<double> v_col = this->col_basis(keys_to_indices[string(this->_num_clbits, '0')], this->_pinvVs, indices_to_keys_vector);
 
         for (size_t state_idx = 0; state_idx < extended_keys.size(); state_idx++) {
             x_s[state_idx] += delta_coeff * delta_col * v_col[state_idx];
@@ -234,7 +245,7 @@ namespace libs_qrem {
         double dur_delta = std::chrono::duration_cast<std::chrono::milliseconds>(t_delta - t_inv).count();
         this->_durations.insert(make_pair("delta", dur_delta));
 
-        // sgs algorithm
+        /*------------ sgs algorithm ------------*/
         vector<double> x_tilde = sgs_algorithm(x_s);
 
         // time for sgs algorithm
@@ -242,7 +253,7 @@ namespace libs_qrem {
         double dur_sgs = std::chrono::duration_cast<std::chrono::milliseconds>(t_sgs - t_delta).count();
         this->_durations.insert(make_pair("sgs_algorithm", dur_sgs));
 
-        // recover the shots
+        /*------------ recovering histogram ------------*/
         i = 0;
         for (const auto& key: extended_keys) {
             this->_mitigated_hist.insert(make_pair(key, x_tilde[i] * shots));
