@@ -1356,12 +1356,13 @@ static std::vector<std::vector<double> >  __pyx_convert_vector_from_py_std_3a__3
 static std::vector<std::vector<std::vector<double> > >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_std_3a__3a_vector_3c_double_3e____3e___(PyObject *); /*proto*/
 static std::vector<int>  __pyx_convert_vector_from_py_int(PyObject *); /*proto*/
 static std::vector<std::vector<int> >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(PyObject *); /*proto*/
-static std::string __pyx_convert_string_from_py_std__in_string(PyObject *); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyObject_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyUnicode_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyStr_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyBytes_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_string(std::string const &); /*proto*/
+static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____double(std::map<std::string,double>  const &); /*proto*/
+static std::string __pyx_convert_string_from_py_std__in_string(PyObject *); /*proto*/
 #define __Pyx_MODULE_NAME "mitigation"
 extern int __pyx_module_is_main_mitigation;
 int __pyx_module_is_main_mitigation = 0;
@@ -1377,10 +1378,13 @@ static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_msec[] = "msec";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_first[] = "first";
 static const char __pyx_k_items[] = "items";
 static const char __pyx_k_print[] = "print";
+static const char __pyx_k_decode[] = "decode";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_reduce[] = "__reduce__";
+static const char __pyx_k_second[] = "second";
 static const char __pyx_k_time_of[] = "time of";
 static const char __pyx_k_finished[] = "finished";
 static const char __pyx_k_getstate[] = "__getstate__";
@@ -1401,8 +1405,10 @@ static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_cal_matrices;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_d;
+static PyObject *__pyx_n_s_decode;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_u_finished;
+static PyObject *__pyx_n_s_first;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_n_s_hist;
 static PyObject *__pyx_n_u_is;
@@ -1418,6 +1424,7 @@ static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
+static PyObject *__pyx_n_s_second;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_test;
@@ -1425,9 +1432,10 @@ static PyObject *__pyx_n_s_threshold;
 static PyObject *__pyx_kp_u_time_of;
 static int __pyx_pf_10mitigation_18QREM_Filter_Cython___cinit__(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, PyObject *__pyx_v_n, PyObject *__pyx_v_cal_matrices, PyObject *__pyx_v_mit_pattern, PyObject *__pyx_v_meas_layout); /* proto */
 static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_2__deadaloc(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, PyObject *__pyx_v_hist, PyObject *__pyx_v_d, PyObject *__pyx_v_threshold); /* proto */
-static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4times(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_6apply(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, PyObject *__pyx_v_hist, PyObject *__pyx_v_d, PyObject *__pyx_v_threshold); /* proto */
+static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_10mitigation_QREM_Filter_Cython(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_float_0_1;
 static PyObject *__pyx_int_0;
@@ -1613,7 +1621,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_2__deadaloc(struct _
  *     def __deadaloc(self):
  *         del self.ptr             # <<<<<<<<<<<<<<
  * 
- *     def apply(self, hist, d = 0, threshold = 0.1):
+ *     def times(self):
  */
   delete __pyx_v_self->ptr;
 
@@ -1635,14 +1643,161 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_2__deadaloc(struct _
 /* "mitigation.pyx":16
  *         del self.ptr
  * 
+ *     def times(self):             # <<<<<<<<<<<<<<
+ *         times = dict()
+ *         for item in times:
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_5times(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_5times(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("times (wrapper)", 0);
+  __pyx_r = __pyx_pf_10mitigation_18QREM_Filter_Cython_4times(((struct __pyx_obj_10mitigation_QREM_Filter_Cython *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4times(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self) {
+  PyObject *__pyx_v_times = NULL;
+  PyObject *__pyx_v_item = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("times", 0);
+
+  /* "mitigation.pyx":17
+ * 
+ *     def times(self):
+ *         times = dict()             # <<<<<<<<<<<<<<
+ *         for item in times:
+ *             times[item.first.decode()] = item.second
+ */
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_times = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "mitigation.pyx":18
+ *     def times(self):
+ *         times = dict()
+ *         for item in times:             # <<<<<<<<<<<<<<
+ *             times[item.first.decode()] = item.second
+ *         return self.ptr._durations
+ */
+  __pyx_t_2 = 0;
+  __pyx_t_5 = __Pyx_dict_iterator(__pyx_v_times, 1, ((PyObject *)NULL), (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_1);
+  __pyx_t_1 = __pyx_t_5;
+  __pyx_t_5 = 0;
+  while (1) {
+    __pyx_t_6 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_3, &__pyx_t_2, &__pyx_t_5, NULL, NULL, __pyx_t_4);
+    if (unlikely(__pyx_t_6 == 0)) break;
+    if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_5);
+    __pyx_t_5 = 0;
+
+    /* "mitigation.pyx":19
+ *         times = dict()
+ *         for item in times:
+ *             times[item.first.decode()] = item.second             # <<<<<<<<<<<<<<
+ *         return self.ptr._durations
+ * 
+ */
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_second); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_first); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_decode); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __pyx_t_8 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_9);
+      if (likely(__pyx_t_8)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_9, function);
+      }
+    }
+    __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_9);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    if (unlikely(PyDict_SetItem(__pyx_v_times, __pyx_t_7, __pyx_t_5) < 0)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mitigation.pyx":20
+ *         for item in times:
+ *             times[item.first.decode()] = item.second
+ *         return self.ptr._durations             # <<<<<<<<<<<<<<
+ * 
+ *     def apply(self, hist, d = 0, threshold = 0.1):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_convert_map_to_py_std_3a__3a_string____double(__pyx_v_self->ptr->_durations); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "mitigation.pyx":16
+ *         del self.ptr
+ * 
+ *     def times(self):             # <<<<<<<<<<<<<<
+ *         times = dict()
+ *         for item in times:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_AddTraceback("mitigation.QREM_Filter_Cython.times", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_times);
+  __Pyx_XDECREF(__pyx_v_item);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mitigation.pyx":22
+ *         return self.ptr._durations
+ * 
  *     def apply(self, hist, d = 0, threshold = 0.1):             # <<<<<<<<<<<<<<
  *         cdef map[string, int] cpp_hist
  *         for key, value in hist.items():
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_5apply(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_5apply(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_7apply(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_7apply(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_hist = 0;
   PyObject *__pyx_v_d = 0;
   PyObject *__pyx_v_threshold = 0;
@@ -1689,7 +1844,7 @@ static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_5apply(PyObject *__p
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "apply") < 0)) __PYX_ERR(0, 16, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "apply") < 0)) __PYX_ERR(0, 22, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1708,20 +1863,20 @@ static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_5apply(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("apply", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 16, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("apply", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 22, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mitigation.QREM_Filter_Cython.apply", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(((struct __pyx_obj_10mitigation_QREM_Filter_Cython *)__pyx_v_self), __pyx_v_hist, __pyx_v_d, __pyx_v_threshold);
+  __pyx_r = __pyx_pf_10mitigation_18QREM_Filter_Cython_6apply(((struct __pyx_obj_10mitigation_QREM_Filter_Cython *)__pyx_v_self), __pyx_v_hist, __pyx_v_d, __pyx_v_threshold);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, PyObject *__pyx_v_hist, PyObject *__pyx_v_d, PyObject *__pyx_v_threshold) {
+static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_6apply(struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, PyObject *__pyx_v_hist, PyObject *__pyx_v_d, PyObject *__pyx_v_threshold) {
   std::map<std::string,int>  __pyx_v_cpp_hist;
   PyObject *__pyx_v_key = NULL;
   PyObject *__pyx_v_value = NULL;
@@ -1749,7 +1904,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("apply", 0);
 
-  /* "mitigation.pyx":18
+  /* "mitigation.pyx":24
  *     def apply(self, hist, d = 0, threshold = 0.1):
  *         cdef map[string, int] cpp_hist
  *         for key, value in hist.items():             # <<<<<<<<<<<<<<
@@ -1759,9 +1914,9 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
   __pyx_t_2 = 0;
   if (unlikely(__pyx_v_hist == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(0, 18, __pyx_L1_error)
+    __PYX_ERR(0, 24, __pyx_L1_error)
   }
-  __pyx_t_5 = __Pyx_dict_iterator(__pyx_v_hist, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_dict_iterator(__pyx_v_hist, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_1);
   __pyx_t_1 = __pyx_t_5;
@@ -1769,7 +1924,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
   while (1) {
     __pyx_t_7 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_3, &__pyx_t_2, &__pyx_t_5, &__pyx_t_6, NULL, __pyx_t_4);
     if (unlikely(__pyx_t_7 == 0)) break;
-    if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 18, __pyx_L1_error)
+    if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 24, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_5);
@@ -1777,15 +1932,15 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
     __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "mitigation.pyx":19
+    /* "mitigation.pyx":25
  *         cdef map[string, int] cpp_hist
  *         for key, value in hist.items():
  *             cpp_hist[key.encode()] = value             # <<<<<<<<<<<<<<
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
  *         times = self.ptr._durations
  */
-    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -1799,27 +1954,27 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
     }
     __pyx_t_6 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_9 = __pyx_convert_string_from_py_std__in_string(__pyx_t_6); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_9 = __pyx_convert_string_from_py_std__in_string(__pyx_t_6); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     (__pyx_v_cpp_hist[__pyx_t_9]) = __pyx_t_7;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mitigation.pyx":20
+  /* "mitigation.pyx":26
  *         for key, value in hist.items():
  *             cpp_hist[key.encode()] = value
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)             # <<<<<<<<<<<<<<
  *         times = self.ptr._durations
  *         print("finished")
  */
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_d); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
-  __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_threshold); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_d); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_threshold); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L1_error)
   __pyx_v_mitigated_hist = __pyx_v_self->ptr->apply(__pyx_v_cpp_hist, __pyx_t_4, __pyx_t_10);
 
-  /* "mitigation.pyx":21
+  /* "mitigation.pyx":27
  *             cpp_hist[key.encode()] = value
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
  *         times = self.ptr._durations             # <<<<<<<<<<<<<<
@@ -1829,18 +1984,18 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
   __pyx_t_11 = __pyx_v_self->ptr->_durations;
   __pyx_v_times = __pyx_t_11;
 
-  /* "mitigation.pyx":22
+  /* "mitigation.pyx":28
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
  *         times = self.ptr._durations
  *         print("finished")             # <<<<<<<<<<<<<<
  *         for item in times:
  *             print("time of", item.first.decode(), "is", item.second, "msec")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mitigation.pyx":23
+  /* "mitigation.pyx":29
  *         times = self.ptr._durations
  *         print("finished")
  *         for item in times:             # <<<<<<<<<<<<<<
@@ -1854,18 +2009,18 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
     ++__pyx_t_12;
     __pyx_v_item = __pyx_t_13;
 
-    /* "mitigation.pyx":24
+    /* "mitigation.pyx":30
  *         print("finished")
  *         for item in times:
  *             print("time of", item.first.decode(), "is", item.second, "msec")             # <<<<<<<<<<<<<<
  *         hist_dict = dict()
  *         for item in mitigated_hist:
  */
-    __pyx_t_1 = __Pyx_decode_cpp_string(__pyx_v_item.first, 0, PY_SSIZE_T_MAX, NULL, NULL, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_decode_cpp_string(__pyx_v_item.first, 0, PY_SSIZE_T_MAX, NULL, NULL, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_item.second); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_item.second); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_kp_u_time_of);
     __Pyx_GIVEREF(__pyx_kp_u_time_of);
@@ -1882,12 +2037,12 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
     PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_n_u_msec);
     __pyx_t_1 = 0;
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "mitigation.pyx":23
+    /* "mitigation.pyx":29
  *         times = self.ptr._durations
  *         print("finished")
  *         for item in times:             # <<<<<<<<<<<<<<
@@ -1896,19 +2051,19 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
  */
   }
 
-  /* "mitigation.pyx":25
+  /* "mitigation.pyx":31
  *         for item in times:
  *             print("time of", item.first.decode(), "is", item.second, "msec")
  *         hist_dict = dict()             # <<<<<<<<<<<<<<
  *         for item in mitigated_hist:
  *             hist_dict[item.first] = item.second
  */
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_v_hist_dict = ((PyObject*)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "mitigation.pyx":26
+  /* "mitigation.pyx":32
  *             print("time of", item.first.decode(), "is", item.second, "msec")
  *         hist_dict = dict()
  *         for item in mitigated_hist:             # <<<<<<<<<<<<<<
@@ -1922,21 +2077,21 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
     ++__pyx_t_12;
     __pyx_v_item = __pyx_t_13;
 
-    /* "mitigation.pyx":27
+    /* "mitigation.pyx":33
  *         hist_dict = dict()
  *         for item in mitigated_hist:
  *             hist_dict[item.first] = item.second             # <<<<<<<<<<<<<<
  *         return hist_dict
  */
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_item.second); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 27, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_item.second); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 33, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_item.first); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 27, __pyx_L1_error)
+    __pyx_t_5 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_item.first); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 33, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyDict_SetItem(__pyx_v_hist_dict, __pyx_t_5, __pyx_t_6) < 0)) __PYX_ERR(0, 27, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_hist_dict, __pyx_t_5, __pyx_t_6) < 0)) __PYX_ERR(0, 33, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "mitigation.pyx":26
+    /* "mitigation.pyx":32
  *             print("time of", item.first.decode(), "is", item.second, "msec")
  *         hist_dict = dict()
  *         for item in mitigated_hist:             # <<<<<<<<<<<<<<
@@ -1945,7 +2100,7 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
  */
   }
 
-  /* "mitigation.pyx":28
+  /* "mitigation.pyx":34
  *         for item in mitigated_hist:
  *             hist_dict[item.first] = item.second
  *         return hist_dict             # <<<<<<<<<<<<<<
@@ -1955,8 +2110,8 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
   __pyx_r = __pyx_v_hist_dict;
   goto __pyx_L0;
 
-  /* "mitigation.pyx":16
- *         del self.ptr
+  /* "mitigation.pyx":22
+ *         return self.ptr._durations
  * 
  *     def apply(self, hist, d = 0, threshold = 0.1):             # <<<<<<<<<<<<<<
  *         cdef map[string, int] cpp_hist
@@ -1987,19 +2142,19 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_4apply(struct __pyx_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10mitigation_18QREM_Filter_Cython_6__reduce_cython__(((struct __pyx_obj_10mitigation_QREM_Filter_Cython *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10mitigation_18QREM_Filter_Cython_8__reduce_cython__(((struct __pyx_obj_10mitigation_QREM_Filter_Cython *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self) {
+static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2044,19 +2199,19 @@ static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_6__reduce_cython__(C
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_10mitigation_18QREM_Filter_Cython_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10mitigation_18QREM_Filter_Cython_8__setstate_cython__(((struct __pyx_obj_10mitigation_QREM_Filter_Cython *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_10mitigation_18QREM_Filter_Cython_10__setstate_cython__(((struct __pyx_obj_10mitigation_QREM_Filter_Cython *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_10mitigation_18QREM_Filter_Cython_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10mitigation_QREM_Filter_Cython *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2671,71 +2826,6 @@ static std::vector<std::vector<int> >  __pyx_convert_vector_from_py_std_3a__3a_v
   return __pyx_r;
 }
 
-/* "string.from_py":13
- * 
- * @cname("__pyx_convert_string_from_py_std__in_string")
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
- */
-
-static std::string __pyx_convert_string_from_py_std__in_string(PyObject *__pyx_v_o) {
-  Py_ssize_t __pyx_v_length;
-  char const *__pyx_v_data;
-  std::string __pyx_r;
-  __Pyx_RefNannyDeclarations
-  char const *__pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_string_from_py_std__in_string", 0);
-
-  /* "string.from_py":14
- * @cname("__pyx_convert_string_from_py_std__in_string")
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:
- *     cdef Py_ssize_t length = 0             # <<<<<<<<<<<<<<
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
- *     return string(data, length)
- */
-  __pyx_v_length = 0;
-
-  /* "string.from_py":15
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)             # <<<<<<<<<<<<<<
- *     return string(data, length)
- * 
- */
-  __pyx_t_1 = __Pyx_PyObject_AsStringAndSize(__pyx_v_o, (&__pyx_v_length)); if (unlikely(__pyx_t_1 == ((char const *)NULL))) __PYX_ERR(1, 15, __pyx_L1_error)
-  __pyx_v_data = __pyx_t_1;
-
-  /* "string.from_py":16
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
- *     return string(data, length)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_r = std::string(__pyx_v_data, __pyx_v_length);
-  goto __pyx_L0;
-
-  /* "string.from_py":13
- * 
- * @cname("__pyx_convert_string_from_py_std__in_string")
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("string.from_py.__pyx_convert_string_from_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_pretend_to_initialize(&__pyx_r);
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
 /* "string.to_py":31
  * 
  * @cname("__pyx_convert_PyObject_string_to_py_std__in_string")
@@ -2985,6 +3075,192 @@ static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_st
   return __pyx_r;
 }
 
+/* "map.to_py":201
+ * 
+ * @cname("__pyx_convert_map_to_py_std_3a__3a_string____double")
+ * cdef object __pyx_convert_map_to_py_std_3a__3a_string____double(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ */
+
+static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____double(std::map<std::string,double>  const &__pyx_v_s) {
+  PyObject *__pyx_v_o = NULL;
+  std::map<std::string,double> ::value_type const *__pyx_v_key_value;
+  std::map<std::string,double> ::const_iterator __pyx_v_iter;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_map_to_py_std_3a__3a_string____double", 0);
+
+  /* "map.to_py":202
+ * @cname("__pyx_convert_map_to_py_std_3a__3a_string____double")
+ * cdef object __pyx_convert_map_to_py_std_3a__3a_string____double(const map[X,Y]& s):
+ *     o = {}             # <<<<<<<<<<<<<<
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ */
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 202, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_o = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "map.to_py":204
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()             # <<<<<<<<<<<<<<
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)
+ */
+  __pyx_v_iter = __pyx_v_s.begin();
+
+  /* "map.to_py":205
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ *     while iter != s.end():             # <<<<<<<<<<<<<<
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second
+ */
+  while (1) {
+    __pyx_t_2 = ((__pyx_v_iter != __pyx_v_s.end()) != 0);
+    if (!__pyx_t_2) break;
+
+    /* "map.to_py":206
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)             # <<<<<<<<<<<<<<
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)
+ */
+    __pyx_v_key_value = (&(*__pyx_v_iter));
+
+    /* "map.to_py":207
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second             # <<<<<<<<<<<<<<
+ *         cython.operator.preincrement(iter)
+ *     return o
+ */
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_key_value->second); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_key_value->first); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 207, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (unlikely(PyDict_SetItem(__pyx_v_o, __pyx_t_3, __pyx_t_1) < 0)) __PYX_ERR(1, 207, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "map.to_py":208
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)             # <<<<<<<<<<<<<<
+ *     return o
+ * 
+ */
+    (void)((++__pyx_v_iter));
+  }
+
+  /* "map.to_py":209
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)
+ *     return o             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_o);
+  __pyx_r = __pyx_v_o;
+  goto __pyx_L0;
+
+  /* "map.to_py":201
+ * 
+ * @cname("__pyx_convert_map_to_py_std_3a__3a_string____double")
+ * cdef object __pyx_convert_map_to_py_std_3a__3a_string____double(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("map.to_py.__pyx_convert_map_to_py_std_3a__3a_string____double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_o);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "string.from_py":13
+ * 
+ * @cname("__pyx_convert_string_from_py_std__in_string")
+ * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t length = 0
+ *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
+ */
+
+static std::string __pyx_convert_string_from_py_std__in_string(PyObject *__pyx_v_o) {
+  Py_ssize_t __pyx_v_length;
+  char const *__pyx_v_data;
+  std::string __pyx_r;
+  __Pyx_RefNannyDeclarations
+  char const *__pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_string_from_py_std__in_string", 0);
+
+  /* "string.from_py":14
+ * @cname("__pyx_convert_string_from_py_std__in_string")
+ * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:
+ *     cdef Py_ssize_t length = 0             # <<<<<<<<<<<<<<
+ *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
+ *     return string(data, length)
+ */
+  __pyx_v_length = 0;
+
+  /* "string.from_py":15
+ * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:
+ *     cdef Py_ssize_t length = 0
+ *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)             # <<<<<<<<<<<<<<
+ *     return string(data, length)
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyObject_AsStringAndSize(__pyx_v_o, (&__pyx_v_length)); if (unlikely(__pyx_t_1 == ((char const *)NULL))) __PYX_ERR(1, 15, __pyx_L1_error)
+  __pyx_v_data = __pyx_t_1;
+
+  /* "string.from_py":16
+ *     cdef Py_ssize_t length = 0
+ *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
+ *     return string(data, length)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = std::string(__pyx_v_data, __pyx_v_length);
+  goto __pyx_L0;
+
+  /* "string.from_py":13
+ * 
+ * @cname("__pyx_convert_string_from_py_std__in_string")
+ * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t length = 0
+ *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("string.from_py.__pyx_convert_string_from_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_pretend_to_initialize(&__pyx_r);
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 static PyObject *__pyx_tp_new_10mitigation_QREM_Filter_Cython(PyTypeObject *t, PyObject *a, PyObject *k) {
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
@@ -3011,9 +3287,10 @@ static void __pyx_tp_dealloc_10mitigation_QREM_Filter_Cython(PyObject *o) {
 
 static PyMethodDef __pyx_methods_10mitigation_QREM_Filter_Cython[] = {
   {"__deadaloc", (PyCFunction)__pyx_pw_10mitigation_18QREM_Filter_Cython_3__deadaloc, METH_NOARGS, 0},
-  {"apply", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_10mitigation_18QREM_Filter_Cython_5apply, METH_VARARGS|METH_KEYWORDS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_10mitigation_18QREM_Filter_Cython_7__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_10mitigation_18QREM_Filter_Cython_9__setstate_cython__, METH_O, 0},
+  {"times", (PyCFunction)__pyx_pw_10mitigation_18QREM_Filter_Cython_5times, METH_NOARGS, 0},
+  {"apply", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_10mitigation_18QREM_Filter_Cython_7apply, METH_VARARGS|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_10mitigation_18QREM_Filter_Cython_9__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_10mitigation_18QREM_Filter_Cython_11__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -3140,8 +3417,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cal_matrices, __pyx_k_cal_matrices, sizeof(__pyx_k_cal_matrices), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 1},
+  {&__pyx_n_s_decode, __pyx_k_decode, sizeof(__pyx_k_decode), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_u_finished, __pyx_k_finished, sizeof(__pyx_k_finished), 0, 1, 0, 1},
+  {&__pyx_n_s_first, __pyx_k_first, sizeof(__pyx_k_first), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_n_s_hist, __pyx_k_hist, sizeof(__pyx_k_hist), 0, 0, 1, 1},
   {&__pyx_n_u_is, __pyx_k_is, sizeof(__pyx_k_is), 0, 1, 0, 1},
@@ -3157,6 +3436,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
+  {&__pyx_n_s_second, __pyx_k_second, sizeof(__pyx_k_second), 0, 0, 1, 1},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
@@ -3165,7 +3445,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 28, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -3176,14 +3456,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "mitigation.pyx":22
+  /* "mitigation.pyx":28
  *         mitigated_hist = self.ptr.apply(cpp_hist, d, threshold)
  *         times = self.ptr._durations
  *         print("finished")             # <<<<<<<<<<<<<<
  *         for item in times:
  *             print("time of", item.first.decode(), "is", item.second, "msec")
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_u_finished); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_u_finished); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -3529,12 +3809,12 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "string.to_py":55
+  /* "string.from_py":13
  * 
- * @cname("__pyx_convert_PyByteArray_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyByteArray_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyByteArray_FromStringAndSize(s.data(), s.size())
- * 
+ * @cname("__pyx_convert_string_from_py_std__in_string")
+ * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t length = 0
+ *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
  */
 
   /*--- Wrapped vars code ---*/

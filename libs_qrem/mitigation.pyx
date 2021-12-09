@@ -13,6 +13,12 @@ cdef class QREM_Filter_Cython:
     def __deadaloc(self):
         del self.ptr
     
+    def times(self):
+        times = dict()
+        for item in times:
+            times[item.first.decode()] = item.second
+        return self.ptr._durations
+
     def apply(self, hist, d = 0, threshold = 0.1):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():

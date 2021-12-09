@@ -30,9 +30,10 @@ namespace libs_qrem {
             vector<Matrix2d> _pinvVs;
 
             vector<int> _qubits_to_clbits;
+            vector< vector<int> > _poses_clbits;
 
             map<string, double> _durations;
-            vector< vector<double> > _mitigatd_hists;
+            map<string, double> _mitigated_hist;
 
             QREM_Filter(int num_clbits,
                         vector< vector< vector<double> > > cal_matrices,
@@ -43,12 +44,11 @@ namespace libs_qrem {
                                 vector<int>& pos_clbits);
             double mitigate_one_state(string target_state, 
                                       vector<double>& extended_hist, 
-                                      map<string, int>& keys_to_indices);
+                                      vector<string>& indices_to_keys_vector);
 
             vector<double> col_basis(string col_state, 
-                                     set<string>& labels, 
                                      vector<Matrix2d>& pinv_mats,
-                                     map<string, int>& keys_to_indices);
+                                     vector<string>& indices_to_keys_vector);
             vector<Vector2d> choose_vecs(string state, 
                                          vector<Matrix2d> matrices);
             double sum_of_tensored_vector(vector<Vector2d> vecs);
