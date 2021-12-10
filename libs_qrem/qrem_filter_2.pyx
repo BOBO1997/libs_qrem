@@ -4,7 +4,7 @@ import numpy as np
 cimport numpy as np
 cimport cython
 
-from scipy.optimize import minimize
+import scipy
 
 from libcpp.pair cimport pair 
 from libcpp.map cimport map
@@ -62,13 +62,16 @@ cdef class QREM_Filter_2:
 
         cdef double t1, t2
         t1 = perf_counter() * 1000
-        cdef np.ndarray[np.float64_t, ndim=1] res = minimize(fun, x0, method='SLSQP', constraints=cons, tol=1e-6)
+        # cdef scipy.optimize.OptimizeResult res
+        res = scipy.optimize.minimize(fun, x0, method='SLSQP', constraints=cons, tol=1e-6)
+        cdef np.ndarray[np.float64_t, ndim=1] res_x
+        res_x = res.x
         t2 = perf_counter() * 1000
 
         self.ptr_durations["slsqp".encode('utf-8')] = t2 - t1
 
         # apply sgs_algorithm
-        cdef vector[double] x_tilde = sgs_algorithm(res.x)
+        cdef vector[double] x_tilde = sgs_algorithm(res_x)
 
         t1 = perf_counter() * 1000
         hist_dict = dict()
