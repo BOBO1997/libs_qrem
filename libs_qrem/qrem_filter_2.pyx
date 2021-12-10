@@ -16,7 +16,7 @@ include "vector_wrapper.pyx"
 cdef class QREM_Filter_2:
     cdef QREM_Filter_Nlp* ptr
     cdef VectorDouble x_hat_vector
-    # cdef np.ndarray[np.float64_t, ndim=1] x_hat_ndarray
+    cdef np.float64_t[:] x_hat_ndarray
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_Nlp(n, cal_matrices, mit_pattern, meas_layout)
