@@ -68,7 +68,7 @@ cdef class QREM_Filter_2:
         res_x = res.x
         t2 = perf_counter() * 1000
 
-        self.ptr_durations["slsqp".encode('utf-8')] = t2 - t1
+        self.ptr._durations["slsqp".encode('utf-8')] = t2 - t1
 
         # apply sgs_algorithm
         cdef vector[double] x_tilde = sgs_algorithm(res_x)
@@ -81,6 +81,6 @@ cdef class QREM_Filter_2:
             hist_dict[state.decode('utf-8')] = x_tilde[i]
         t2 = perf_counter() * 1000
 
-        self.ptr_durations["sgs_algorithm".encode('utf-8')] = t2 - t1
+        self.ptr._durations["sgs_algorithm".encode('utf-8')] = t2 - t1
 
         return hist_dict

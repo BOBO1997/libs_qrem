@@ -2823,7 +2823,6 @@ static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_QREM_Filter_1[] = "QREM_Filter_1";
 static const char __pyx_k_QREM_Filter_2[] = "QREM_Filter_2";
 static const char __pyx_k_VectorWrapper[] = "VectorWrapper";
-static const char __pyx_k_ptr_durations[] = "ptr_durations";
 static const char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_sgs_algorithm[] = "sgs_algorithm";
@@ -2957,7 +2956,6 @@ static PyObject *__pyx_n_s_pack;
 static PyObject *__pyx_n_s_perf_counter;
 static PyObject *__pyx_n_s_pickle;
 static PyObject *__pyx_n_s_print;
-static PyObject *__pyx_n_s_ptr_durations;
 static PyObject *__pyx_n_s_pyx_PickleError;
 static PyObject *__pyx_n_s_pyx_checksum;
 static PyObject *__pyx_n_s_pyx_getbuffer;
@@ -6965,7 +6963,7 @@ static PyObject *__pyx_pf_10mitigation_13QREM_Filter_2_8apply(struct __pyx_obj_1
  *         res_x = res.x
  *         t2 = perf_counter() * 1000             # <<<<<<<<<<<<<<
  * 
- *         self.ptr_durations["slsqp".encode('utf-8')] = t2 - t1
+ *         self.ptr._durations["slsqp".encode('utf-8')] = t2 - t1
  */
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_perf_counter); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
@@ -6994,17 +6992,12 @@ static PyObject *__pyx_pf_10mitigation_13QREM_Filter_2_8apply(struct __pyx_obj_1
   /* "libs_qrem/qrem_filter_2.pyx":71
  *         t2 = perf_counter() * 1000
  * 
- *         self.ptr_durations["slsqp".encode('utf-8')] = t2 - t1             # <<<<<<<<<<<<<<
+ *         self.ptr._durations["slsqp".encode('utf-8')] = t2 - t1             # <<<<<<<<<<<<<<
  * 
  *         # apply sgs_algorithm
  */
-  __pyx_t_5 = PyFloat_FromDouble((__pyx_v_t2 - __pyx_v_t1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 71, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_ptr_durations); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 71, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  if (unlikely(PyObject_SetItem(__pyx_t_14, __pyx_n_b_slsqp, __pyx_t_5) < 0)) __PYX_ERR(2, 71, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_8 = __pyx_convert_string_from_py_std__in_string(__pyx_n_b_slsqp); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 71, __pyx_L1_error)
+  (__pyx_cur_scope->__pyx_v_self->ptr->_durations[__pyx_t_8]) = (__pyx_v_t2 - __pyx_v_t1);
 
   /* "libs_qrem/qrem_filter_2.pyx":74
  * 
@@ -7145,7 +7138,7 @@ static PyObject *__pyx_pf_10mitigation_13QREM_Filter_2_8apply(struct __pyx_obj_1
  *             hist_dict[state.decode('utf-8')] = x_tilde[i]
  *         t2 = perf_counter() * 1000             # <<<<<<<<<<<<<<
  * 
- *         self.ptr_durations["sgs_algorithm".encode('utf-8')] = t2 - t1
+ *         self.ptr._durations["sgs_algorithm".encode('utf-8')] = t2 - t1
  */
   __Pyx_GetModuleGlobalName(__pyx_t_14, __pyx_n_s_perf_counter); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
@@ -7174,20 +7167,15 @@ static PyObject *__pyx_pf_10mitigation_13QREM_Filter_2_8apply(struct __pyx_obj_1
   /* "libs_qrem/qrem_filter_2.pyx":84
  *         t2 = perf_counter() * 1000
  * 
- *         self.ptr_durations["sgs_algorithm".encode('utf-8')] = t2 - t1             # <<<<<<<<<<<<<<
+ *         self.ptr._durations["sgs_algorithm".encode('utf-8')] = t2 - t1             # <<<<<<<<<<<<<<
  * 
  *         return hist_dict
  */
-  __pyx_t_14 = PyFloat_FromDouble((__pyx_v_t2 - __pyx_v_t1)); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 84, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_ptr_durations); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 84, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  if (unlikely(PyObject_SetItem(__pyx_t_5, __pyx_n_b_sgs_algorithm, __pyx_t_14) < 0)) __PYX_ERR(2, 84, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_t_8 = __pyx_convert_string_from_py_std__in_string(__pyx_n_b_sgs_algorithm); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 84, __pyx_L1_error)
+  (__pyx_cur_scope->__pyx_v_self->ptr->_durations[__pyx_t_8]) = (__pyx_v_t2 - __pyx_v_t1);
 
   /* "libs_qrem/qrem_filter_2.pyx":86
- *         self.ptr_durations["sgs_algorithm".encode('utf-8')] = t2 - t1
+ *         self.ptr._durations["sgs_algorithm".encode('utf-8')] = t2 - t1
  * 
  *         return hist_dict             # <<<<<<<<<<<<<<
  */
@@ -24021,7 +24009,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_perf_counter, __pyx_k_perf_counter, sizeof(__pyx_k_perf_counter), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
-  {&__pyx_n_s_ptr_durations, __pyx_k_ptr_durations, sizeof(__pyx_k_ptr_durations), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_PickleError, __pyx_k_pyx_PickleError, sizeof(__pyx_k_pyx_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_checksum, __pyx_k_pyx_checksum, sizeof(__pyx_k_pyx_checksum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_getbuffer, __pyx_k_pyx_getbuffer, sizeof(__pyx_k_pyx_getbuffer), 0, 0, 1, 1},

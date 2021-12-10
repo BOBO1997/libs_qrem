@@ -14,6 +14,8 @@ or
 `cat install_record.txt | xargs rm -rf`
 or
 `pip install git+https://github.com/BOBO1997/libs_qrem`
+or
+`pip install --upgrade --force-reinstall git+https://github.com/BOBO1997/libs_qrem`
 
 # uninstall
 
