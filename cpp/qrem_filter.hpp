@@ -11,6 +11,7 @@ using namespace std;
 using namespace Eigen;
 
 namespace libs_qrem {
+
     class QREM_Filter {
         public:
 
@@ -34,10 +35,13 @@ namespace libs_qrem {
 
             vector< vector<int> > _indices_of_matrices;
 
+            vector<string> _indices_to_keys_vector;
+
             double _sum_of_x;
             double _sum_of_x_hat;
 
             map<string, double> _durations;
+            vector<double> _x_s;
             map<string, double> _mitigated_hist;
 
             QREM_Filter(int num_clbits,

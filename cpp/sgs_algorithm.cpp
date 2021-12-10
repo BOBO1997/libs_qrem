@@ -10,7 +10,7 @@ using namespace std;
 
 namespace libs_qrem {
 
-vector<double> sgs_algorithm(vector<double> x) {
+vector<double> sgs_algorithm(vector<double>& x) {
     priority_queue< pair<double, int>, 
                     vector< pair<double, int> >,
                     greater< pair<double, int> > > pq;
