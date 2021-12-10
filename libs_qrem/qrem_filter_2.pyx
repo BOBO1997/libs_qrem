@@ -78,9 +78,14 @@ cdef class QREM_Filter_2:
         cdef int i
         cdef string state
         for i, state in enumerate(self.ptr._indices_to_keys_vector):
-            hist_dict[state.decode('utf-8')] = x_tilde[i]
+            if not x_tilde[i] == 0:
+                hist_dict[state.decode('utf-8')] = x_tilde[i]
         t2 = perf_counter() * 1000
 
         self.ptr._durations["sgs_algorithm".encode('utf-8')] = t2 - t1
+
+        print("mitigation finished")
+        for item in self.ptr._durations:
+            print("time of", item.first.decode(), "is", item.second, "msec")
 
         return hist_dict
