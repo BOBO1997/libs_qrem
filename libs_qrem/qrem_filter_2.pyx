@@ -86,6 +86,14 @@ cdef class QREM_Filter_2:
         duration.second = t2 - t1
         self.ptr._durations.insert(duration)
 
+        duration.first = "total".encode('utf-8')
+        duration.second = 0
+
+        cdef pair[string, double] item
+        for item in self.ptr._durations:
+            duration.second += item.second
+        self.ptr._durations.insert(duration)
+
         print("mitigation finished")
         for item in self.ptr._durations:
             print("time of", item.first.decode(), "is", item.second, "msec")
