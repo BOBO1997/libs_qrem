@@ -68,7 +68,10 @@ cdef class QREM_Filter_2:
         res_x = res.x
         t2 = perf_counter() * 1000
 
-        self.ptr._durations["slsqp".encode('utf-8')] = t2 - t1
+        cdef pair[string, double] duration
+        duration.first = "slsqp".encode('utf-8')
+        duration.second = t2 - t1
+        self.ptr._durations.insert(duration)
 
         # apply sgs_algorithm
         cdef vector[double] x_tilde = sgs_algorithm(res_x)
@@ -82,7 +85,9 @@ cdef class QREM_Filter_2:
                 hist_dict[state.decode('utf-8')] = x_tilde[i]
         t2 = perf_counter() * 1000
 
-        self.ptr._durations["sgs_algorithm".encode('utf-8')] = t2 - t1
+        duration.first = "sgs_algorithm".encode('utf-8')
+        duration.second = t2 - t1
+        self.ptr._durations.insert(duration)
 
         print("mitigation finished")
         for item in self.ptr._durations:
