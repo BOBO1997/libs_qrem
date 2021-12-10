@@ -5,25 +5,6 @@ from Cython.Distutils import build_ext
 from distutils.core import setup
 
 ext_modules = [
-    # Extension(
-    #     "hamming",
-    #     sources=[
-    #        "./libs_qrem/hamming.pyx",
-    #         "./cpp/combinations.cpp",
-    #         "./cpp/hamming.cpp",
-    #     ],
-    #     extra_compile_args=["-std=c++11"],
-    #     language="c++"
-    # ),
-    # Extension(
-    #     "sgs_algorithm",
-    #     sources=[
-    #         "./libs_qrem/sgs_algorithm.pyx",
-    #         "./cpp/sgs_algorithm.cpp",
-    #     ],
-    #     extra_compile_args=["-std=c++11"],
-    #     language="c++"
-    # ),
     Extension(
         "mitigation",
         sources=[
@@ -42,7 +23,7 @@ ext_modules = [
 
 setup(
     name="libs_qrem",
-    version="0.1.0",
+    version="0.1.1",
     description="efficient quantum readout error mitigation library",
     cmdclass={"build_ext": build_ext},
     ext_modules=cythonize(ext_modules, language_level=3),
