@@ -23,6 +23,5 @@ or
 
 # clean
 
-`rm mitigation.cpython-38-darwin.so`
+`rm mitigation.cpython-38-darwin.so libs_qrem/*cpp`
 `rm -r dist/ build/ libs_qrem.egg-info/`
-`rm libs_qrem/*.cpp`
