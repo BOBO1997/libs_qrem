@@ -14,9 +14,12 @@ class qrem_filter:
 meas_filter1 = QREM_Filter_1(n, cal_matrices)
 meas_filter2 = QREM_Filter_2(n, cal_matrices)
 
+print("s_lm0")
 pprint(hist)
 mitigated_hist1 = meas_filter1.apply(hist)
-pprint(mitigated_hist1)
+# pprint(mitigated_hist1)
 
+
+print("slsqp")
 mitigated_hist2 = meas_filter2.apply(hist)
-pprint(mitigated_hist2)
+# pprint(mitigated_hist2)

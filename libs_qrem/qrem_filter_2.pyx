@@ -45,9 +45,6 @@ cdef class QREM_Filter_2:
         # apply inverse
         self.x_hat_vector.vec = self.ptr.apply(cpp_hist, d, threshold)
         times = self.ptr._durations
-        print("finished")
-        for item in times:
-            print("time of", item.first.decode(), "is", item.second, "msec")
         
         cdef int vec_size = self.ptr._indices_to_keys_vector.size()
 
