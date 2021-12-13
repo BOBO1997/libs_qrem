@@ -13,7 +13,7 @@
 #include <bitset>
 
 #include "eigen_utils.hpp"
-#include "qrem_filter.hpp"
+#include "qrem_filter_mooney_etal.hpp"
 #include "hamming.hpp"
 #include "sgs_algorithm.hpp"
 #include "qrem_filter_base.hpp"
