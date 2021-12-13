@@ -1,3 +1,6 @@
+#ifndef QREM_FILTER_BASE_HPP
+#define QREM_FILTER_BASE_HPP
+
 #include <set>
 #include <map>
 #include <vector>
@@ -6,10 +9,6 @@
 #include <Eigen/Dense>
 #include <Eigen/SVD>
 #include <time.h>
-
-// Ceres
-#include <ceres/ceres.h>
-#include <glog/logging.h>
 
 using namespace std;
 using namespace Eigen;
@@ -73,3 +72,5 @@ namespace libs_qrem {
                                double threshold);
     };
 }
+
+#endif

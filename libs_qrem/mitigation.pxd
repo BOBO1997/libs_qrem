@@ -16,7 +16,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
-        map[string, double] apply(map[string, int] hist, int d, double threshold)
+        void apply(map[string, int] hist, int d, double threshold)
 
 cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
     cdef cppclass QREM_Filter_Nlp:
@@ -30,7 +30,7 @@ cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
-        vector[double] apply(map[string, int] hist, int d, double threshold)
+        void apply(map[string, int] hist, int d, double threshold)
 
 cdef extern from "../cpp/sgs_algorithm.hpp" namespace "libs_qrem":
     cdef vector[double] sgs_algorithm(vector[double])

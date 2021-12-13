@@ -43,7 +43,8 @@ cdef class QREM_Filter_2:
             cpp_hist[key.encode('utf-8')] = value
 
         # apply inverse
-        self.x_hat_vector.vec = self.ptr.apply(cpp_hist, d, threshold)
+        self.ptr.apply(cpp_hist, d, threshold)
+        self.x_hat_vector.vec = self.ptr._x_s
         
         cdef int vec_size = self.ptr._indices_to_keys_vector.size()
 
@@ -70,7 +71,8 @@ cdef class QREM_Filter_2:
         self.ptr._durations.insert(duration)
 
         # apply sgs_algorithm
-        cdef vector[double] x_tilde = sgs_algorithm(res_x)
+        cdef vector[double] x_tilde
+        x_tilde = sgs_algorithm(res_x)
 
         t1 = perf_counter() * 1000
         hist_dict = dict()
