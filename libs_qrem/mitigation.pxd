@@ -32,5 +32,17 @@ cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
                     vector[int] meas_layout)
         void apply(map[string, int] hist, int d, double threshold)
 
+cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
+    cdef cppclass QREM_Filter_MooneyEtal:
+        double _sum_of_x
+        double _sum_of_x_hat
+        map[string, double] _durations
+        map[string, double] _mitigated_hist
+        QREM_Filter_MooneyEtal(int num_clbits,
+                    vector[vector[vector[double]]] cal_matrices,
+                    vector[vector[int]] mit_pattern,
+                    vector[int] meas_layout)
+        void apply(map[string, int] hist, int d, double threshold)
+
 cdef extern from "../cpp/sgs_algorithm.hpp" namespace "libs_qrem":
     cdef vector[double] sgs_algorithm(vector[double])
