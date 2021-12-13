@@ -17,6 +17,7 @@ cdef class QREM_Filter_2:
     cdef QREM_Filter_Nlp* ptr
     cdef VectorDouble x_hat_vector
     cdef np.float64_t[:] x_hat_ndarray
+    cdef double expval, stddev
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_Nlp(n, cal_matrices, mit_pattern, meas_layout)
@@ -34,6 +35,10 @@ cdef class QREM_Filter_2:
         for item in self.ptr._durations:
             times[item.first.decode('utf-8')] = item.second
         return times
+    
+    def expval_stddev(self):
+        self.expval, self.stddev = expval_stddev(self.mitigated_hist())
+        return self.expval, self.stddev
 
     def apply(self, hist, d = 0, threshold = 0.1):
         cdef str key

@@ -1,6 +1,7 @@
 import cython
 cimport cython
 
+from libcpp.pair cimport pair
 from libcpp.vector cimport vector
 from libcpp.set cimport set
 from libcpp.map cimport map
@@ -46,3 +47,6 @@ cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
 
 cdef extern from "../cpp/sgs_algorithm.hpp" namespace "libs_qrem":
     cdef vector[double] sgs_algorithm(vector[double])
+
+# cdef extern from "../cpp/expectations.hpp" namespace "libs_qrem":
+#     cdef pair[double, double] expval_stddev(map[string, double])

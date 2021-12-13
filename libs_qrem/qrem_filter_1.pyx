@@ -11,6 +11,7 @@ from libcpp.string cimport string
 # OK
 cdef class QREM_Filter_1:
     cdef QREM_Filter* ptr
+    cdef double expval, stddev
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter(n, cal_matrices, mit_pattern, meas_layout)
@@ -35,6 +36,10 @@ cdef class QREM_Filter_1:
         for item in self.ptr._durations:
             times[item.first.decode('utf-8')] = item.second
         return times
+
+    def expval_stddev(self):
+        self.expval, self.stddev = expval_stddev(self.mitigated_hist())
+        return self.expval, self.stddev
 
     def apply(self, hist, d = 0, threshold = 0.1):
         cdef map[string, int] cpp_hist
