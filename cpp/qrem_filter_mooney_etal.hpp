@@ -22,6 +22,8 @@ namespace libs_qrem {
                         vector< vector<int> > mit_pattern,
                         vector<int> meas_layout);
             
+            string btos(int target_int, int n);
+
             int flip_state(int state, int mat_idx, vector<int>& flip_poses);
 
             virtual void apply(map<string, int> hist, 

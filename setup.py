@@ -16,6 +16,7 @@ ext_modules = [
             "./cpp/qrem_filter_base.cpp",
             "./cpp/qrem_filter.cpp",
             "./cpp/qrem_filter_nlp.cpp",
+            "./cpp/qrem_filter_mooney_etal.cpp",
         ],
         extra_compile_args=["-std=c++14"],
         language="c++"

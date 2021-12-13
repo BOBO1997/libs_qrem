@@ -31,6 +31,14 @@ namespace libs_qrem {
         
     };
 
+    string QREM_Filter_MooneyEtal::btos(int target_int, int n) {
+        string s;
+        for (int i = 0; i < n; i++) {
+            s += to_string( (target_int >> (n - 1 - i)) & 1 );
+        }
+        return s;
+    }
+
     int QREM_Filter_MooneyEtal::flip_state(int state_idx, int mat_idx, vector<int>& flip_poses) {
         for (size_t i = 0; i < flip_poses.size(); i++) {
             if ((mat_idx >> i) & 1) {
@@ -69,13 +77,12 @@ namespace libs_qrem {
         this->_sum_of_x = 0;
         for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
             map<string, double> x;
-            int j = 0;
             for (const auto& key: keys) {
-                int first_index = this->index_of_matrix(key, this->_poses_clbits);
+                int first_index = this->index_of_matrix(key, this->_poses_clbits[i]);
                 double sum_of_count = 0;
-                for (size_t k = 0; k < this->_pinv_matrices[i].size(); k++) {
-                    string source_state = bitset<this->_num_clbits>( this->flip_poses(stoi(key, nullptr, 2), k, this->_poses_clbits) );
-                    int second_index = this->index_of_matrix(source_state, this->_poses_clbits);
+                for (size_t k = 0; k < (size_t)this->_pinv_matrices[i].size(); k++) {
+                    string source_state = this->btos( this->flip_state(stoi(key, nullptr, 2), k, this->_poses_clbits[i]), this->_num_clbits);
+                    int second_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
                     if (prob_dist.count(source_state) > 0) {
                         sum_of_count += this->_pinv_matrices[i](first_index, second_index) * prob_dist[source_state];
                     }
@@ -111,7 +118,7 @@ namespace libs_qrem {
 
         // time for sgs algorithm
         chrono::system_clock::time_point t_sgs = chrono::system_clock::now();
-        double dur_sgs = std::chrono::duration_cast<std::chrono::milliseconds>(t_sgs - t_delta).count();
+        double dur_sgs = std::chrono::duration_cast<std::chrono::milliseconds>(t_sgs - t_inv).count();
         this->_durations.insert(make_pair("sgs_algorithm", dur_sgs));
 
         /*------------ recovering histogram ------------*/
