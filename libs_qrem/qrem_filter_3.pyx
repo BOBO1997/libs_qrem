@@ -11,6 +11,9 @@ from libcpp.string cimport string
 # OK
 cdef class QREM_Filter_3:
     cdef QREM_Filter_MooneyEtal* ptr
+    cdef VectorDouble _x_s
+    cdef VectorDouble _x_hat
+    cdef VectorDouble _x_tilde
     cdef double expval, stddev
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):

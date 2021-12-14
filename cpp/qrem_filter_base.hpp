@@ -45,6 +45,8 @@ namespace libs_qrem {
 
             map<string, double> _durations;
             vector<double> _x_s;
+            vector<double> _x_hat;
+            vector<double> _x_tilde;
             map<string, double> _mitigated_hist;
 
             QREM_Filter_Base(int num_clbits,

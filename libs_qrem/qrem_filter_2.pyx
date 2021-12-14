@@ -17,6 +17,9 @@ cdef class QREM_Filter_2:
     cdef QREM_Filter_Nlp* ptr
     cdef VectorDouble x_hat_vector
     cdef np.float64_t[:] x_hat_ndarray
+    cdef VectorDouble _x_s
+    cdef VectorDouble _x_hat
+    cdef VectorDouble _x_tilde
     cdef double expval, stddev
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):

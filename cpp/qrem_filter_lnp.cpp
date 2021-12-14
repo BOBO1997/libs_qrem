@@ -21,7 +21,7 @@ using namespace Eigen;
 
 namespace libs_qrem {
 
-     QREM_Filter::QREM_Filter(int num_clbits,
+     QREM_Filter_Lnp::QREM_Filter_Lnp(int num_clbits,
                               vector< vector< vector<double> > > cal_matrices,
                               vector< vector<int> > mit_pattern = vector< vector<int> >(0),
                               vector<int> meas_layout = vector<int>(0)) : 
@@ -29,7 +29,7 @@ namespace libs_qrem {
         
     };
 
-    void QREM_Filter::apply(map<string, int> hist,
+    void QREM_Filter_Lnp::apply(map<string, int> hist,
                                     int d = 0,
                                     double threshold = 0.1) {
         int shots = 0;
@@ -79,7 +79,7 @@ namespace libs_qrem {
 
         this->_x_s = vector<double>(extended_y.size(), 0);
         this->_sum_of_x = 0;
-        for (size_t state_idx = 0; state_idx < extended_keys.size(); state_idx++) {
+        for (size_t state_idx = 0; state_idx < this->_x_s.size(); state_idx++) {
             double mitigated_value = mitigate_one_state(state_idx, extended_y, this->_indices_to_keys_vector);
             this->_x_s[state_idx] = mitigated_value;
             this->_sum_of_x += mitigated_value;
@@ -90,26 +90,20 @@ namespace libs_qrem {
         double dur_inv = std::chrono::duration_cast<std::chrono::milliseconds>(t_inv - t_prep).count();
         this->_durations.insert(make_pair("inverse", dur_inv));
 
-        /*------------ correction by delta ------------*/
-
-        double sum_of_vi = this->sum_of_tensored_vector(this->choose_vecs(string(this->_num_clbits, '0'), this->_pinvVs));
-        double lambda_i = this->sum_of_tensored_vector(this->choose_vecs(string(this->_num_clbits, '0'), this->_pinvSigmas));
-        double delta_denom = (sum_of_vi * sum_of_vi) / (lambda_i * lambda_i);
-        double delta_coeff = (1 - this->_sum_of_x) / delta_denom;
-        double delta_col = sum_of_vi / (lambda_i * lambda_i);
-        vector<double> v_col = this->col_basis(0, this->_pinvVs, this->_indices_to_keys_vector);
+        /*------------ correction by least norm problem ------------*/
 
         this->_x_hat = vector<double>(this->_x_s.size(), 0);
         this->_sum_of_x_hat = 0;
-        for (size_t state_idx = 0; state_idx < extended_keys.size(); state_idx++) {
-            this->_x_hat[state_idx] = this->_x_s[state_idx] + delta_coeff * delta_col * v_col[state_idx];
+        double diff = (1.0 - this->_sum_of_x) / (double)this->_x_s.size();
+        for (size_t state_idx = 0; state_idx < this->_x_s.size(); state_idx++) {
+            this->_x_hat[state_idx] = this->_x_s[state_idx] + diff;
             this->_sum_of_x_hat += this->_x_hat[state_idx];
         }
 
         // time for correction by delta
-        chrono::system_clock::time_point t_delta = chrono::system_clock::now();
-        double dur_delta = std::chrono::duration_cast<std::chrono::milliseconds>(t_delta - t_inv).count();
-        this->_durations.insert(make_pair("delta", dur_delta));
+        chrono::system_clock::time_point t_lnp = chrono::system_clock::now();
+        double dur_lnp = std::chrono::duration_cast<std::chrono::milliseconds>(t_lnp - t_inv).count();
+        this->_durations.insert(make_pair("least_norm", dur_lnp));
 
         /*------------ sgs algorithm ------------*/
 
@@ -117,7 +111,7 @@ namespace libs_qrem {
 
         // time for sgs algorithm
         chrono::system_clock::time_point t_sgs = chrono::system_clock::now();
-        double dur_sgs = std::chrono::duration_cast<std::chrono::milliseconds>(t_sgs - t_delta).count();
+        double dur_sgs = std::chrono::duration_cast<std::chrono::milliseconds>(t_sgs - t_lnp).count();
         this->_durations.insert(make_pair("sgs_algorithm", dur_sgs));
 
         /*------------ recovering histogram ------------*/
