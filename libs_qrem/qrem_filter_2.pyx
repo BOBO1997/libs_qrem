@@ -39,6 +39,15 @@ cdef class QREM_Filter_2:
             times[item.first.decode('utf-8')] = item.second
         return times
     
+    def x_s(self):
+        return np.asarray(self._x_s)
+
+    def x_hat(self):
+        return np.asarray(self._x_hat)
+
+    def x_tilde(self):
+        return np.asarray(self._x_tilde)
+    
     def expval_stddev(self):
         self.expval, self.stddev = expval_stddev(self.mitigated_hist())
         return self.expval, self.stddev
@@ -53,6 +62,7 @@ cdef class QREM_Filter_2:
         # apply inverse
         self.ptr.apply(cpp_hist, d, threshold)
         self.x_hat_vector.vec = self.ptr._x_s
+        self._x_s.vec = self.ptr._x_s
         
         cdef int vec_size = self.ptr._indices_to_keys_vector.size()
 
@@ -71,6 +81,7 @@ cdef class QREM_Filter_2:
         res = scipy.optimize.minimize(fun, x0, method='SLSQP', constraints=cons, tol=1e-6)
         cdef np.ndarray[np.float64_t, ndim=1] res_x
         res_x = res.x
+        self._x_hat = res.x
         t2 = perf_counter() * 1000
 
         cdef pair[string, double] duration
@@ -79,16 +90,15 @@ cdef class QREM_Filter_2:
         self.ptr._durations.insert(duration)
 
         # apply sgs_algorithm
-        cdef vector[double] x_tilde
-        x_tilde = sgs_algorithm(res_x)
+        self._x_tilde.vec = sgs_algorithm(res_x)
 
         t1 = perf_counter() * 1000
         hist_dict = dict()
         cdef int i
         cdef string state
         for i, state in enumerate(self.ptr._indices_to_keys_vector):
-            if not x_tilde[i] == 0:
-                hist_dict[state.decode('utf-8')] = x_tilde[i]
+            if not self._x_tilde.vec[i] == 0:
+                hist_dict[state.decode('utf-8')] = self._x_tilde.vec[i]
         t2 = perf_counter() * 1000
 
         duration.first = "sgs_algorithm".encode('utf-8')

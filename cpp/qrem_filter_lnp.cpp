@@ -11,7 +11,7 @@
 #include <ctime>
 
 #include "eigen_utils.hpp"
-#include "qrem_filter.hpp"
+#include "qrem_filter_lnp.hpp"
 #include "hamming.hpp"
 #include "sgs_algorithm.hpp"
 #include "qrem_filter_base.hpp"

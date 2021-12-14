@@ -10,16 +10,16 @@ from libcpp.string cimport string
 
 # OK
 cdef class QREM_Filter_4:
-    cdef QREM_Filter* ptr
+    cdef QREM_Filter_Lnp* ptr
     cdef double expval, stddev
     cdef VectorDouble _x_s
     cdef VectorDouble _x_hat
     cdef VectorDouble _x_tilde
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
-        self.ptr = new QREM_Filter(n, cal_matrices, mit_pattern, meas_layout)
+        self.ptr = new QREM_Filter_Lnp(n, cal_matrices, mit_pattern, meas_layout)
     
-    def __deadaloc(self):
+    def __dealloc__(self):
         del self.ptr
     
     def sum_of_x(self):

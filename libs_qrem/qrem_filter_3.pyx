@@ -19,7 +19,7 @@ cdef class QREM_Filter_3:
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_MooneyEtal(n, cal_matrices, mit_pattern, meas_layout)
     
-    def __deadaloc(self):
+    def __dealloc__(self):
         del self.ptr
     
     def sum_of_x(self):
@@ -33,6 +33,15 @@ cdef class QREM_Filter_3:
         for item in self.ptr._mitigated_hist:
             hist_dict[item.first.decode('utf-8')] = item.second
         return hist_dict
+    
+    def x_s(self):
+        return np.asarray(self._x_s)
+
+    def x_hat(self):
+        return np.asarray(self._x_hat)
+
+    def x_tilde(self):
+        return np.asarray(self._x_tilde)
 
     def times(self):
         times = dict()
@@ -52,6 +61,9 @@ cdef class QREM_Filter_3:
         cdef map[string, double] mitigated_hist
         mitigated_hist = self.ptr._mitigated_hist
         print("mitigation finished")
+        self._x_s.vec = self.ptr._x_s
+        self._x_hat.vec = self.ptr._x_hat
+        self._x_tilde.vec = self.ptr._x_tilde
         for item in self.ptr._durations:
             print("time of", item.first.decode(), "is", item.second, "msec")
         hist_dict = dict()
