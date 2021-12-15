@@ -33,3 +33,7 @@ or
 
 1. `rm mitigation.cpython-38-darwin.so libs_qrem/*cpp`
 2. `rm -r dist/ build/ libs_qrem.egg-info/`
+
+# Usage and Speed Test
+
+Please see [here](https://github.com/BOBO1997/qip2021_poster549/blob/main/master_thesis/qrem_benchmarkings/ghz_states/brooklyn_all_8192_reduced.ipynb)
