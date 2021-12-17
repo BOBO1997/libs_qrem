@@ -11,6 +11,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
     cdef cppclass QREM_Filter:
         double _sum_of_x
         double _sum_of_x_hat
+        double _sum_of_x_tilde
         map[string, double] _durations
         vector[double] _x_s
         vector[double] _x_hat
@@ -42,6 +43,7 @@ cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
     cdef cppclass QREM_Filter_MooneyEtal:
         double _sum_of_x
         double _sum_of_x_hat
+        double _sum_of_x_tilde
         map[string, double] _durations
         vector[double] _x_s
         vector[double] _x_hat
@@ -57,6 +59,7 @@ cdef extern from "../cpp/qrem_filter_lnp.hpp" namespace "libs_qrem":
     cdef cppclass QREM_Filter_Lnp:
         double _sum_of_x
         double _sum_of_x_hat
+        double _sum_of_x_tilde
         map[string, double] _durations
         vector[double] _x_s
         vector[double] _x_hat

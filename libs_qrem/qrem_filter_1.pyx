@@ -28,6 +28,9 @@ cdef class QREM_Filter_1:
     def sum_of_x_hat(self):
         return self.ptr._sum_of_x_hat
 
+    def sum_of_x_tilde(self):
+        return self.ptr._sum_of_x_tilde
+
     def mitigated_hist(self):
         hist_dict = dict()
         for item in self.ptr._mitigated_hist:

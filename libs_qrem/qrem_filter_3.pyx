@@ -42,6 +42,9 @@ cdef class QREM_Filter_3:
 
     def x_tilde(self):
         return np.asarray(self._x_tilde)
+    
+    def sum_of_x_tilde(self):
+        return self.ptr._sum_of_x_tilde
 
     def times(self):
         times = dict()
