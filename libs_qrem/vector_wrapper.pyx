@@ -99,3 +99,22 @@ cdef class VectorULong(VectorWrapper):
     cdef void set_buffer(self,Py_buffer* buffer):
         buffer.buf = <void*>(self.vec.data())
         buffer.format = 'L'
+
+ctypedef fused string_or_double:
+    string
+    double
+
+cdef vector_to_list(vector[string_or_double] vec):
+    lst = []
+    cdef int i
+    for i in range(vec.size()):
+        lst.append(vec[i])
+    return lst
+
+cdef vector_to_dict(vector[double] vec, vector[string] indices_to_keys_vector):
+    assert vec.size() == indices_to_keys_vector.size()
+    dct = dict()
+    cdef int i
+    for i in range(vec.size()):
+        dct[indices_to_keys_vector[i]] = vec[i]
+    return dct

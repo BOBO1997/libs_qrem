@@ -17,6 +17,8 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         vector[double] _x_hat
         vector[double] _x_tilde
         map[string, double] _mitigated_hist
+        vector[string] _indices_to_keys_vector
+
         QREM_Filter(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
@@ -27,11 +29,13 @@ cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
     cdef cppclass QREM_Filter_Nlp:
         double _sum_of_x
         double _sum_of_x_hat
+        double _sum_of_x_tilde
         vector[string] _indices_to_keys_vector
         map[string, double] _durations
         vector[double] _x_s
         vector[double] _x_hat
         vector[double] _x_tilde
+        vector[string] _indices_to_keys_vector
 
         QREM_Filter_Nlp(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
@@ -49,6 +53,8 @@ cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
         vector[double] _x_hat
         vector[double] _x_tilde
         map[string, double] _mitigated_hist
+        vector[string] _indices_to_keys_vector
+
         QREM_Filter_MooneyEtal(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
@@ -65,6 +71,8 @@ cdef extern from "../cpp/qrem_filter_lnp.hpp" namespace "libs_qrem":
         vector[double] _x_hat
         vector[double] _x_tilde
         map[string, double] _mitigated_hist
+        vector[string] _indices_to_keys_vector
+
         QREM_Filter_Lnp(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
