@@ -18,7 +18,7 @@ cdef class QREM_Filter_2:
     cdef VectorDouble x_hat_vector
     cdef np.float64_t[:] x_hat_ndarray
     cdef VectorDouble _x_s
-    cdef VectorDouble _x_hat
+    cdef np.float64_t[:] _x_hat
     cdef VectorDouble _x_tilde
     cdef double expval, stddev
 
