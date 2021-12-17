@@ -121,10 +121,11 @@ namespace libs_qrem {
         this->_durations.insert(make_pair("sgs_algorithm", dur_sgs));
 
         /*------------ recovering histogram ------------*/
-
+        this->_sum_of_x_tilde = 0;
         this->_mitigated_hist.clear();
         for (size_t i = 0; i < this->_indices_to_keys_vector.size(); i++) {
             if (this->_x_tilde[i] != 0) {
+                this->_sum_of_x_tilde += this->_x_tilde[i];
                 this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * shots));
             }
         }

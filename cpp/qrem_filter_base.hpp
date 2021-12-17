@@ -42,6 +42,7 @@ namespace libs_qrem {
 
             double _sum_of_x;
             double _sum_of_x_hat;
+            double _sum_of_x_tilde;
 
             map<string, double> _durations;
             vector<double> _x_s;
