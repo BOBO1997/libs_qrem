@@ -80,10 +80,10 @@ namespace libs_qrem {
             for (const auto& key: keys) {
                 int first_index = this->index_of_matrix(key, this->_poses_clbits[i]);
                 double sum_of_count = 0;
-                for (size_t k = 0; k < (size_t)this->_pinv_matrices[i].size(); k++) {
+                for (size_t k = 0; k < (size_t)this->_pinv_matrices[i].rows(); k++) {
                     string source_state = this->btos( this->flip_state(stoi(key, nullptr, 2), k, this->_poses_clbits[i]), this->_num_clbits);
-                    int second_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
                     if (prob_dist.count(source_state) > 0) {
+                        int second_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
                         sum_of_count += this->_pinv_matrices[i](first_index, second_index) * prob_dist[source_state];
                     }
                 }
@@ -91,8 +91,8 @@ namespace libs_qrem {
                     x[key] = sum_of_count;
                     this->_sum_of_x += sum_of_count;
                 }
-            prob_dist = x;
             }
+            prob_dist = x;
         }
         if (this->_sum_of_x < 0) {
             cout << "negative counts" << endl;
@@ -114,7 +114,7 @@ namespace libs_qrem {
             i++;
         }
 
-        vector<double> x_tilde = sgs_algorithm(this->_x_s);
+        this->_x_tilde = sgs_algorithm(this->_x_s);
 
         // time for sgs algorithm
         chrono::system_clock::time_point t_sgs = chrono::system_clock::now();
@@ -125,8 +125,8 @@ namespace libs_qrem {
 
         this->_mitigated_hist.clear();
         for (size_t i = 0; i < this->_indices_to_keys_vector.size(); i++) {
-            if (x_tilde[i] != 0) {
-                this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], x_tilde[i] * shots));
+            if (this->_x_tilde[i] != 0) {
+                this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * shots));
             }
         }
 

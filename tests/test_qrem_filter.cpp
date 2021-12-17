@@ -12,7 +12,7 @@
 #include <chrono>
 #include <ctime>
 
-#include "mitigation.hpp"
+#include "../cpp/qrem_filter_mooney_etal.hpp"
 
 using namespace std;
 using namespace Eigen;
@@ -41,16 +41,19 @@ int main() {
     meas_layout[0] = 0;
     meas_layout[1] = 1;
     meas_layout[2] = 2;
-    QREM_Filter qf(n, cal_matrices, mit_pattern, meas_layout);
+    QREM_Filter_MooneyEtal qf(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter qf;
     map<string, int> hist;
-    hist.insert(make_pair("000", 10));
-    hist.insert(make_pair("111", 10));
+    hist.insert(make_pair("000", 50));
+    hist.insert(make_pair("001", 10));
+    hist.insert(make_pair("010", 10));
+    hist.insert(make_pair("111", 50));
     vector<int> pos_clbits(2);
     pos_clbits[0] = 1;
     pos_clbits[1] = 3;
     //cout << qf.index_of_matrix("01101000", pos_clbits) << endl << endl;
-    map<string, double> mitigated_hist = qf.apply(hist, 0, 0.1);
+    qf.apply(hist, 0, 0.1);
+    map<string, double> mitigated_hist = qf._mitigated_hist;
     cout << "{";
     for (auto& item: mitigated_hist) {
         cout << "\"" << item.first << "\", " << item.second << endl;

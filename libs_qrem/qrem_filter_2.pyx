@@ -43,7 +43,7 @@ cdef class QREM_Filter_2:
         return np.asarray(self._x_s)
 
     def x_hat(self):
-        return np.asarray(self._x_hat)
+        return self._x_hat
 
     def x_tilde(self):
         return np.asarray(self._x_tilde)
@@ -56,8 +56,10 @@ cdef class QREM_Filter_2:
         cdef str key
         cdef int value
         cdef map[string, int] cpp_hist
+        cdef double shots
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
+            shots += value
 
         # apply inverse
         self.ptr.apply(cpp_hist, d, threshold)
@@ -98,7 +100,7 @@ cdef class QREM_Filter_2:
         cdef string state
         for i, state in enumerate(self.ptr._indices_to_keys_vector):
             if not self._x_tilde.vec[i] == 0:
-                hist_dict[state.decode('utf-8')] = self._x_tilde.vec[i]
+                hist_dict[state.decode('utf-8')] = self._x_tilde.vec[i] * shots
         t2 = perf_counter() * 1000
 
         duration.first = "sgs_algorithm".encode('utf-8')
