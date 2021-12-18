@@ -63,19 +63,20 @@ cdef class QREM_Filter_3:
         self.stddev = self.one_norm() ** 2
         return self.expval, self.stddev
 
-    def apply(self, hist, d = 0, threshold = 0.1):
+    def apply(self, hist, d = 0, threshold = 0.1, silent = True):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
         self.ptr.apply(cpp_hist, d, threshold)
         cdef map[string, double] mitigated_hist
         mitigated_hist = self.ptr._mitigated_hist
-        print("mitigation finished")
         self._x_s.vec = self.ptr._x_s
         self._x_hat.vec = self.ptr._x_hat
         self._x_tilde.vec = self.ptr._x_tilde
-        for item in self.ptr._durations:
-            print("time of", item.first.decode(), "is", item.second, "msec")
+        if not silent:
+            print("mitigation finished")
+            for item in self.ptr._durations:
+                print("time of", item.first.decode(), "is", item.second, "msec")
         hist_dict = dict()
         for item in mitigated_hist:
             hist_dict[item.first.decode('utf-8')] = item.second
