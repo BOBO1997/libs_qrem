@@ -36,4 +36,4 @@ or
 
 # Usage and Speed Test
 
-Please see [here](https://github.com/BOBO1997/qip2021_poster549/blob/main/master_thesis/qrem_benchmarkings/ghz_states/brooklyn_all_8192_reduced.ipynb)
+Please see [here](https://github.com/BOBO1997/qip2021_poster549/blob/main/master_thesis/qrem_benchmarkings/ghz_states/brooklyn_main8192_mit8192/mitigation.ipynb)
