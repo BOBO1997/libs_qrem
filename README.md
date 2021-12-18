@@ -31,7 +31,7 @@ or
 
 2 steps:
 
-1. `rm mitigation.cpython-38-darwin.so libs_qrem/*cpp`
+1. `rm libs_qrem.cpython-38-darwin.so libs_qrem/*cpp`
 2. `rm -r dist/ build/ libs_qrem.egg-info/`
 
 # Usage and Speed Test

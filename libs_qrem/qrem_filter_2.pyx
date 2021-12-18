@@ -21,6 +21,7 @@ cdef class QREM_Filter_2:
     cdef np.float64_t[:] _x_hat
     cdef VectorDouble _x_tilde
     cdef double expval, stddev
+    cdef double shots
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_Nlp(n, cal_matrices, mit_pattern, meas_layout)
@@ -65,16 +66,16 @@ cdef class QREM_Filter_2:
     
     def expval_stddev(self):
         self.expval, self.stddev = expval_stddev(self.mitigated_hist())
+        self.stddev = self.one_norm() / np.sqrt(self.shots)
         return self.expval, self.stddev
 
     def apply(self, hist, d = 0, threshold = 0.1):
         cdef str key
         cdef int value
         cdef map[string, int] cpp_hist
-        cdef double shots
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
-            shots += value
+            self.shots += <double>value
 
         # apply inverse
         self.ptr.apply(cpp_hist, d, threshold)
@@ -115,7 +116,7 @@ cdef class QREM_Filter_2:
         cdef string state
         for i, state in enumerate(self.ptr._indices_to_keys_vector):
             if not self._x_tilde.vec[i] == 0:
-                hist_dict[state.decode('utf-8')] = self._x_tilde.vec[i] * shots
+                hist_dict[state.decode('utf-8')] = self._x_tilde.vec[i] * self.shots
         t2 = perf_counter() * 1000
 
         duration.first = "sgs_algorithm".encode('utf-8')

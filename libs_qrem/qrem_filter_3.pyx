@@ -60,6 +60,7 @@ cdef class QREM_Filter_3:
     
     def expval_stddev(self):
         self.expval, self.stddev = expval_stddev(self.mitigated_hist())
+        self.stddev = self.one_norm() ** 2
         return self.expval, self.stddev
 
     def apply(self, hist, d = 0, threshold = 0.1):

@@ -6,9 +6,9 @@ from distutils.core import setup
 
 ext_modules = [
     Extension(
-        "mitigation",
+        "libs_qrem",
         sources=[
-            "./libs_qrem/mitigation.pyx",
+            "./libs_qrem/libs_qrem.pyx",
             "./cpp/eigen_utils.cpp",
             "./cpp/combinations.cpp",
             "./cpp/hamming.cpp",
@@ -26,7 +26,7 @@ ext_modules = [
 
 setup(
     name="libs_qrem",
-    version="0.1.2",
+    version="0.1.3",
     description="efficient quantum readout error mitigation library",
     cmdclass={"build_ext": build_ext},
     ext_modules=cythonize(ext_modules, language_level=3),

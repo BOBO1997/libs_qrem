@@ -15,6 +15,7 @@ cdef class QREM_Filter_4:
     cdef VectorDouble _x_s
     cdef VectorDouble _x_hat
     cdef VectorDouble _x_tilde
+    cdef double shots
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_Lnp(n, cal_matrices, mit_pattern, meas_layout)
@@ -63,12 +64,14 @@ cdef class QREM_Filter_4:
 
     def expval_stddev(self):
         self.expval, self.stddev = expval_stddev(self.mitigated_hist())
+        self.stddev = self.one_norm() / np.sqrt(self.shots)
         return self.expval, self.stddev
 
     def apply(self, hist, d = 0, threshold = 0.1):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
+            self.shots += <double>value
         self.ptr.apply(cpp_hist, d, threshold)
         cdef map[string, double] mitigated_hist
         mitigated_hist = self.ptr._mitigated_hist
