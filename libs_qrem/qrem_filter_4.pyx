@@ -31,6 +31,12 @@ cdef class QREM_Filter_4:
     def sum_of_x_tilde(self):
         return self.ptr._sum_of_x_tilde
 
+    def reduced_inv_A(self):
+        return matrix_to_ndarray(self.ptr._reduced_inv_A)
+
+    def one_norm(self):
+        return self.ptr._one_norm
+
     def mitigated_hist(self):
         hist_dict = dict()
         for item in self.ptr._mitigated_hist:

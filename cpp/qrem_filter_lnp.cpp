@@ -77,12 +77,11 @@ namespace libs_qrem {
 
         /*------------ inverse operation ------------*/
 
-        this->_x_s = vector<double>(extended_y.size(), 0);
+        compute_reduced_inv_A(this->_indices_to_keys_vector);
+        this->_x_s = this->mat_vec_prod(this->_reduced_inv_A, extended_y);
         this->_sum_of_x = 0;
-        for (size_t state_idx = 0; state_idx < this->_x_s.size(); state_idx++) {
-            double mitigated_value = mitigate_one_state(state_idx, extended_y, this->_indices_to_keys_vector);
-            this->_x_s[state_idx] = mitigated_value;
-            this->_sum_of_x += mitigated_value;
+        for (size_t i = 0; i < this->_x_s.size(); i++) {
+            this->_sum_of_x += this->_x_s[i];
         }
 
         // time for inverse operation

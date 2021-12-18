@@ -16,6 +16,8 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         vector[double] _x_s
         vector[double] _x_hat
         vector[double] _x_tilde
+        double _one_norm
+        vector[vector[double]] _reduced_inv_A
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 
@@ -35,6 +37,8 @@ cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
         vector[double] _x_s
         vector[double] _x_hat
         vector[double] _x_tilde
+        double _one_norm
+        vector[vector[double]] _reduced_inv_A
         vector[string] _indices_to_keys_vector
 
         QREM_Filter_Nlp(int num_clbits,
@@ -52,6 +56,8 @@ cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
         vector[double] _x_s
         vector[double] _x_hat
         vector[double] _x_tilde
+        double _one_norm
+        vector[vector[double]] _reduced_inv_A
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 
@@ -70,6 +76,8 @@ cdef extern from "../cpp/qrem_filter_lnp.hpp" namespace "libs_qrem":
         vector[double] _x_s
         vector[double] _x_hat
         vector[double] _x_tilde
+        double _one_norm
+        vector[vector[double]] _reduced_inv_A
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 

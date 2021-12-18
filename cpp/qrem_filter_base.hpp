@@ -33,6 +33,9 @@ namespace libs_qrem {
             vector<Matrix2d> _pinvSigmas;
             vector<Matrix2d> _pinvVs;
 
+            vector< vector<double> > _reduced_inv_A;
+            double _one_norm;
+
             vector<int> _qubits_to_clbits;
             vector< vector<int> > _poses_clbits;
 
@@ -57,6 +60,11 @@ namespace libs_qrem {
 
             int index_of_matrix(string state, 
                                 vector<int>& pos_clbits);
+
+            void compute_reduced_inv_A(vector<string>& indices_to_keys_vector);
+
+            vector<double> mat_vec_prod(vector< vector<double> > A, vector<double> y);
+
             double mitigate_one_state(int target_index, 
                                       vector<double>& extended_hist, 
                                       vector<string>& indices_to_keys_vector);

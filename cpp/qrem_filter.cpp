@@ -76,15 +76,14 @@ namespace libs_qrem {
         this->_durations.insert(make_pair("preprocess", dur_prep));
 
         /*------------ inverse operation ------------*/
-
-        this->_x_s = vector<double>(extended_y.size(), 0);
+        
+        compute_reduced_inv_A(this->_indices_to_keys_vector);
+        this->_x_s = this->mat_vec_prod(this->_reduced_inv_A, extended_y);
         this->_sum_of_x = 0;
-        for (size_t state_idx = 0; state_idx < extended_keys.size(); state_idx++) {
-            double mitigated_value = mitigate_one_state(state_idx, extended_y, this->_indices_to_keys_vector);
-            this->_x_s[state_idx] = mitigated_value;
-            this->_sum_of_x += mitigated_value;
+        for (size_t i = 0; i < this->_x_s.size(); i++) {
+            this->_sum_of_x += this->_x_s[i];
         }
-
+        
         // time for inverse operation
         chrono::system_clock::time_point t_inv = chrono::system_clock::now();
         double dur_inv = std::chrono::duration_cast<std::chrono::milliseconds>(t_inv - t_prep).count();

@@ -118,3 +118,16 @@ cdef vector_to_dict(vector[double] vec, vector[string] indices_to_keys_vector):
     for i in range(vec.size()):
         dct[indices_to_keys_vector[i]] = vec[i]
     return dct
+
+cdef matrix_to_ndarray(vector[vector[double]] matrix):
+    # cdef np.ndarray[double, ndim=2] array
+    array = []
+    # array = np.zeros((matrix.size(), matrix[0].size()))
+    cdef int i, j
+    for i in range(matrix.size()):
+        sub_array = []
+        for j in range(matrix[0].size()):
+            sub_array.append(matrix[i][j])
+            # array[i][j] = matrix[i][j]
+        array.append(sub_array)
+    return array

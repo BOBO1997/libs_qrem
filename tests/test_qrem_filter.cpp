@@ -12,7 +12,8 @@
 #include <chrono>
 #include <ctime>
 
-#include "../cpp/qrem_filter_mooney_etal.hpp"
+#include "../cpp/qrem_filter.hpp"
+// #include "../cpp/qrem_filter_mooney_etal.hpp"
 
 using namespace std;
 using namespace Eigen;
@@ -41,13 +42,14 @@ int main() {
     meas_layout[0] = 0;
     meas_layout[1] = 1;
     meas_layout[2] = 2;
-    QREM_Filter_MooneyEtal qf(n, cal_matrices, mit_pattern, meas_layout);
+    QREM_Filter qf(n, cal_matrices, mit_pattern, meas_layout);
+    // QREM_Filter_MooneyEtal qf(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter qf;
     map<string, int> hist;
-    hist.insert(make_pair("000", 50));
+    hist.insert(make_pair("000", 40));
     hist.insert(make_pair("001", 10));
     hist.insert(make_pair("010", 10));
-    hist.insert(make_pair("111", 50));
+    hist.insert(make_pair("111", 40));
     vector<int> pos_clbits(2);
     pos_clbits[0] = 1;
     pos_clbits[1] = 3;

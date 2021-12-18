@@ -108,6 +108,36 @@ namespace libs_qrem {
         return index;
     }
 
+    void QREM_Filter_Base::compute_reduced_inv_A(vector<string>& indices_to_keys_vector) {
+        this->_reduced_inv_A = vector< vector<double> >(indices_to_keys_vector.size(), vector<double>(indices_to_keys_vector.size(), 0));
+        this->_one_norm = 0;
+        for (size_t i = 0; i < indices_to_keys_vector.size(); i++) { // target
+            for (size_t j = 0; j < indices_to_keys_vector.size(); j++) { // source
+                double tensor_elem = 1;
+                for (size_t k = 0; k < this->_pinv_matrices.size(); k++) {
+                    int first_index = this->_indices_of_matrices[i][k]; // target
+                    int second_index = this->_indices_of_matrices[j][k]; // source
+                    tensor_elem *= this->_pinv_matrices[k](first_index, second_index);
+                }
+                this->_reduced_inv_A[i][j] = tensor_elem; // original: x[target] = A[target][source] * x[source]
+                if (tensor_elem > this->_one_norm) {
+                    this->_one_norm = tensor_elem;
+                }
+            }
+        }
+    }
+
+    vector<double> QREM_Filter_Base::mat_vec_prod(vector< vector<double> > A, vector<double> y) {
+        // compute x = Ay
+        vector<double> x(y.size(), 0);
+        for (size_t i = 0; i < x.size(); i++) {
+            for (size_t j = 0; j < x.size(); j++) {
+                x[i] += A[i][j] * y[j];
+            }
+        }        
+        return x;
+    }
+
     double QREM_Filter_Base::mitigate_one_state(int target_index, 
                                            vector<double>& extended_hist, 
                                            vector<string>& indices_to_keys_vector) {

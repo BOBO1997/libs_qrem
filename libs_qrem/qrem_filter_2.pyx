@@ -53,6 +53,12 @@ cdef class QREM_Filter_2:
 
     def x_tilde(self):
         return vector_to_list(self.ptr._x_tilde)
+
+    def reduced_inv_A(self):
+        return matrix_to_ndarray(self.ptr._reduced_inv_A)
+
+    def one_norm(self):
+        return self.ptr._one_norm
     
     def indices_to_keys_vector(self):
         return vector_to_list(self.ptr._indices_to_keys_vector)
