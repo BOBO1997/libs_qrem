@@ -45,16 +45,16 @@ cdef class QREM_Filter_1:
         return hist_dict
     
     def x_s(self):
-        return vector_to_list(self.ptr._x_s)
+        return vector_to_list_double(self.ptr._x_s)
 
     def x_hat(self):
-        return vector_to_list(self.ptr._x_hat)
+        return vector_to_list_double(self.ptr._x_hat)
 
     def x_tilde(self):
-        return vector_to_list(self.ptr._x_tilde)
+        return vector_to_list_double(self.ptr._x_tilde)
     
     def indices_to_keys_vector(self):
-        return vector_to_list(self.ptr._indices_to_keys_vector)
+        return vector_to_list_string(self.ptr._indices_to_keys_vector)
 
     def times(self):
         times = dict()

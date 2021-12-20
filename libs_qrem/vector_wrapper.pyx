@@ -100,15 +100,18 @@ cdef class VectorULong(VectorWrapper):
         buffer.buf = <void*>(self.vec.data())
         buffer.format = 'L'
 
-ctypedef fused string_or_double:
-    string
-    double
-
-cdef vector_to_list(vector[string_or_double] vec):
+cdef vector_to_list_double(vector[double] vec):
     lst = []
     cdef int i
     for i in range(vec.size()):
         lst.append(vec[i])
+    return lst
+
+cdef vector_to_list_string(vector[string] vec):
+    lst = []
+    cdef int i
+    for i in range(vec.size()):
+        lst.append(vec[i].decode())
     return lst
 
 cdef vector_to_dict(vector[double] vec, vector[string] indices_to_keys_vector):

@@ -47,13 +47,13 @@ cdef class QREM_Filter_2:
         return times
     
     def x_s(self):
-        return vector_to_list(self.ptr._x_s)
+        return vector_to_list_double(self.ptr._x_s)
 
     def x_hat(self):
-        return vector_to_list(self.ptr._x_hat)
+        return vector_to_list_double(self.ptr._x_hat)
 
     def x_tilde(self):
-        return vector_to_list(self.ptr._x_tilde)
+        return vector_to_list_double(self.ptr._x_tilde)
 
     def reduced_inv_A(self):
         return matrix_to_ndarray(self.ptr._reduced_inv_A)
@@ -62,7 +62,7 @@ cdef class QREM_Filter_2:
         return self.ptr._one_norm
     
     def indices_to_keys_vector(self):
-        return vector_to_list(self.ptr._indices_to_keys_vector)
+        return vector_to_list_string(self.ptr._indices_to_keys_vector)
     
     def expval_stddev(self):
         self.expval, self.stddev = expval_stddev(self.mitigated_hist())
