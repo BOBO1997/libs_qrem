@@ -26,7 +26,7 @@ ext_modules = [
 
 setup(
     name="libs_qrem",
-    version="0.1.3",
+    version="0.1.4",
     description="efficient quantum readout error mitigation library",
     cmdclass={"build_ext": build_ext},
     ext_modules=cythonize(ext_modules, language_level=3),
