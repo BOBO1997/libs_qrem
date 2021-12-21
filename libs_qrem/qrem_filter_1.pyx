@@ -32,7 +32,7 @@ cdef class QREM_Filter_1:
     def sum_of_x_tilde(self):
         return self.ptr._sum_of_x_tilde
 
-    def reduced_inv_A(self):
+    def reduced_A(self):
         self.ptr.compute_reduced_A(self.ptr._indices_to_keys_vector)
         return matrix_to_ndarray(self.ptr._reduced_A)
 
