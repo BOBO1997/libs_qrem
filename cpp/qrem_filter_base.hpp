@@ -35,6 +35,7 @@ namespace libs_qrem {
 
             vector< vector<double> > _reduced_A;
             vector< vector<double> > _reduced_inv_A;
+            double _max_element;
             double _one_norm;
 
             vector<int> _qubits_to_clbits;

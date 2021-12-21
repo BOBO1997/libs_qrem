@@ -8,6 +8,7 @@
 #include <time.h>
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <ctime>
 
 #include "eigen_utils.hpp"
@@ -125,7 +126,8 @@ namespace libs_qrem {
 
     void QREM_Filter_Base::compute_reduced_inv_A(vector<string>& indices_to_keys_vector) {
         this->_reduced_inv_A = vector< vector<double> >(indices_to_keys_vector.size(), vector<double>(indices_to_keys_vector.size(), 0));
-        this->_one_norm = 0;
+        this->_max_element = 0;
+        vector<double> abs_sum_of_rows(indices_to_keys_vector.size(), 0);
         for (size_t i = 0; i < indices_to_keys_vector.size(); i++) { // target
             for (size_t j = 0; j < indices_to_keys_vector.size(); j++) { // source
                 double tensor_elem = 1;
@@ -135,9 +137,16 @@ namespace libs_qrem {
                     tensor_elem *= this->_pinv_matrices[k](first_index, second_index);
                 }
                 this->_reduced_inv_A[i][j] = tensor_elem; // original: x[target] = A^-1[target][source] * y[source]
-                if (tensor_elem > this->_one_norm) {
-                    this->_one_norm = tensor_elem;
+                abs_sum_of_rows[i] += abs(tensor_elem);
+                if (tensor_elem > this->_max_element) {
+                    this->_max_element = tensor_elem;
                 }
+            }
+        }
+        this->_one_norm = 0;
+        for (size_t i = 0; i < abs_sum_of_rows.size(); i++) {
+            if (this->_one_norm < abs_sum_of_rows[i]) {
+                this->_one_norm = abs_sum_of_rows[i];
             }
         }
     }
