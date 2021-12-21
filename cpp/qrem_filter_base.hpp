@@ -33,6 +33,7 @@ namespace libs_qrem {
             vector<Matrix2d> _pinvSigmas;
             vector<Matrix2d> _pinvVs;
 
+            vector< vector<double> > _reduced_A;
             vector< vector<double> > _reduced_inv_A;
             double _one_norm;
 
@@ -60,6 +61,8 @@ namespace libs_qrem {
 
             int index_of_matrix(string state, 
                                 vector<int>& pos_clbits);
+
+            void compute_reduced_A(vector<string>& indices_to_keys_vector);
 
             void compute_reduced_inv_A(vector<string>& indices_to_keys_vector);
 

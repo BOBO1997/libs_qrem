@@ -17,6 +17,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         vector[double] _x_hat
         vector[double] _x_tilde
         double _one_norm
+        vector[vector[double]] _reduced_A
         vector[vector[double]] _reduced_inv_A
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
@@ -25,6 +26,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
+        void compute_reduced_A(vector[string]& indices_to_keys_vector)
         void apply(map[string, int] hist, int d, double threshold)
 
 cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
@@ -38,6 +40,7 @@ cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
         vector[double] _x_hat
         vector[double] _x_tilde
         double _one_norm
+        vector[vector[double]] _reduced_A
         vector[vector[double]] _reduced_inv_A
         vector[string] _indices_to_keys_vector
 
@@ -45,6 +48,7 @@ cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
+        void compute_reduced_A(vector[string]& indices_to_keys_vector)
         void apply(map[string, int] hist, int d, double threshold)
 
 cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
@@ -57,6 +61,7 @@ cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
         vector[double] _x_hat
         vector[double] _x_tilde
         double _one_norm
+        vector[vector[double]] _reduced_A
         vector[vector[double]] _reduced_inv_A
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
@@ -65,6 +70,7 @@ cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
+        void compute_reduced_A(vector[string]& indices_to_keys_vector)
         void apply(map[string, int] hist, int d, double threshold)
 
 cdef extern from "../cpp/qrem_filter_lnp.hpp" namespace "libs_qrem":
@@ -77,6 +83,7 @@ cdef extern from "../cpp/qrem_filter_lnp.hpp" namespace "libs_qrem":
         vector[double] _x_hat
         vector[double] _x_tilde
         double _one_norm
+        vector[vector[double]] _reduced_A
         vector[vector[double]] _reduced_inv_A
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
@@ -85,10 +92,8 @@ cdef extern from "../cpp/qrem_filter_lnp.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
+        void compute_reduced_A(vector[string]& indices_to_keys_vector)
         void apply(map[string, int] hist, int d, double threshold)
 
 cdef extern from "../cpp/sgs_algorithm.hpp" namespace "libs_qrem":
     cdef vector[double] sgs_algorithm(vector[double])
-
-# cdef extern from "../cpp/expectations.hpp" namespace "libs_qrem":
-#     cdef pair[double, double] expval_stddev(map[string, double])
