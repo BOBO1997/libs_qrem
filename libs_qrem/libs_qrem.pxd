@@ -7,8 +7,8 @@ from libcpp.set cimport set
 from libcpp.map cimport map
 from libcpp.string cimport string
 
-cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
-    cdef cppclass QREM_Filter:
+cdef extern from "../cpp/qrem_filter_delta.hpp" namespace "libs_qrem":
+    cdef cppclass QREM_Filter_Delta:
         double _sum_of_x
         double _sum_of_x_hat
         double _sum_of_x_tilde
@@ -22,10 +22,10 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 
-        QREM_Filter(int num_clbits,
-                    vector[vector[vector[double]]] cal_matrices,
-                    vector[vector[int]] mit_pattern,
-                    vector[int] meas_layout)
+        QREM_Filter_Delta(int num_clbits,
+                          vector[vector[vector[double]]] cal_matrices,
+                          vector[vector[int]] mit_pattern,
+                          vector[int] meas_layout)
         void compute_reduced_A(vector[string]& indices_to_keys_vector)
         void apply(map[string, int] hist, int d, double threshold)
 

@@ -14,13 +14,13 @@ using namespace Eigen;
 
 namespace libs_qrem {
 
-    class QREM_Filter : public QREM_Filter_Base {
+    class QREM_Filter_Delta : public QREM_Filter_Base {
         public:
 
-            QREM_Filter(int num_clbits,
-                        vector< vector< vector<double> > > cal_matrices,
-                        vector< vector<int> > mit_pattern,
-                        vector<int> meas_layout);
+            QREM_Filter_Delta(int num_clbits,
+                              vector< vector< vector<double> > > cal_matrices,
+                              vector< vector<int> > mit_pattern,
+                              vector<int> meas_layout);
 
             virtual void apply(map<string, int> hist, 
                                       int d, 

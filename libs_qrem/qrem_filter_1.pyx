@@ -10,7 +10,7 @@ from libcpp.string cimport string
 
 # OK
 cdef class QREM_Filter_1:
-    cdef QREM_Filter* ptr
+    cdef QREM_Filter_Delta* ptr
     cdef double expval, stddev
     cdef VectorDouble _x_s
     cdef VectorDouble _x_hat
@@ -18,7 +18,7 @@ cdef class QREM_Filter_1:
     cdef double shots
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
-        self.ptr = new QREM_Filter(n, cal_matrices, mit_pattern, meas_layout)
+        self.ptr = new QREM_Filter_Delta(n, cal_matrices, mit_pattern, meas_layout)
     
     def __dealloc__(self):
         del self.ptr
