@@ -1,4 +1,14 @@
-import numpy as np
+import os
+import sys
+import subprocess
+import setuptools
+
+try:
+    import numpy as np
+except ImportError:
+    subprocess.call([sys.executable, '-m', 'pip', 'install', 'numpy>=1.17'])
+    import numpy as np
+
 from setuptools import setup, Extension, find_packages
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
