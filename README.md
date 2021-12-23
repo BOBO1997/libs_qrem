@@ -54,7 +54,7 @@ There are 4 different classes that support 4 different QREM methods.
 
 1. `QREM_Filter_1`: Apply inverse matrix for the vector elements in subspace + correct the vector by adding a correction vector "delta" which is approximated through the solution of Lagrange multiplier + apply SGS algorithm.
 2. `QREM_Filter_2`: Apply inverse matrix for the vector elements in subspace + run `scipy.optimize.minimize` to find the closest vector that meets all elements are summed up to 1 + apply SGS algorithm.
-3. `QREM_Filter_3`: Method by Mooney et al. + apply SGS algorithm.
+3. `QREM_Filter_3`: Method by [Mooney, White, Hill, Hollenberg, 2021](https://arxiv.org/abs/2101.08946) + apply SGS algorithm.
 4. `QREM_Filter_4`: Apply inverse matrix for the vector elements in subspace + apply the solution of least norm problem to compute the closest vector that meets all elements are summed up to 1 + apply SGS algorithm.
 
 where SGS algorithm is the algorithm proposed by [Smolin, Gambetta, Smith, 2012](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.108.070502).
