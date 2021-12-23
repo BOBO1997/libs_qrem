@@ -48,7 +48,18 @@ python3 setup.py build_ext --inplace
 
 # Usage
 
-QREM filters in `libs_qrem` takes the number of qubits and calibration matrices in the following way.
+## Classes
+
+There are 4 different classes that support 4 different QREM methods.
+
+1. `QREM_Filter_1`: Apply inverse matrix for the vector elements in subspace + correct the vector by "delta" + SGS algorithm.
+2. `QREM_Filter_2`: Apply inverse matrix for the vector elements in subspace + run `scipy.optimize.minimize` + SGS algorithm.
+3. `QREM_Filter_3`: Method by Mooney et al. + SGS algorithm.
+4. `QREM_Filter_4`: Apply inverse matrix for the vector elements in subspace + solve least norm problem + SGS algorithm.
+
+## Examples
+
+Each QREM filter in `libs_qrem` takes the number of qubits and calibration matrices in the following way.
 ```py
 from libs_qrem import QREM_Filter_4
 meas_filter = QREM_Filter_4(n, meas_fitter.cal_matrices)
