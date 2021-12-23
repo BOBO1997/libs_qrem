@@ -8,6 +8,12 @@ try:
 except ImportError:
     subprocess.call([sys.executable, '-m', 'pip', 'install', 'numpy>=1.17'])
     import numpy as np
+    
+try:
+    from Cython.Build import cythonize
+except ImportError:
+    subprocess.call([sys.executable, '-m', 'pip', 'install', 'cython>=0.29'])
+    from Cython.Build import cythonize
 
 from setuptools import setup, Extension, find_packages
 from Cython.Build import cythonize
