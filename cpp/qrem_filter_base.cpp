@@ -31,7 +31,7 @@ namespace libs_qrem {
         // convert vector obj to Matrix obj
         this->_cal_matrices = vector<Matrix2d>(cal_matrices.size());
         for (size_t i = 0; i < cal_matrices.size(); i++) {
-            this->_cal_matrices[i] = vector_to_matrix2d(cal_matrices[i]);
+            this->_cal_matrices[i] = vector2d_to_matrix2d(cal_matrices[i]);
         }
         
         // inverse of each matrix

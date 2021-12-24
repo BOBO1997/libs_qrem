@@ -8,6 +8,6 @@ using namespace Eigen;
 
 namespace libs_qrem {
 
-    Matrix2d vector_to_matrix2d(vector< vector<double> > data);
+    Matrix2d vector2d_to_matrix2d(vector< vector<double> > data);
 
 }
