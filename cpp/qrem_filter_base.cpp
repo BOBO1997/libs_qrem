@@ -12,7 +12,7 @@
 #include <ctime>
 
 #include "eigen_utils.hpp"
-#include "qrem_filter_nlp.hpp"
+#include "qrem_filter_base.hpp"
 #include "hamming.hpp"
 #include "sgs_algorithm.hpp"
 
@@ -209,6 +209,39 @@ namespace libs_qrem {
             sum_val *= vec.sum();
         }
         return sum_val;
+    }
+
+    vector<double> QREM_Fiter_Base::preprocess(map<string, int> hist, int d) {
+        this->_shots = 0;
+        for (const auto& item: hist) {
+            this->_shots += item.second;
+        }
+
+        set<string> keys;
+        map<string, double> prob_dist;
+        for (auto& item: hist) {
+            keys.insert(item.first);
+            prob_dist.insert(make_pair(item.first, (double)item.second / this->_shots));
+        }
+
+        set<string> extended_keys = extend_keys(keys, d);
+        this->_indices_to_keys_vector = vector<string>(extended_keys.size());
+        int i = 0;
+        for (const auto& key: extended_keys) {
+            this->_indices_to_keys_vector[i] = key;
+            i++;
+        }
+
+        // set indices_of_matrices table
+        this->_indices_of_matrices = vector< vector<int> >(this->_indices_to_keys_vector.size(), vector<int>(this->_pinv_matrices.size(), 0));
+        for (size_t source_index = 0; source_index < this->_indices_to_keys_vector.size(); source_index++) {
+            string source_state = this->_indices_to_keys_vector[source_index];
+            for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
+                int matrix_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
+                this->_indices_of_matrices[source_index][i] = matrix_index;
+            }
+        }
+        return extend_vectors(prob_dist, this->_indices_to_keys_vector); // extended_y
     }
 
     void QREM_Filter_Base::apply(map<string, int> hist,

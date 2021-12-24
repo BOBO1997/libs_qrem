@@ -29,6 +29,7 @@ ext_modules = [
             "./cpp/combinations.cpp",
             "./cpp/hamming.cpp",
             "./cpp/sgs_algorithm.cpp",
+            "./cpp/harger_higham.cpp",
             "./cpp/qrem_filter_base.cpp",
             "./cpp/qrem_filter_delta.cpp",
             "./cpp/qrem_filter_nlp.cpp",

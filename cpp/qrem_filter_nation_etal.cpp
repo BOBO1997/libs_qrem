@@ -32,12 +32,43 @@ namespace libs_qrem {
     void QREM_Filter_Lnp::apply(map<string, int> hist,
                                     int d = 0,
                                     double threshold = 0.1) {
+        int shots = 0;
+        for (const auto& item: hist) {
+            shots += item.second;
+        }
 
         chrono::system_clock::time_point t_start = chrono::system_clock::now();
 
         /*------------ preprocess ------------*/
 
-        vector<double> extended_y = this->preprocess(hist, d);
+        set<string> keys;
+        map<string, double> prob_dist;
+        for (auto& item: hist) {
+            keys.insert(item.first);
+            prob_dist.insert(make_pair(item.first, (double)item.second / shots));
+        }
+
+        set<string> extended_keys = extend_keys(keys, d);
+        vector<string> extended_keys_vector(extended_keys.begin(), extended_keys.end());
+
+        this->_indices_to_keys_vector = vector<string>(extended_keys.size());
+        int i = 0;
+        for (const auto& key: extended_keys) {
+            this->_indices_to_keys_vector[i] = key;
+            i++;
+        }
+
+        vector<double> extended_y = extend_vectors(prob_dist, this->_indices_to_keys_vector);
+
+        // set indices_of_matrices table
+        this->_indices_of_matrices = vector< vector<int> >(this->_indices_to_keys_vector.size(), vector<int>(this->_pinv_matrices.size(), 0));
+        for (size_t source_index = 0; source_index < this->_indices_to_keys_vector.size(); source_index++) {
+            string source_state = this->_indices_to_keys_vector[source_index];
+            for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
+                int matrix_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
+                this->_indices_of_matrices[source_index][i] = matrix_index;
+            }
+        }
         
         // time for preprocess
         chrono::system_clock::time_point t_prep = chrono::system_clock::now();

@@ -2,6 +2,8 @@
 #include <cmath>
 #include <Eaigen/Dense>
 
+#include "harger_higham.hpp"
+
 using namespace std;
 using namespace Eigen;
 
@@ -28,7 +30,7 @@ namespace libs_qrem {
         return make_pair(max_val, arg_max);
     }
 
-    double higham_direct(Matrix2d A) {
+    double harger_higham_lu(Matrix2d A) {
         int n = A.rows();
         VectorXd e = VectorXd::Constant(n, 1 / (double)n);
         PartialPivLU<MatrixXd> solver(A), solver_T(A.transpose());
@@ -68,7 +70,7 @@ namespace libs_qrem {
         return gamma;
     }
     
-    double higham_bicgstab(Matrix2d A) {
+    double harger_higham_bicgstab(Matrix2d A) {
         int n = A.rows();
         VectorXd e = VectorXd::Constant(n, 1 / (double)n);
         BiCGSTAB<MatrixXd> solver(A), solver_T(A.transpose());

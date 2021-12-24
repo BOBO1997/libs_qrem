@@ -33,6 +33,7 @@ namespace libs_qrem {
             vector<Matrix2d> _pinvSigmas;
             vector<Matrix2d> _pinvVs;
 
+            int _shots;
             vector< vector<double> > _reduced_A;
             vector< vector<double> > _reduced_inv_A;
             double _max_element;
@@ -40,9 +41,7 @@ namespace libs_qrem {
 
             vector<int> _qubits_to_clbits;
             vector< vector<int> > _poses_clbits;
-
             vector< vector<int> > _indices_of_matrices;
-
             vector<string> _indices_to_keys_vector;
 
             double _sum_of_x;
@@ -81,6 +80,9 @@ namespace libs_qrem {
                                          vector<Matrix2d> matrices);
 
             double sum_of_tensored_vector(vector<Vector2d> vecs);
+
+            vector<double> preprocess(map<string, int> hist, 
+                                      int d);
 
             virtual void apply(map<string, int> hist, 
                                int d, 
