@@ -19,6 +19,8 @@
 using namespace std;
 using namespace Eigen;
 
+typedef chrono::system_clock::time_point tp_now;
+
 namespace libs_qrem {
 
      QREM_Filter_Lnp::QREM_Filter_Lnp(int num_clbits,
@@ -33,16 +35,15 @@ namespace libs_qrem {
                                     int d = 0,
                                     double threshold = 0.1) {
 
-        chrono::system_clock::time_point t_start = chrono::system_clock::now();
+        tp_now t_start = chrono::system_clock::now();
 
         /*------------ preprocess ------------*/
 
         vector<double> extended_y = this->preprocess(hist, d);
         
         // time for preprocess
-        chrono::system_clock::time_point t_prep = chrono::system_clock::now();
-        double dur_prep = std::chrono::duration_cast<std::chrono::milliseconds>(t_prep - t_start).count();
-        this->_durations.insert(make_pair("preprocess", dur_prep));
+        tp_now t_prep = chrono::system_clock::now();
+        this->_durations.insert(make_pair("preprocess", chrono::duration_cast<chrono::milliseconds>(t_prep - t_start).count()));
 
         /*------------ inverse operation ------------*/
 
@@ -54,9 +55,8 @@ namespace libs_qrem {
         }
 
         // time for inverse operation
-        chrono::system_clock::time_point t_inv = chrono::system_clock::now();
-        double dur_inv = std::chrono::duration_cast<std::chrono::milliseconds>(t_inv - t_prep).count();
-        this->_durations.insert(make_pair("inverse", dur_inv));
+        tp_now t_inv = chrono::system_clock::now();
+        this->_durations.insert(make_pair("inverse", chrono::duration_cast<chrono::milliseconds>(t_inv - t_prep).count()));
 
         /*------------ correction by least norm problem ------------*/
 
@@ -69,38 +69,27 @@ namespace libs_qrem {
         }
 
         // time for correction by delta
-        chrono::system_clock::time_point t_lnp = chrono::system_clock::now();
-        double dur_lnp = std::chrono::duration_cast<std::chrono::milliseconds>(t_lnp - t_inv).count();
-        this->_durations.insert(make_pair("least_norm", dur_lnp));
+        tp_now t_lnp = chrono::system_clock::now();
+        this->_durations.insert(make_pair("least_norm", chrono::duration_cast<chrono::milliseconds>(t_lnp - t_inv).count()));
 
         /*------------ sgs algorithm ------------*/
 
         this->_x_tilde = sgs_algorithm(this->_x_hat);
 
         // time for sgs algorithm
-        chrono::system_clock::time_point t_sgs = chrono::system_clock::now();
-        double dur_sgs = std::chrono::duration_cast<std::chrono::milliseconds>(t_sgs - t_lnp).count();
-        this->_durations.insert(make_pair("sgs_algorithm", dur_sgs));
+        tp_now t_sgs = chrono::system_clock::now();
+        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_lnp).count()));
 
         /*------------ recovering histogram ------------*/
 
-        this->_sum_of_x_tilde = 0;
-        this->_mitigated_hist.clear();
-        for (size_t i = 0; i < this->_indices_to_keys_vector.size(); i++) {
-            if (this->_x_tilde[i] != 0) {
-                this->_sum_of_x_tilde += this->_x_tilde[i];
-                this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * shots));
-            }
-        }
+        recover_histogram();
 
         // time for postprocess
-        chrono::system_clock::time_point t_finish = chrono::system_clock::now();
-        double dur_postprocess = std::chrono::duration_cast<std::chrono::milliseconds>(t_finish - t_sgs).count();
-        this->_durations.insert(make_pair("postprocess", dur_postprocess));
+        tp_now t_finish = chrono::system_clock::now();
+        this->_durations.insert(make_pair("postprocess", chrono::duration_cast<chrono::milliseconds>(t_finish - t_sgs).count()));
         
         // total time
-        double dur_total = std::chrono::duration_cast<std::chrono::milliseconds>(t_finish - t_start).count();
-        this->_durations.insert(make_pair("total", dur_total));
+        this->_durations.insert(make_pair("total", chrono::duration_cast<chrono::milliseconds>(t_finish - t_start).count()));
         
         return;
     }

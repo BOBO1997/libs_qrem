@@ -84,6 +84,8 @@ namespace libs_qrem {
             vector<double> preprocess(map<string, int> hist, 
                                       int d);
 
+            void recover_histogram();
+
             virtual void apply(map<string, int> hist, 
                                int d, 
                                double threshold);
