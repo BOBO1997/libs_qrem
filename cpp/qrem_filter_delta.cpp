@@ -67,7 +67,7 @@ namespace libs_qrem {
 
         this->_x_hat = vector<double>(this->_x_s.size(), 0);
         this->_sum_of_x_hat = 0;
-        for (size_t state_idx = 0; state_idx < extended_keys.size(); state_idx++) {
+        for (size_t state_idx = 0; state_idx < this->_indices_to_keys_vector.size(); state_idx++) {
             this->_x_hat[state_idx] = this->_x_s[state_idx] + delta_coeff * delta_col * v_col[state_idx];
             this->_sum_of_x_hat += this->_x_hat[state_idx];
         }

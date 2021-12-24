@@ -117,7 +117,7 @@ namespace libs_qrem {
 
         // time for sgs algorithm
         tp_now t_sgs = chrono::system_clock::now();
-        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_lnp).count()));
+        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_inv).count()));
 
         /*------------ recovering histogram ------------*/
 

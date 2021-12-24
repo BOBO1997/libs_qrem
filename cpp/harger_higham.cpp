@@ -51,7 +51,7 @@ namespace libs_qrem {
             v = solver.solve(e_j);
             double gamma_bar = gamma;
             double gamma = v.lpNorm<1>();
-            if ((v - gsi).isMuchSmallerThan(1 / (double)n, 1e-3) | gamma <= gamma_bar) {
+            if ((v - gsi).isMuchSmallerThan(1 / (double)n, 1e-3) | (gamma <= gamma_bar)) {
                 break;
             }
             gsi = v.unaryExpr(ptr_fun(sign));
@@ -91,7 +91,7 @@ namespace libs_qrem {
             v = solver.solve(e_j);
             double gamma_bar = gamma;
             double gamma = v.lpNorm<1>();
-            if ((v - gsi).isMuchSmallerThan(1 / (double)n, 1e-3) | gamma <= gamma_bar) {
+            if ((v - gsi).isMuchSmallerThan(1 / (double)n, 1e-3) | (gamma <= gamma_bar)) {
                 break;
             }
             gsi = v.unaryExpr(ptr_fun(sign));
