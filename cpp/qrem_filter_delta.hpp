@@ -23,7 +23,6 @@ namespace libs_qrem {
                               vector<int> meas_layout);
 
             void apply(map<string, int> hist, 
-                       int d, 
-                       double threshold);
+                       int d);
     };
 }

@@ -71,7 +71,7 @@ namespace libs_qrem {
 
         /*------------ sgs algorithm ------------*/
 
-        this->_x_tilde = sgs_algorithm(this->_x_hat);
+        this->_x_tilde = sgs_algorithm(this->_x_hat, false);
 
         // time for sgs algorithm
         tp_now t_sgs = chrono::system_clock::now();

@@ -71,12 +71,12 @@ cdef class QREM_Filter_4:
         self.stddev = self.one_norm() / np.sqrt(self.shots)
         return self.expval, self.stddev
 
-    def apply(self, hist, d = 0, threshold = 0.1, silent = True):
+    def apply(self, hist, d = 0, silent = True):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
             self.shots += <double>value
-        self.ptr.apply(cpp_hist, d, threshold)
+        self.ptr.apply(cpp_hist, d)
         cdef map[string, double] mitigated_hist
         mitigated_hist = self.ptr._mitigated_hist
         self._x_s.vec = self.ptr._x_s

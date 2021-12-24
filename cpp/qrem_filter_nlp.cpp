@@ -13,7 +13,6 @@
 #include "eigen_utils.hpp"
 #include "qrem_filter_nlp.hpp"
 #include "hamming.hpp"
-#include "sgs_algorithm.hpp"
 #include "qrem_filter_base.hpp"
 
 using namespace std;

@@ -73,7 +73,7 @@ cdef class QREM_Filter_2:
         self.stddev = self.one_norm() / np.sqrt(self.shots)
         return self.expval, self.stddev
 
-    def apply(self, hist, d = 0, threshold = 0.1, silent = True):
+    def apply(self, hist, d = 0, silent = True):
         cdef str key
         cdef int value
         cdef map[string, int] cpp_hist
@@ -82,7 +82,7 @@ cdef class QREM_Filter_2:
             self.shots += <double>value
 
         # apply inverse
-        self.ptr.apply(cpp_hist, d, threshold)
+        self.ptr.apply(cpp_hist, d)
         self.x_hat_vector.vec = self.ptr._x_s
         self._x_s.vec = self.ptr._x_s
         
@@ -112,7 +112,7 @@ cdef class QREM_Filter_2:
         self.ptr._durations.insert(duration)
 
         # apply sgs_algorithm
-        self._x_tilde.vec = sgs_algorithm(res_x)
+        self._x_tilde.vec = sgs_algorithm(res_x, False)
 
         t1 = perf_counter() * 1000
         hist_dict = dict()
