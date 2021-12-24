@@ -254,10 +254,4 @@ namespace libs_qrem {
             }
         }
     }
-
-    void QREM_Filter_Base::apply(map<string, int> hist,
-                                int d = 0,
-                                double threshold = 0.1) {
-        return;
-    }
 }

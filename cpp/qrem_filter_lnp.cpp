@@ -30,8 +30,7 @@ namespace libs_qrem {
     };
 
     void QREM_Filter_Lnp::apply(map<string, int> hist,
-                                    int d = 0,
-                                    double threshold = 0.1) {
+                                int d = 0) {
 
         tp_now t_start = chrono::system_clock::now();
 

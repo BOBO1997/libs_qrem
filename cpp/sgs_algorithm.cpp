@@ -10,7 +10,7 @@ using namespace std;
 
 namespace libs_qrem {
 
-vector<double> sgs_algorithm(vector<double>& x) {
+vector<double> sgs_algorithm(vector<double>& x, bool make_sum_to_one = false) {
     priority_queue< pair<double, int>, 
                     vector< pair<double, int> >,
                     greater< pair<double, int> > > pq;
@@ -21,9 +21,9 @@ vector<double> sgs_algorithm(vector<double>& x) {
             sum_of_x += x[state_idx];
         }
     }
-    double negative_accumulator = 1 - sum_of_x;
-    if (negative_accumulator >= 0) {
-        cout << "accumulator is positive, we might even ignoring the necessal positive values." << endl;
+    double negative_accumulator = 0;
+    if (make_sum_to_one) {
+        negative_accumulator = 1 - sum_of_x;
     }
     while (pq.size() > 0) {
         pair<double, int> top = pq.top();

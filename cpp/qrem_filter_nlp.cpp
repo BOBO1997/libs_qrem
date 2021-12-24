@@ -30,8 +30,7 @@ namespace libs_qrem {
     };
 
     void QREM_Filter_Nlp::apply(map<string, int> hist,
-                                        int d = 0,
-                                        double threshold = 0.1) {
+                                int d = 0) {
 
         chrono::system_clock::time_point t_start = chrono::system_clock::now();
 
