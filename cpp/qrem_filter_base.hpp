@@ -15,6 +15,8 @@ using namespace Eigen;
 
 namespace libs_qrem {
 
+    typedef chrono::system_clock::time_point tp_now;
+
     class QREM_Filter_Base {
         public:
 

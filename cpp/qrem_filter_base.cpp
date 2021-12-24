@@ -211,7 +211,7 @@ namespace libs_qrem {
         return sum_val;
     }
 
-    vector<double> QREM_Fiter_Base::preprocess(map<string, int> hist, int d) {
+    vector<double> QREM_Filter_Base::preprocess(map<string, int> hist, int d) {
         this->_shots = 0;
         for (const auto& item: hist) {
             this->_shots += item.second;

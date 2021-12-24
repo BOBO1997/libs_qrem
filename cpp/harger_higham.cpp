@@ -1,6 +1,8 @@
-#include <pair>
 #include <cmath>
-#include <Eaigen/Dense>
+#include <Eigen/Core>
+#include <Eigen/Dense>
+#include <Eigen/IterativeLinearSolvers>
+#include <unsupported/Eigen/IterativeSolvers>
 
 #include "harger_higham.hpp"
 
@@ -39,7 +41,7 @@ namespace libs_qrem {
             return v.lpNorm<1>(); // v(0); is also ok
         }
         double gamma = v.lpNorm<1>();
-        double gsi = v.unaryExpr(str_fun(sign));
+        VectorXd gsi = v.unaryExpr(ptr_fun(sign));
         VectorXd x = solver_T.solve(gsi);
         int k = 2;
         while (k < 6) {
@@ -52,10 +54,10 @@ namespace libs_qrem {
             if ((v - gsi).isMuchSmallerThan(1 / (double)n, 1e-3) | gamma <= gamma_bar) {
                 break;
             }
-            gsi = v.unaryExpr(str_fun(sign));
+            gsi = v.unaryExpr(ptr_fun(sign));
             x = solver_T.solve(gsi);
             k++;
-            if (x_infty_norm.first == x.lpNorm<infinity>()) {
+            if (x_infty_norm.first == x.lpNorm<Infinity>()) {
                 break;
             }
         }
@@ -79,7 +81,7 @@ namespace libs_qrem {
             return v.lpNorm<1>(); // v(0); is also ok
         }
         double gamma = v.lpNorm<1>();
-        double gsi = v.unaryExpr(str_fun(sign));
+        VectorXd gsi = v.unaryExpr(ptr_fun(sign));
         VectorXd x = solver_T.solve(gsi);
         int k = 2;
         while (k < 6) {
@@ -92,10 +94,10 @@ namespace libs_qrem {
             if ((v - gsi).isMuchSmallerThan(1 / (double)n, 1e-3) | gamma <= gamma_bar) {
                 break;
             }
-            gsi = v.unaryExpr(str_fun(sign));
+            gsi = v.unaryExpr(ptr_fun(sign));
             x = solver_T.solve(gsi);
             k++;
-            if (x_infty_norm.first == x.lpNorm<infinity>()) {
+            if (x_infty_norm.first == x.lpNorm<Infinity>()) {
                 break;
             }
         }

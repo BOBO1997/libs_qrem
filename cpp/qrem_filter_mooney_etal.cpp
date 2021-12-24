@@ -56,7 +56,7 @@ namespace libs_qrem {
             shots += item.second;
         }
 
-        chrono::system_clock::time_point t_start = chrono::system_clock::now();
+        tp_now t_start = chrono::system_clock::now();
 
         /*------------ preprocess ------------*/
 
@@ -68,8 +68,8 @@ namespace libs_qrem {
         }
 
         // time for preprocess
-        chrono::system_clock::time_point t_prep = chrono::system_clock::now();
-        double dur_prep = std::chrono::duration_cast<std::chrono::milliseconds>(t_prep - t_start).count();
+        tp_now t_prep = chrono::system_clock::now();
+        double dur_prep = chrono::duration_cast<chrono::milliseconds>(t_prep - t_start).count();
         this->_durations.insert(make_pair("preprocess", dur_prep));
 
         /*------------ inverse operation ------------*/
@@ -99,9 +99,8 @@ namespace libs_qrem {
         }
 
         // time for inverse operation
-        chrono::system_clock::time_point t_inv = chrono::system_clock::now();
-        double dur_inv = std::chrono::duration_cast<std::chrono::milliseconds>(t_inv - t_prep).count();
-        this->_durations.insert(make_pair("inverse", dur_inv));
+        tp_now t_inv = chrono::system_clock::now();
+        this->_durations.insert(make_pair("inverse", chrono::duration_cast<chrono::milliseconds>(t_inv - t_prep).count()));
 
         /*------------ sgs algorithm ------------*/
 
@@ -117,9 +116,8 @@ namespace libs_qrem {
         this->_x_tilde = sgs_algorithm(this->_x_s);
 
         // time for sgs algorithm
-        chrono::system_clock::time_point t_sgs = chrono::system_clock::now();
-        double dur_sgs = std::chrono::duration_cast<std::chrono::milliseconds>(t_sgs - t_inv).count();
-        this->_durations.insert(make_pair("sgs_algorithm", dur_sgs));
+        tp_now t_sgs = chrono::system_clock::now();
+        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_lnp).count()));
 
         /*------------ recovering histogram ------------*/
 
@@ -134,13 +132,9 @@ namespace libs_qrem {
         }
 
         // time for postprocess
-        chrono::system_clock::time_point t_finish = chrono::system_clock::now();
-        double dur_postprocess = std::chrono::duration_cast<std::chrono::milliseconds>(t_finish - t_sgs).count();
-        this->_durations.insert(make_pair("postprocess", dur_postprocess));
-        
-        // total time
-        double dur_total = std::chrono::duration_cast<std::chrono::milliseconds>(t_finish - t_start).count();
-        this->_durations.insert(make_pair("total", dur_total));
+        tp_now t_finish = chrono::system_clock::now();
+        this->_durations.insert(make_pair("postprocess", chrono::duration_cast<chrono::milliseconds>(t_finish - t_sgs).count()));
+        this->_durations.insert(make_pair("total", chrono::duration_cast<chrono::milliseconds>(t_finish - t_start).count()));
         
         return;
     }

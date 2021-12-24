@@ -19,8 +19,6 @@
 using namespace std;
 using namespace Eigen;
 
-typedef chrono::system_clock::time_point tp_now;
-
 namespace libs_qrem {
 
      QREM_Filter_Lnp::QREM_Filter_Lnp(int num_clbits,
@@ -68,7 +66,7 @@ namespace libs_qrem {
             this->_sum_of_x_hat += this->_x_hat[state_idx];
         }
 
-        // time for correction by delta
+        // time for correction by least norm problem
         tp_now t_lnp = chrono::system_clock::now();
         this->_durations.insert(make_pair("least_norm", chrono::duration_cast<chrono::milliseconds>(t_lnp - t_inv).count()));
 
@@ -84,11 +82,9 @@ namespace libs_qrem {
 
         recover_histogram();
 
-        // time for postprocess
+        // time for postprocess and total time
         tp_now t_finish = chrono::system_clock::now();
         this->_durations.insert(make_pair("postprocess", chrono::duration_cast<chrono::milliseconds>(t_finish - t_sgs).count()));
-        
-        // total time
         this->_durations.insert(make_pair("total", chrono::duration_cast<chrono::milliseconds>(t_finish - t_start).count()));
         
         return;
