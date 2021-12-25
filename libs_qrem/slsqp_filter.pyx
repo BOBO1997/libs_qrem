@@ -13,15 +13,10 @@ from libcpp.string cimport string
 include "vector_wrapper.pyx"
 
 # x
-cdef class QREM_Filter_2:
-    cdef QREM_Filter_Nlp* ptr
+cdef class SLSQPFilter(QREMFilter):
     cdef VectorDouble x_hat_vector
     cdef np.float64_t[:] x_hat_ndarray
-    cdef VectorDouble _x_s
     cdef np.float64_t[:] _x_hat
-    cdef VectorDouble _x_tilde
-    cdef double expval, stddev
-    cdef double shots
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_Nlp(n, cal_matrices, mit_pattern, meas_layout)
@@ -30,49 +25,6 @@ cdef class QREM_Filter_2:
     def __dealloc__(self):
         del self.ptr
     
-    def sum_of_x(self):
-        return self.ptr._sum_of_x
-
-    def sum_of_x_hat(self):
-        return self.ptr._sum_of_x_hat
-    
-    def sum_of_x_tilde(self):
-        return self.ptr._sum_of_x_tilde
-
-    def times(self):
-        times = dict()
-        cdef pair[string, double] item
-        for item in self.ptr._durations:
-            times[item.first.decode('utf-8')] = item.second
-        return times
-    
-    def x_s(self):
-        return vector_to_list_double(self.ptr._x_s)
-
-    def x_hat(self):
-        return vector_to_list_double(self.ptr._x_hat)
-
-    def x_tilde(self):
-        return vector_to_list_double(self.ptr._x_tilde)
-
-    def reduced_A(self):
-        self.ptr.compute_reduced_A(self.ptr._indices_to_keys_vector)
-        return matrix_to_ndarray(self.ptr._reduced_A)
-
-    def reduced_inv_A(self):
-        return matrix_to_ndarray(self.ptr._reduced_inv_A)
-
-    def one_norm(self):
-        return self.ptr._one_norm
-    
-    def indices_to_keys_vector(self):
-        return vector_to_list_string(self.ptr._indices_to_keys_vector)
-    
-    def expval_stddev(self):
-        self.expval, self.stddev = expval_stddev(self.mitigated_hist())
-        self.stddev = self.one_norm() / np.sqrt(self.shots)
-        return self.expval, self.stddev
-
     def apply(self, hist, d = 0, silent = True):
         cdef str key
         cdef int value
