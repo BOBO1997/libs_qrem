@@ -11,25 +11,24 @@
 #include <ctime>
 
 #include "eigen_utils.hpp"
-#include "qrem_filter_nlp.hpp"
 #include "hamming.hpp"
-#include "qrem_filter_base.hpp"
+#include "qrem_filter.hpp"
+#include "slsqp_filter.hpp"
 
 using namespace std;
 using namespace Eigen;
 
 namespace libs_qrem {
 
-     QREM_Filter_Nlp::QREM_Filter_Nlp(int num_clbits,
+     SLSQP_Filter::SLSQP_Filter(int num_clbits,
                               vector< vector< vector<double> > > cal_matrices,
                               vector< vector<int> > mit_pattern = vector< vector<int> >(0),
                               vector<int> meas_layout = vector<int>(0)) :
-                              QREM_Filter_Base(num_clbits, cal_matrices, mit_pattern, meas_layout) {
-        
-    };
+                              QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
-    void QREM_Filter_Nlp::apply(map<string, int> hist,
-                                int d = 0) {
+    void SLSQP_Filter::apply(map<string, int> hist,
+                             int d,
+                             double threshold) {
 
         chrono::system_clock::time_point t_start = chrono::system_clock::now();
 

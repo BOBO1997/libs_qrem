@@ -11,33 +11,34 @@
 #include <ctime>
 
 #include "eigen_utils.hpp"
-#include "qrem_filter_lnp.hpp"
 #include "hamming.hpp"
 #include "sgs_algorithm.hpp"
-#include "qrem_filter_base.hpp"
+#include "qrem_filter.hpp"
+#include "least_norm_filter.hpp"
 
 using namespace std;
 using namespace Eigen;
 
 namespace libs_qrem {
 
-     QREM_Filter_Lnp::QREM_Filter_Lnp(int num_clbits,
+     Least_Norm_Filter::Least_Norm_Filter(int num_clbits,
                               vector< vector< vector<double> > > cal_matrices,
                               vector< vector<int> > mit_pattern = vector< vector<int> >(0),
                               vector<int> meas_layout = vector<int>(0)) : 
-                              QREM_Filter_Base(num_clbits, cal_matrices, mit_pattern, meas_layout) {
+                              QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {
         
     };
 
-    void QREM_Filter_Lnp::apply(map<string, int> hist,
-                                int d = 0) {
+    void Least_Norm_Filter::apply(map<string, int> hist,
+                                int d,
+                                double threshold) {
 
         tp_now t_start = chrono::system_clock::now();
 
         /*------------ preprocess ------------*/
-        
-        vector<double> extended_y = this->preprocess(hist, d); 
 
+        vector<double> extended_y = this->preprocess(hist, d);
+        
         // time for preprocess
         tp_now t_prep = chrono::system_clock::now();
         this->_durations.insert(make_pair("preprocess", chrono::duration_cast<chrono::milliseconds>(t_prep - t_start).count()));
@@ -65,10 +66,9 @@ namespace libs_qrem {
             this->_sum_of_x_hat += this->_x_hat[state_idx];
         }
 
-        // time for correction by delta
+        // time for correction by least norm problem
         tp_now t_lnp = chrono::system_clock::now();
-        double dur_lnp = chrono::duration_cast<chrono::milliseconds>(t_lnp - t_inv).count();
-        this->_durations.insert(make_pair("least_norm", dur_lnp));
+        this->_durations.insert(make_pair("least_norm", chrono::duration_cast<chrono::milliseconds>(t_lnp - t_inv).count()));
 
         /*------------ sgs algorithm ------------*/
 
@@ -76,24 +76,17 @@ namespace libs_qrem {
 
         // time for sgs algorithm
         tp_now t_sgs = chrono::system_clock::now();
-        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_nlp).count()));
+        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_lnp).count()));
 
         /*------------ recovering histogram ------------*/
 
-        this->_sum_of_x_tilde = 0;
-        this->_mitigated_hist.clear();
-        for (size_t i = 0; i < this->_indices_to_keys_vector.size(); i++) {
-            if (this->_x_tilde[i] != 0) {
-                this->_sum_of_x_tilde += this->_x_tilde[i];
-                this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * shots));
-            }
-        }
+        recover_histogram();
 
         // time for postprocess and total time
         tp_now t_finish = chrono::system_clock::now();
         this->_durations.insert(make_pair("postprocess", chrono::duration_cast<chrono::milliseconds>(t_finish - t_sgs).count()));
-        this->_durations.insert(make_pair("total", chrono::duration_cast<chrono::milliseconds>(t_finish - t_start).count())); 
-
+        this->_durations.insert(make_pair("total", chrono::duration_cast<chrono::milliseconds>(t_finish - t_start).count()));
+        
         return;
     }
 }

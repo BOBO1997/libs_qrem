@@ -21,10 +21,10 @@ using namespace Eigen;
 
 namespace libs_qrem {
 
-     QREM_Filter_Base::QREM_Filter_Base(int num_clbits,
-                              vector< vector< vector<double> > > cal_matrices,
-                              vector< vector<int> > mit_pattern = vector< vector<int> >(0),
-                              vector<int> meas_layout = vector<int>(0)) {
+    QREM_Filter::QREM_Filter(int num_clbits,
+                             vector< vector< vector<double> > > cal_matrices,
+                             vector< vector<int> > mit_pattern = vector< vector<int> >(0),
+                             vector<int> meas_layout = vector<int>(0)) {
         
         this->_num_clbits = num_clbits;
 
@@ -97,7 +97,7 @@ namespace libs_qrem {
 
     };
 
-    int QREM_Filter_Base::index_of_matrix(string state, vector<int>& pos_clbits) {
+    int QREM_Filter::index_of_matrix(string state, vector<int>& pos_clbits) {
         int index = 0;
         int i = 0;
         for (const auto& pos: pos_clbits) {
@@ -109,7 +109,7 @@ namespace libs_qrem {
         return index;
     }
 
-    void QREM_Filter_Base::compute_reduced_A(vector<string>& indices_to_keys_vector) {
+    void QREM_Filter::compute_reduced_A(vector<string>& indices_to_keys_vector) {
         this->_reduced_A = vector< vector<double> >(indices_to_keys_vector.size(), vector<double>(indices_to_keys_vector.size(), 0));
         for (size_t i = 0; i < indices_to_keys_vector.size(); i++) { // target
             for (size_t j = 0; j < indices_to_keys_vector.size(); j++) { // source
@@ -124,7 +124,7 @@ namespace libs_qrem {
         }
     }
 
-    void QREM_Filter_Base::compute_reduced_inv_A(vector<string>& indices_to_keys_vector) {
+    void QREM_Filter::compute_reduced_inv_A(vector<string>& indices_to_keys_vector) {
         this->_reduced_inv_A = vector< vector<double> >(indices_to_keys_vector.size(), vector<double>(indices_to_keys_vector.size(), 0));
         this->_max_element = 0;
         vector<double> abs_sum_of_rows(indices_to_keys_vector.size(), 0);
@@ -151,7 +151,7 @@ namespace libs_qrem {
         }
     }
 
-    vector<double> QREM_Filter_Base::mat_vec_prod(vector< vector<double> > A, vector<double> y) {
+    vector<double> QREM_Filter::mat_vec_prod(vector< vector<double> > A, vector<double> y) {
         // compute x = Ay
         vector<double> x(y.size(), 0);
         for (size_t i = 0; i < x.size(); i++) {
@@ -162,7 +162,7 @@ namespace libs_qrem {
         return x;
     }
 
-    double QREM_Filter_Base::mitigate_one_state(int target_index, 
+    double QREM_Filter::mitigate_one_state(int target_index, 
                                            vector<double>& extended_hist, 
                                            vector<string>& indices_to_keys_vector) {
         double new_count = 0;
@@ -178,7 +178,7 @@ namespace libs_qrem {
         return new_count;
     }
 
-    vector<double> QREM_Filter_Base::col_basis(int col_index, 
+    vector<double> QREM_Filter::col_basis(int col_index, 
                                           vector<Matrix2d>& pinv_mats, 
                                           vector<string>& indices_to_keys_vector) {
         
@@ -195,7 +195,7 @@ namespace libs_qrem {
         return col_i;
     }
     
-    vector<Vector2d> QREM_Filter_Base::choose_vecs(string state, vector<Matrix2d> matrices) {
+    vector<Vector2d> QREM_Filter::choose_vecs(string state, vector<Matrix2d> matrices) {
         vector<Vector2d> vecs(matrices.size());
         for (size_t i = 0; i < matrices.size(); i++) {
             vecs[i] = matrices[i].row(this->index_of_matrix(state, this->_poses_clbits[i]));
@@ -203,7 +203,7 @@ namespace libs_qrem {
         return vecs;
     }
 
-    double QREM_Filter_Base::sum_of_tensored_vector(vector<Vector2d> vecs) {
+    double QREM_Filter::sum_of_tensored_vector(vector<Vector2d> vecs) {
         double sum_val = 1;
         for (const auto& vec: vecs) {
             sum_val *= vec.sum();
@@ -211,7 +211,7 @@ namespace libs_qrem {
         return sum_val;
     }
 
-    vector<double> QREM_Filter_Base::preprocess(map<string, int> hist, int d) {
+    vector<double> QREM_Filter::preprocess(map<string, int> hist, int d) {
         this->_shots = 0;
         for (const auto& item: hist) {
             this->_shots += item.second;
@@ -244,7 +244,7 @@ namespace libs_qrem {
         return extend_vectors(prob_dist, this->_indices_to_keys_vector); // extended_y
     }
 
-    void QREM_Filter_Base::recover_histogram() {
+    void QREM_Filter::recover_histogram() {
         this->_sum_of_x_tilde = 0;
         this->_mitigated_hist.clear();
         for (size_t i = 0; i < this->_indices_to_keys_vector.size(); i++) {

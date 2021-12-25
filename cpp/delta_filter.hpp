@@ -7,22 +7,23 @@
 #include <Eigen/SVD>
 #include <time.h>
 
-#include "qrem_filter_base.hpp"
+#include "qrem_filter.hpp"
 
 using namespace std;
 using namespace Eigen;
 
 namespace libs_qrem {
 
-    class QREM_Filter_Delta : public QREM_Filter_Base {
+    class Delta_Filter : public QREM_Filter {
         public:
 
-            QREM_Filter_Delta(int num_clbits,
+            Delta_Filter(int num_clbits,
                               vector< vector< vector<double> > > cal_matrices,
                               vector< vector<int> > mit_pattern,
                               vector<int> meas_layout);
 
-            void apply(map<string, int> hist, 
-                       int d);
+            virtual void apply(map<string, int> hist, 
+                               int d = 0, 
+                               double threshold = 0.1);
     };
 }

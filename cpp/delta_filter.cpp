@@ -13,15 +13,15 @@
 #include "eigen_utils.hpp"
 #include "hamming.hpp"
 #include "sgs_algorithm.hpp"
-#include "qrem_filter_base.hpp"
-#include "qrem_filter_delta.hpp"
+#include "qrem_filter.hpp"
+#include "delta_filter.hpp"
 
 using namespace std;
 using namespace Eigen;
 
 namespace libs_qrem {
 
-     QREM_Filter_Delta::QREM_Filter_Delta(int num_clbits,
+     Delta_Filter::Delta_Filter(int num_clbits,
                               vector< vector< vector<double> > > cal_matrices,
                               vector< vector<int> > mit_pattern = vector< vector<int> >(0),
                               vector<int> meas_layout = vector<int>(0)) : 
@@ -29,8 +29,9 @@ namespace libs_qrem {
         
     };
 
-    void QREM_Filter_Delta::apply(map<string, int> hist,
-                                  int d = 0) {
+    void Delta_Filter::apply(map<string, int> hist, 
+                             int d = 0, 
+                             double threshold = 0.1) {
 
         tp_now t_start = chrono::system_clock::now();
 

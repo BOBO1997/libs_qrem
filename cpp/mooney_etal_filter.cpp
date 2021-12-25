@@ -13,25 +13,23 @@
 #include <bitset>
 
 #include "eigen_utils.hpp"
-#include "qrem_filter_mooney_etal.hpp"
 #include "hamming.hpp"
 #include "sgs_algorithm.hpp"
-#include "qrem_filter_base.hpp"
+#include "qrem_filter.hpp"
+#include "mooney_etal_filter.hpp"
 
 using namespace std;
 using namespace Eigen;
 
 namespace libs_qrem {
 
-     QREM_Filter_MooneyEtal::QREM_Filter_MooneyEtal(int num_clbits,
+     MooneyEtal_Filter::MooneyEtal_Filter(int num_clbits,
                               vector< vector< vector<double> > > cal_matrices,
                               vector< vector<int> > mit_pattern = vector< vector<int> >(0),
                               vector<int> meas_layout = vector<int>(0)) : 
-                              QREM_Filter_Base(num_clbits, cal_matrices, mit_pattern, meas_layout) {
-        
-    };
+                              QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
-    string QREM_Filter_MooneyEtal::btos(int target_int, int n) {
+    string MooneyEtal_Filter::btos(int target_int, int n) {
         string s;
         for (int i = 0; i < n; i++) {
             s += to_string( (target_int >> (n - 1 - i)) & 1 );
@@ -39,7 +37,7 @@ namespace libs_qrem {
         return s;
     }
 
-    int QREM_Filter_MooneyEtal::flip_state(int state_idx, int mat_idx, vector<int>& flip_poses) {
+    int MooneyEtal_Filter::flip_state(int state_idx, int mat_idx, vector<int>& flip_poses) {
         for (size_t i = 0; i < flip_poses.size(); i++) {
             if ((mat_idx >> i) & 1) {
                 state_idx = state_idx ^ ((1 << (this->_num_clbits - 1)) >> flip_poses[i]);
@@ -48,9 +46,9 @@ namespace libs_qrem {
         return state_idx;
     }
 
-    void QREM_Filter_MooneyEtal::apply(map<string, int> hist,
-                                    int d = 0,
-                                    double threshold = 0.1) {
+    void MooneyEtal_Filter::apply(map<string, int> hist,
+                                    int d,
+                                    double threshold) {
         int shots = 0;
         for (const auto& item: hist) {
             shots += item.second;

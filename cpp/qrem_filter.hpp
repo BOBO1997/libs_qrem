@@ -17,7 +17,10 @@ namespace libs_qrem {
 
     typedef chrono::system_clock::time_point tp_now;
 
-    class QREM_Filter_Base {
+    /*
+    The base class of all qrem filters
+    */
+    class QREM_Filter {
         public:
 
             int _num_clbits;
@@ -87,6 +90,10 @@ namespace libs_qrem {
                                       int d);
 
             void recover_histogram();
+
+            virtual void apply(map<string, int> hist,
+                               int d,
+                               double threshold) = 0;
 
     };
 }
