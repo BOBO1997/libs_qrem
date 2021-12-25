@@ -11,8 +11,8 @@ from libcpp.string cimport string
 # OK
 cdef class BaseFilter:
     cdef QREM_Filter* ptr
-    cdef double expval, stddev
     cdef double shots
+    cdef str method
 
     def __cinit__(self):
         pass
@@ -30,7 +30,14 @@ cdef class BaseFilter:
         return self.ptr._sum_of_x_tilde
     
     def reduced_A(self):
-        self.ptr.compute_reduced_A(self.ptr._indices_to_keys_vector.size())
+        if self.ptr._reduced_A.size() == 0:
+            self.ptr.compute_reduced_A(self.ptr._indices_to_keys_vector.size())
+        return matrix_to_ndarray(self.ptr._reduced_A)
+
+    def normalized_reduced_A(self):
+        if self.ptr._reduced_A.size() == 0:
+            self.ptr.compute_reduced_A(self.ptr._indices_to_keys_vector.size())
+            normalize_cols(self.ptr._reduced_A)
         return matrix_to_ndarray(self.ptr._reduced_A)
 
     def reduced_inv_A(self):
@@ -69,7 +76,26 @@ cdef class BaseFilter:
             times[item.first.decode('utf-8')] = item.second
         return times
 
-    def expval_stddev(self):
-        self.expval, self.stddev = expval_stddev(self.mitigated_hist())
-        self.stddev = self.one_norm() / np.sqrt(self.shots)
-        return self.expval, self.stddev
+    def expval(self):
+        expval = 0
+        cdef str key
+        cdef double count, sigma_z
+        for key, count in self.mitigated_hist().items():
+            sigma_z = 1
+            for s in key:
+                if s == "1":
+                    sigma_z *= -1
+            expval += sigma_z * count
+        expval /= self.shots
+        return expval
+
+    def mitigation_overhead(self, norm_type = "exact"):
+        if self.method == "delta" or self.method == "SLSQP" or self.method == "least norm":
+            return self.exact_one_norm_of_reduced_inv_A() / np.sqrt(self.shots)
+        elif self.method == "Nation et al.":
+            if norm_type == "exact":
+                return self.exact_one_norm_of_inv_reduced_A() / np.sqrt(self.shots)
+            else:
+                return self.iterative_one_norm_of_inv_reduced_A() / np.sqrt(self.shots)
+        elif self.method == "Mooney et al.":
+            print("Cannot compute mitigation overhead.")

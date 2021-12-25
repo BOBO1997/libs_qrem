@@ -15,6 +15,7 @@ cdef class MooneyEtalFilter(BaseFilter):
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.instance_ptr = new MooneyEtal_Filter(n, cal_matrices, mit_pattern, meas_layout)
         self.ptr = self.instance_ptr
+        self.method = "Mooney et al."
     
     def __dealloc__(self):
         del self.ptr

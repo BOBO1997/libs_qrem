@@ -89,3 +89,6 @@ cdef extern from "../cpp/nation_etal_filter.hpp" namespace "libs_qrem":
 
 cdef extern from "../cpp/sgs_algorithm.hpp" namespace "libs_qrem":
     cdef vector[double] sgs_algorithm(vector[double], bool make_sum_to_one)
+
+cdef extern from "../cpp/eigen_utils.hpp" namespace "libs_qrem":
+    cdef void normalize_cols(vector[vector[double]]& A)

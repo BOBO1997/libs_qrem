@@ -23,6 +23,7 @@ cdef class SLSQPFilter(BaseFilter):
         self.instance_ptr = new SLSQP_Filter(n, cal_matrices, mit_pattern, meas_layout)
         self.ptr = self.instance_ptr
         self.x_hat_vector = VectorDouble(1)
+        self.method = "SLSQP"
 
     def __dealloc__(self):
         del self.ptr

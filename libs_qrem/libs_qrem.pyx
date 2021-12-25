@@ -8,7 +8,6 @@ from scipy.optimize import minimize
 from libcpp.map cimport map
 from libcpp.string cimport string
 
-include "expectations.pyx"
 include "base_filter.pyx"
 include "delta_filter.pyx"
 include "slsqp_filter.pyx"

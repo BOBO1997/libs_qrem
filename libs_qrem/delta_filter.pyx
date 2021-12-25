@@ -15,6 +15,7 @@ cdef class DeltaFilter(BaseFilter):
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.instance_ptr = new Delta_Filter(n, cal_matrices, mit_pattern, meas_layout)
         self.ptr = self.instance_ptr
+        self.method = "delta"
     
     def __dealloc__(self):
         del self.ptr
