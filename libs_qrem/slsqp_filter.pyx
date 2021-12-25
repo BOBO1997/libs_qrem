@@ -38,7 +38,6 @@ cdef class SLSQPFilter(BaseFilter):
         # apply inverse
         self.ptr.apply(cpp_hist, d, threshold)
         self.x_hat_vector.vec = self.ptr._x_s
-        self._x_s.vec = self.ptr._x_s
         
         cdef int vec_size = self.ptr._indices_to_keys_vector.size()
 
