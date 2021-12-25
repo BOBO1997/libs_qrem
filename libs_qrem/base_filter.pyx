@@ -30,14 +30,20 @@ cdef class BaseFilter:
         return self.ptr._sum_of_x_tilde
     
     def reduced_A(self):
-        self.ptr.compute_reduced_A(self.ptr._indices_to_keys_vector)
+        self.ptr.compute_reduced_A(self.ptr._indices_to_keys_vector.size())
         return matrix_to_ndarray(self.ptr._reduced_A)
 
     def reduced_inv_A(self):
         return matrix_to_ndarray(self.ptr._reduced_inv_A)
 
-    def one_norm(self):
-        return self.ptr._one_norm
+    def exact_one_norm_of_inv_reduced_A(self):
+        return self.ptr._exact_one_norm_of_inv_reduced_A
+
+    def exact_one_norm_of_reduced_inv_A(self):
+        return self.ptr._exact_one_norm_of_reduced_inv_A
+
+    def iterative_one_norm_of_inv_reduced_A(self):
+        return self.ptr._iterative_one_norm_of_inv_reduced_A
 
     def mitigated_hist(self):
         hist_dict = dict()

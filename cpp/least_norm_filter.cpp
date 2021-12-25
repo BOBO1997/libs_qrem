@@ -43,8 +43,8 @@ namespace libs_qrem {
 
         /*------------ inverse operation ------------*/
 
-        compute_reduced_inv_A(this->_indices_to_keys_vector);
-        this->_x_s = this->mat_vec_prod(this->_reduced_inv_A, extended_y);
+        compute_reduced_inv_A(this->_indices_to_keys_vector.size());
+        this->_x_s = stdvec2d_stdvec_prod(this->_reduced_inv_A, extended_y);
         this->_sum_of_x = 0;
         for (size_t i = 0; i < this->_x_s.size(); i++) {
             this->_sum_of_x += this->_x_s[i];

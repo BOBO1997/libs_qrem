@@ -13,6 +13,7 @@
 
 #include "eigen_utils.hpp"
 #include "hamming.hpp"
+#include "harger_higham.hpp"
 #include "qrem_filter.hpp"
 #include "sgs_algorithm.hpp"
 
@@ -31,7 +32,7 @@ namespace libs_qrem {
         // convert vector obj to Matrix obj
         this->_cal_matrices = vector<Matrix2d>(cal_matrices.size());
         for (size_t i = 0; i < cal_matrices.size(); i++) {
-            this->_cal_matrices[i] = vector2d_to_matrix2d(cal_matrices[i]);
+            this->_cal_matrices[i] = stdvec2d_to_matrixXd(cal_matrices[i]);
         }
         
         // inverse of each matrix
@@ -109,10 +110,10 @@ namespace libs_qrem {
         return index;
     }
 
-    void QREM_Filter::compute_reduced_A(vector<string>& indices_to_keys_vector) {
-        this->_reduced_A = vector< vector<double> >(indices_to_keys_vector.size(), vector<double>(indices_to_keys_vector.size(), 0));
-        for (size_t i = 0; i < indices_to_keys_vector.size(); i++) { // target
-            for (size_t j = 0; j < indices_to_keys_vector.size(); j++) { // source
+    void QREM_Filter::compute_reduced_A(size_t size) {
+        this->_reduced_A = vector< vector<double> >(size, vector<double>(size, 0));
+        for (size_t i = 0; i < size; i++) { // target
+            for (size_t j = 0; j < size; j++) { // source
                 double tensor_elem = 1;
                 for (size_t k = 0; k < this->_cal_matrices.size(); k++) {
                     int first_index = this->_indices_of_matrices[i][k]; // target
@@ -124,12 +125,11 @@ namespace libs_qrem {
         }
     }
 
-    void QREM_Filter::compute_reduced_inv_A(vector<string>& indices_to_keys_vector) {
-        this->_reduced_inv_A = vector< vector<double> >(indices_to_keys_vector.size(), vector<double>(indices_to_keys_vector.size(), 0));
-        this->_max_element = 0;
-        vector<double> abs_sum_of_rows(indices_to_keys_vector.size(), 0);
-        for (size_t i = 0; i < indices_to_keys_vector.size(); i++) { // target
-            for (size_t j = 0; j < indices_to_keys_vector.size(); j++) { // source
+    void QREM_Filter::compute_reduced_inv_A(size_t size) {
+        this->_reduced_inv_A = vector< vector<double> >(size, vector<double>(size, 0));
+        vector<double> abs_sum_of_rows(size, 0);
+        for (size_t i = 0; i < size; i++) { // target
+            for (size_t j = 0; j < size; j++) { // source
                 double tensor_elem = 1;
                 for (size_t k = 0; k < this->_pinv_matrices.size(); k++) {
                     int first_index = this->_indices_of_matrices[i][k]; // target
@@ -138,28 +138,14 @@ namespace libs_qrem {
                 }
                 this->_reduced_inv_A[i][j] = tensor_elem; // original: x[target] = A^-1[target][source] * y[source]
                 abs_sum_of_rows[i] += abs(tensor_elem);
-                if (tensor_elem > this->_max_element) {
-                    this->_max_element = tensor_elem;
-                }
             }
         }
-        this->_one_norm = 0;
-        for (size_t i = 0; i < abs_sum_of_rows.size(); i++) {
-            if (this->_one_norm < abs_sum_of_rows[i]) {
-                this->_one_norm = abs_sum_of_rows[i];
+        this->_exact_one_norm_of_reduced_inv_A = 0;
+        for (size_t i = 0; i < size; i++) {
+            if (this->_exact_one_norm_of_reduced_inv_A < abs_sum_of_rows[i]) {
+                this->_exact_one_norm_of_reduced_inv_A = abs_sum_of_rows[i];
             }
         }
-    }
-
-    vector<double> QREM_Filter::mat_vec_prod(vector< vector<double> > A, vector<double> y) {
-        // compute x = Ay
-        vector<double> x(y.size(), 0);
-        for (size_t i = 0; i < x.size(); i++) {
-            for (size_t j = 0; j < x.size(); j++) {
-                x[i] += A[i][j] * y[j];
-            }
-        }        
-        return x;
     }
 
     double QREM_Filter::mitigate_one_state(int target_index, 
@@ -253,5 +239,9 @@ namespace libs_qrem {
                 this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * this->_shots));
             }
         }
+    }
+
+    void QREM_Filter::iterative_one_norm_of_inv_reduced_A() {
+        this->_iterative_one_norm_of_inv_reduced_A = harger_higham_bicgstab(stdvec2d_to_matrixXd(this->_inv_reduced_A));
     }
 }

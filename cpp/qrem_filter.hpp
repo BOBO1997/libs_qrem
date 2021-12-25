@@ -40,9 +40,12 @@ namespace libs_qrem {
 
             int _shots;
             vector< vector<double> > _reduced_A;
-            vector< vector<double> > _reduced_inv_A;
-            double _max_element;
-            double _one_norm;
+            vector< vector<double> > _reduced_inv_A; // For proposed methods
+            vector< vector<double> > _inv_reduced_A; // For Nation et al.
+            double _exact_one_norm_of_reduced_inv_A; // For proposed methods
+            double _exact_one_norm_of_inv_reduced_A; // For Nation et al.
+
+            double _iterative_one_norm_of_inv_reduced_A; // For Nation et al.
 
             vector<int> _qubits_to_clbits;
             vector< vector<int> > _poses_clbits;
@@ -67,11 +70,9 @@ namespace libs_qrem {
             int index_of_matrix(string state, 
                                 vector<int>& pos_clbits);
 
-            void compute_reduced_A(vector<string>& indices_to_keys_vector);
+            void compute_reduced_A(size_t size);
 
-            void compute_reduced_inv_A(vector<string>& indices_to_keys_vector);
-
-            vector<double> mat_vec_prod(vector< vector<double> > A, vector<double> y);
+            void compute_reduced_inv_A(size_t size);
 
             double mitigate_one_state(int target_index, 
                                       vector<double>& extended_hist, 
@@ -90,6 +91,8 @@ namespace libs_qrem {
                                       int d);
 
             void recover_histogram();
+
+            void iterative_one_norm_of_inv_reduced_A();
 
             virtual void apply(map<string, int> hist,
                                int d,

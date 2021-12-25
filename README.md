@@ -43,7 +43,7 @@ python3 setup.py build_ext --inplace
 
 - clean
 ```sh
-rm -r dist/ build/ libs_qrem.egg-info/ libs_qrem.cpython-38-darwin.so libs_qrem/*cpp
+rm -r dist/ build/ libs_qrem.egg-info/ libs_qrem.cpython-38-darwin.so libs_qrem/*.cpp
 ```
 
 # Usage

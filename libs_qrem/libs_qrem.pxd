@@ -17,9 +17,14 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         vector[double] _x_s
         vector[double] _x_hat
         vector[double] _x_tilde
-        double _one_norm
+
         vector[vector[double]] _reduced_A
-        vector[vector[double]] _reduced_inv_A
+        vector[vector[double]] _reduced_inv_A #  For proposed methods
+        vector[vector[double]] _inv_reduced_A #  For Nation et al.
+        double _exact_one_norm_of_reduced_inv_A #  For proposed methods
+        double _exact_one_norm_of_inv_reduced_A #  For Nation et al.
+        double _iterative_one_norm_of_inv_reduced_A #  For Nation et al.
+
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 
@@ -27,7 +32,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
                           vector[vector[vector[double]]] cal_matrices,
                           vector[vector[int]] mit_pattern,
                           vector[int] meas_layout)
-        void compute_reduced_A(vector[string]& indices_to_keys_vector)
+        void compute_reduced_A(int size)
         void apply(map[string, int] hist,
                    int d,
                    double threshold)

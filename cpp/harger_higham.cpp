@@ -32,7 +32,7 @@ namespace libs_qrem {
         return make_pair(max_val, arg_max);
     }
 
-    double harger_higham_lu(Matrix2d A) {
+    double harger_higham_lu(MatrixXd A) {
         int n = A.rows();
         VectorXd e = VectorXd::Constant(n, 1 / (double)n);
         PartialPivLU<MatrixXd> solver(A), solver_T(A.transpose());
@@ -72,7 +72,7 @@ namespace libs_qrem {
         return gamma;
     }
     
-    double harger_higham_bicgstab(Matrix2d A) {
+    double harger_higham_bicgstab(MatrixXd A) {
         int n = A.rows();
         VectorXd e = VectorXd::Constant(n, 1 / (double)n);
         BiCGSTAB<MatrixXd> solver(A), solver_T(A.transpose());
