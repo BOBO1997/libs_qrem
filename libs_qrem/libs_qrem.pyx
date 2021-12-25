@@ -9,7 +9,7 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 
 include "expectations.pyx"
-include "qrem_filter_1.pyx"
-include "qrem_filter_2.pyx"
-include "qrem_filter_3.pyx"
-include "qrem_filter_4.pyx"
+include "delta_filter.pyx"
+include "slsqp_filter.pyx"
+include "mooney_etal_filter.pyx"
+include "least_norm_filter.pyx"
