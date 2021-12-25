@@ -5,6 +5,9 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <Eigen/SVD>
+#include <Eigen/LU>
+#include <Eigen/IterativeLinearSolvers>
+#include <unsupported/Eigen/IterativeSolvers>
 #include <time.h>
 #include <algorithm>
 #include <chrono>
@@ -13,6 +16,7 @@
 #include "eigen_utils.hpp"
 #include "hamming.hpp"
 #include "sgs_algorithm.hpp"
+#include "harger_higham.hpp"
 #include "qrem_filter.hpp"
 #include "nation_etal_filter.hpp"
 
@@ -31,6 +35,9 @@ namespace libs_qrem {
                                   int d,
                                   double threshold) {
 
+        //! temporary
+        string method = "iterative";
+
         tp_now t_start = chrono::system_clock::now();
 
         /*------------ preprocess ------------*/
@@ -43,8 +50,20 @@ namespace libs_qrem {
 
         /*------------ inverse operation ------------*/
 
-        compute_reduced_inv_A(this->_indices_to_keys_vector.size());
-        this->_x_s = stdvec2d_stdvec_prod(this->_reduced_inv_A, extended_y);
+        this->compute_reduced_A(this->_indices_to_keys_vector.size());
+        normalize_cols(this->_reduced_A);
+        this->_iterative_one_norm_of_inv_reduced_A = harger_higham_bicgstab(stdvec2d_to_MatrixXd(this->_reduced_A));
+
+        if (method == "iterative") { // TODO
+            BiCGSTAB<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
+            VectorXd v = solver.solve(stdvec1d_to_VectorXd(extended_y));
+            this->_x_s = VectorXd_to_stdvec1d(v);
+        }
+        else { // TODO
+            PartialPivLU<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
+            VectorXd v = solver.solve(stdvec1d_to_VectorXd(extended_y));
+            this->_x_s = VectorXd_to_stdvec1d(v);
+        }
         this->_sum_of_x = 0;
         for (size_t i = 0; i < this->_x_s.size(); i++) {
             this->_sum_of_x += this->_x_s[i];
@@ -54,28 +73,13 @@ namespace libs_qrem {
         tp_now t_inv = chrono::system_clock::now();
         this->_durations.insert(make_pair("inverse", chrono::duration_cast<chrono::milliseconds>(t_inv - t_prep).count()));
 
-        /*------------ correction by least norm problem ------------*/
-
-        this->_x_hat = vector<double>(this->_x_s.size(), 0);
-        this->_sum_of_x_hat = 0;
-        double diff = (1.0 - this->_sum_of_x) / (double)this->_x_s.size();
-        for (size_t state_idx = 0; state_idx < this->_x_s.size(); state_idx++) {
-            this->_x_hat[state_idx] = this->_x_s[state_idx] + diff;
-            this->_sum_of_x_hat += this->_x_hat[state_idx];
-        }
-
-        // time for correction by delta
-        tp_now t_lnp = chrono::system_clock::now();
-        double dur_lnp = chrono::duration_cast<chrono::milliseconds>(t_lnp - t_inv).count();
-        this->_durations.insert(make_pair("least_norm", dur_lnp));
-
         /*------------ sgs algorithm ------------*/
 
         this->_x_tilde = sgs_algorithm(this->_x_hat, false);
 
         // time for sgs algorithm
         tp_now t_sgs = chrono::system_clock::now();
-        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_lnp).count()));
+        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_inv).count()));
 
         /*------------ recovering histogram ------------*/
 

@@ -8,8 +8,11 @@ using namespace Eigen;
 
 namespace libs_qrem {
 
-    Matrix2d stdvec2d_to_matrixXd(vector< vector<double> > data);
+    vector<double> VectorXd_to_stdvec1d(VectorXd data);
+    VectorXd stdvec1d_to_VectorXd(vector< double > data);
+    MatrixXd stdvec2d_to_MatrixXd(vector< vector<double> > data);
     vector<double> stdvec2d_stdvec_prod(vector< vector<double> >& A, vector<double>& y);
-    vector<double> matrixXd_stdvec_prod(MatrixXd& A, vector<double>& y);
+    vector<double> MatrixXd_stdvec_prod(MatrixXd& A, vector<double>& y);
+    void normalize_cols(vector< vector<double> >& A);
 
 }

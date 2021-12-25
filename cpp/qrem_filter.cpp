@@ -32,7 +32,7 @@ namespace libs_qrem {
         // convert vector obj to Matrix obj
         this->_cal_matrices = vector<Matrix2d>(cal_matrices.size());
         for (size_t i = 0; i < cal_matrices.size(); i++) {
-            this->_cal_matrices[i] = stdvec2d_to_matrixXd(cal_matrices[i]);
+            this->_cal_matrices[i] = stdvec2d_to_MatrixXd(cal_matrices[i]);
         }
         
         // inverse of each matrix
@@ -241,7 +241,4 @@ namespace libs_qrem {
         }
     }
 
-    void QREM_Filter::iterative_one_norm_of_inv_reduced_A() {
-        this->_iterative_one_norm_of_inv_reduced_A = harger_higham_bicgstab(stdvec2d_to_matrixXd(this->_inv_reduced_A));
-    }
 }

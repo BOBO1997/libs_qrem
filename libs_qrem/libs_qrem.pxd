@@ -57,6 +57,16 @@ cdef extern from "../cpp/slsqp_filter.hpp" namespace "libs_qrem":
                    int d,
                    double threshold)
 
+cdef extern from "../cpp/least_norm_filter.hpp" namespace "libs_qrem":
+    cdef cppclass Least_Norm_Filter(QREM_Filter):
+        Least_Norm_Filter(int num_clbits,
+                    vector[vector[vector[double]]] cal_matrices,
+                    vector[vector[int]] mit_pattern,
+                    vector[int] meas_layout)
+        void apply(map[string, int] hist,
+                   int d,
+                   double threshold)
+
 cdef extern from "../cpp/mooney_etal_filter.hpp" namespace "libs_qrem":
     cdef cppclass MooneyEtal_Filter(QREM_Filter):
         MooneyEtal_Filter(int num_clbits,
@@ -67,9 +77,9 @@ cdef extern from "../cpp/mooney_etal_filter.hpp" namespace "libs_qrem":
                    int d,
                    double threshold)
 
-cdef extern from "../cpp/least_norm_filter.hpp" namespace "libs_qrem":
-    cdef cppclass Least_Norm_Filter(QREM_Filter):
-        Least_Norm_Filter(int num_clbits,
+cdef extern from "../cpp/nation_etal_filter.hpp" namespace "libs_qrem":
+    cdef cppclass NationEtal_Filter(QREM_Filter):
+        NationEtal_Filter(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)

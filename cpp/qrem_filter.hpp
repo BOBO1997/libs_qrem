@@ -92,8 +92,6 @@ namespace libs_qrem {
 
             void recover_histogram();
 
-            void iterative_one_norm_of_inv_reduced_A();
-
             virtual void apply(map<string, int> hist,
                                int d,
                                double threshold) = 0;
