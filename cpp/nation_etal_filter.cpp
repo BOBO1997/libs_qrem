@@ -75,7 +75,7 @@ namespace libs_qrem {
 
         // time for sgs algorithm
         tp_now t_sgs = chrono::system_clock::now();
-        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_nlp).count()));
+        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_lnp).count()));
 
         /*------------ recovering histogram ------------*/
 
@@ -84,7 +84,7 @@ namespace libs_qrem {
         for (size_t i = 0; i < this->_indices_to_keys_vector.size(); i++) {
             if (this->_x_tilde[i] != 0) {
                 this->_sum_of_x_tilde += this->_x_tilde[i];
-                this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * shots));
+                this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * this->_shots));
             }
         }
 

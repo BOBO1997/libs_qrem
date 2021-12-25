@@ -28,8 +28,8 @@ namespace libs_qrem {
                                 QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
     void Delta_Filter::apply(map<string, int> hist, 
-                             int d = 0, 
-                             double threshold = 0.1) {
+                             int d, 
+                             double threshold) {
 
         tp_now t_start = chrono::system_clock::now();
 

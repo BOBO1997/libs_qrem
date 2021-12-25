@@ -41,10 +41,10 @@ pip uninstall libs_qrem
 python3 setup.py build_ext --inplace
 ```
 
-- clean (2 steps)
-
-1. `rm libs_qrem.cpython-38-darwin.so libs_qrem/*cpp`
-2. `rm -r dist/ build/ libs_qrem.egg-info/`
+- clean
+```sh
+rm -r dist/ build/ libs_qrem.egg-info/ libs_qrem.cpython-38-darwin.so libs_qrem/*cpp
+```
 
 # Usage
 
@@ -52,10 +52,11 @@ python3 setup.py build_ext --inplace
 
 There are 4 different classes that support 4 different QREM methods.
 
-1. `QREM_Filter_1`: Apply inverse matrix for the vector elements in subspace + correct the vector by adding a correction vector "delta" which is approximated through the solution of Lagrange multiplier + apply SGS algorithm.
-2. `QREM_Filter_2`: Apply inverse matrix for the vector elements in subspace + run `scipy.optimize.minimize` to find the closest vector that meets all elements are summed up to 1 + apply SGS algorithm.
-3. `QREM_Filter_3`: Method by [Mooney, White, Hill, Hollenberg, 2021](https://arxiv.org/abs/2101.08946) + apply SGS algorithm.
-4. `QREM_Filter_4`: Apply inverse matrix for the vector elements in subspace + apply the solution of least norm problem to compute the closest vector that meets all elements are summed up to 1 + apply SGS algorithm.
+1. `DeltaFilter`: Apply inverse matrix for the vector elements in subspace + correct the vector by adding a correction vector "delta" which is approximated through the solution of Lagrange multiplier + apply SGS algorithm.
+2. `SLSQPFilter`: Apply inverse matrix for the vector elements in subspace + run `scipy.optimize.minimize` to find the closest vector that meets all elements are summed up to 1 + apply SGS algorithm.
+3. `LeastNormFilter`: Apply inverse matrix for the vector elements in subspace + apply the solution of least norm problem to compute the closest vector that meets all elements are summed up to 1 + apply SGS algorithm.
+4. `MooneyEtalFilter`: Method by [Mooney, White, Hill, Hollenberg, 2021](https://arxiv.org/abs/2101.08946) + apply SGS algorithm.
+5. `NationEtalFilter`: Method by [Nation, Kang, Sundaresan, Gambetta, 2021](https://arxiv.org/abs/2108.12518) + apply SGS algorithm.
 
 where SGS algorithm is the algorithm proposed by [Smolin, Gambetta, Smith, 2012](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.108.070502).
 
@@ -63,10 +64,10 @@ where SGS algorithm is the algorithm proposed by [Smolin, Gambetta, Smith, 2012]
 
 Each QREM filter in `libs_qrem` takes the number of qubits and calibration matrices in the following way.
 ```py
-from libs_qrem import QREM_Filter_4
-meas_filter = QREM_Filter_4(n, meas_fitter.cal_matrices)
+from libs_qrem import LeastNormFilter
+meas_filter = LeastNormFilter(n, meas_fitter.cal_matrices)
 ```
-Giving a dictionary typed noisy probability distribution or noisy histogram to `QREM_Filter_4.apply()` method, it returns a mitigated probability distribution.
+Giving a dictionary typed noisy probability distribution or noisy histogram to `LeastNormFilter.apply()` method, it returns a mitigated probability distribution.
 ```py
 mitigated_hist = meas_filter.apply(noisy_hist)
 ```
@@ -93,8 +94,10 @@ from qiskit.ignis.mitigation.measurement import TensoredMeasFitter
 meas_fitter = TensoredMeasFitter(cal_results, mit_pattern=mit_pattern)
 
 # Create mitigator instance (corresponds to meas_fitter.filter in the tutorial code.)
-from libs_qrem import QREM_Filter_4
-meas_filter = QREM_Filter_4(n, meas_fitter.cal_matrices)
+# this is very similar to the usage of qiskit.ignis.mitigation modules 
+# meas_filter = meas_fitter.filter
+from libs_qrem import LeastNormFilter
+meas_filter = LeastNormFilter(n, meas_fitter.cal_matrices)
 
 # apply mitigation
 # Let `noisy_hist` be a dict variable representing a noisy histogram obtained from `.get_counts()` method in `qiskit.result.Result` instance.

@@ -12,7 +12,8 @@
 #include <chrono>
 #include <ctime>
 
-#include "../cpp/qrem_filter.hpp"
+#include "../cpp/delta_filter.hpp"
+#include "../cpp/least_norm_filter.hpp"
 // #include "../cpp/qrem_filter_mooney_etal.hpp"
 
 using namespace std;
@@ -42,23 +43,31 @@ int main() {
     meas_layout[0] = 0;
     meas_layout[1] = 1;
     meas_layout[2] = 2;
-    QREM_Filter qf(n, cal_matrices, mit_pattern, meas_layout);
+    Least_Norm_Filter qf(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter_MooneyEtal qf(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter qf;
     map<string, int> hist;
-    hist.insert(make_pair("000", 40));
-    hist.insert(make_pair("001", 10));
-    hist.insert(make_pair("010", 10));
-    hist.insert(make_pair("111", 40));
+    hist.insert(make_pair("000", 48));
+    hist.insert(make_pair("001",  5));
+    hist.insert(make_pair("010",  3));
+    hist.insert(make_pair("111", 44));
     vector<int> pos_clbits(2);
     pos_clbits[0] = 1;
     pos_clbits[1] = 3;
     //cout << qf.index_of_matrix("01101000", pos_clbits) << endl << endl;
-    qf.apply(hist, 0, 0.1);
+    qf.apply(hist);
     map<string, double> mitigated_hist = qf._mitigated_hist;
-    cout << "{";
+    cout << "mitigated hist = {";
     for (auto& item: mitigated_hist) {
         cout << "\"" << item.first << "\", " << item.second << endl;
     }
     cout << "}" << endl;
+
+    cout << "x_s = {";
+    for (auto& item: qf._x_s) {
+        cout << item << endl;
+    }
+    cout << "}" << endl;
+
+    cout << "shots: " << qf._shots << endl;
 }
