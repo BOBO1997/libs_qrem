@@ -22,12 +22,10 @@ using namespace Eigen;
 namespace libs_qrem {
 
      Delta_Filter::Delta_Filter(int num_clbits,
-                              vector< vector< vector<double> > > cal_matrices,
-                              vector< vector<int> > mit_pattern = vector< vector<int> >(0),
-                              vector<int> meas_layout = vector<int>(0)) : 
-                              QREM_Filter_Base(num_clbits, cal_matrices, mit_pattern, meas_layout) {
-        
-    };
+                                vector< vector< vector<double> > > cal_matrices,
+                                vector< vector<int> > mit_pattern = vector< vector<int> >(0),
+                                vector<int> meas_layout = vector<int>(0)) : 
+                                QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
     void Delta_Filter::apply(map<string, int> hist, 
                              int d = 0, 

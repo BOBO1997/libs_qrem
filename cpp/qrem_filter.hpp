@@ -59,7 +59,7 @@ namespace libs_qrem {
             vector<double> _x_tilde;
             map<string, double> _mitigated_hist;
 
-            QREM_Filter_Base(int num_clbits,
+            QREM_Filter(int num_clbits,
                         vector< vector< vector<double> > > cal_matrices,
                         vector< vector<int> > mit_pattern,
                         vector<int> meas_layout);

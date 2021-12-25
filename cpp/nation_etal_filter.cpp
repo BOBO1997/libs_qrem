@@ -25,9 +25,7 @@ namespace libs_qrem {
                               vector< vector< vector<double> > > cal_matrices,
                               vector< vector<int> > mit_pattern = vector< vector<int> >(0),
                               vector<int> meas_layout = vector<int>(0)) : 
-                              QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {
-        
-    };
+                              QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
     void NationEtal_Filter::apply(map<string, int> hist,
                                   int d,
