@@ -10,9 +10,11 @@ from libcpp.string cimport string
 
 # OK
 cdef class MooneyEtalFilter(BaseFilter):
+    cdef MooneyEtal_Filter* instance_ptr
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
-        self.ptr = new QREM_Filter_MooneyEtal(n, cal_matrices, mit_pattern, meas_layout)
+        self.instance_ptr = new MooneyEtal_Filter(n, cal_matrices, mit_pattern, meas_layout)
+        self.ptr = self.instance_ptr
     
     def __dealloc__(self):
         del self.ptr

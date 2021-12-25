@@ -14,18 +14,20 @@ include "vector_wrapper.pyx"
 
 # x
 cdef class SLSQPFilter(BaseFilter):
+    cdef SLSQP_Filter* instance_ptr
     cdef VectorDouble x_hat_vector
     cdef np.float64_t[:] x_hat_ndarray
     cdef np.float64_t[:] _x_hat
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
-        self.ptr = new QREM_Filter_Nlp(n, cal_matrices, mit_pattern, meas_layout)
+        self.instance_ptr = new SLSQP_Filter(n, cal_matrices, mit_pattern, meas_layout)
+        self.ptr = self.instance_ptr
         self.x_hat_vector = VectorDouble(1)
 
     def __dealloc__(self):
         del self.ptr
     
-    def apply(self, hist, d = 0, silent = True):
+    def apply(self, hist, d = 0, threshold = 0.1, silent = True):
         cdef str key
         cdef int value
         cdef map[string, int] cpp_hist
@@ -34,7 +36,7 @@ cdef class SLSQPFilter(BaseFilter):
             self.shots += <double>value
 
         # apply inverse
-        self.ptr.apply(cpp_hist, d)
+        self.ptr.apply(cpp_hist, d, threshold)
         self.x_hat_vector.vec = self.ptr._x_s
         self._x_s.vec = self.ptr._x_s
         
