@@ -8,8 +8,8 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 from libcpp cimport bool
 
-cdef extern from "../cpp/qrem_filter_delta.hpp" namespace "libs_qrem":
-    cdef cppclass QREM_Filter_Delta:
+cdef extern from "../cpp/delta_filter.hpp" namespace "libs_qrem":
+    cdef cppclass Delta_Filter:
         double _sum_of_x
         double _sum_of_x_hat
         double _sum_of_x_tilde
@@ -23,15 +23,15 @@ cdef extern from "../cpp/qrem_filter_delta.hpp" namespace "libs_qrem":
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 
-        QREM_Filter_Delta(int num_clbits,
+        Delta_Filter(int num_clbits,
                           vector[vector[vector[double]]] cal_matrices,
                           vector[vector[int]] mit_pattern,
                           vector[int] meas_layout)
         void compute_reduced_A(vector[string]& indices_to_keys_vector)
         void apply(map[string, int] hist, int d)
 
-cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
-    cdef cppclass QREM_Filter_Nlp:
+cdef extern from "../cpp/slsqp_filter.hpp" namespace "libs_qrem":
+    cdef cppclass SLSQP_Filter:
         double _sum_of_x
         double _sum_of_x_hat
         double _sum_of_x_tilde
@@ -45,15 +45,15 @@ cdef extern from "../cpp/qrem_filter_nlp.hpp" namespace "libs_qrem":
         vector[vector[double]] _reduced_inv_A
         vector[string] _indices_to_keys_vector
 
-        QREM_Filter_Nlp(int num_clbits,
+        SLSQP_Filter(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
         void compute_reduced_A(vector[string]& indices_to_keys_vector)
         void apply(map[string, int] hist, int d)
 
-cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
-    cdef cppclass QREM_Filter_MooneyEtal:
+cdef extern from "../cpp/mooney_etal_filter.hpp" namespace "libs_qrem":
+    cdef cppclass MooneyEtal_Filter:
         double _sum_of_x
         double _sum_of_x_hat
         double _sum_of_x_tilde
@@ -67,15 +67,15 @@ cdef extern from "../cpp/qrem_filter_mooney_etal.hpp" namespace "libs_qrem":
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 
-        QREM_Filter_MooneyEtal(int num_clbits,
+        MooneyEtal_Filter(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
         void compute_reduced_A(vector[string]& indices_to_keys_vector)
         void apply(map[string, int] hist, int d, double threshold)
 
-cdef extern from "../cpp/qrem_filter_lnp.hpp" namespace "libs_qrem":
-    cdef cppclass QREM_Filter_Lnp:
+cdef extern from "../cpp/least_norm_filter.hpp" namespace "libs_qrem":
+    cdef cppclass Least_Norm_Filter:
         double _sum_of_x
         double _sum_of_x_hat
         double _sum_of_x_tilde
@@ -89,7 +89,7 @@ cdef extern from "../cpp/qrem_filter_lnp.hpp" namespace "libs_qrem":
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 
-        QREM_Filter_Lnp(int num_clbits,
+        Least_Norm_Filter(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
