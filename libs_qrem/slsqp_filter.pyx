@@ -13,7 +13,7 @@ from libcpp.string cimport string
 include "vector_wrapper.pyx"
 
 # x
-cdef class SLSQPFilter(QREMFilter):
+cdef class SLSQPFilter(BaseFilter):
     cdef VectorDouble x_hat_vector
     cdef np.float64_t[:] x_hat_ndarray
     cdef np.float64_t[:] _x_hat

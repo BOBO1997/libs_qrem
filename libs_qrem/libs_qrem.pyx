@@ -9,6 +9,7 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 
 include "expectations.pyx"
+include "base_filter.pyx"
 include "delta_filter.pyx"
 include "slsqp_filter.pyx"
 include "mooney_etal_filter.pyx"

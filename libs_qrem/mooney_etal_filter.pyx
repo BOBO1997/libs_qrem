@@ -9,7 +9,7 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 
 # OK
-cdef class MooneyEtalFilter(QREMFilter):
+cdef class MooneyEtalFilter(BaseFilter):
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_MooneyEtal(n, cal_matrices, mit_pattern, meas_layout)

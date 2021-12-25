@@ -9,7 +9,7 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 
 # OK
-cdef class LeastNormFilter(QREMFilter):
+cdef class LeastNormFilter(BaseFilter):
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_Lnp(n, cal_matrices, mit_pattern, meas_layout)

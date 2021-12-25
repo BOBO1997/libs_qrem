@@ -9,7 +9,7 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 
 # OK
-cdef class QREMFilter:
+cdef class BaseFilter:
     cdef QREM_Filter* ptr
     cdef double expval, stddev
     cdef double shots

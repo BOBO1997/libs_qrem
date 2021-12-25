@@ -9,7 +9,7 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 
 # OK
-cdef class DeltaFilter(QREMFilter):
+cdef class DeltaFilter(BaseFilter):
 
     def __cinit__(self, n, cal_matrices, mit_pattern = [], meas_layout = []):
         self.ptr = new QREM_Filter_Delta(n, cal_matrices, mit_pattern, meas_layout)
