@@ -49,10 +49,9 @@ namespace libs_qrem {
             vector< vector<double> > _reduced_A;
             vector< vector<double> > _reduced_inv_A; // For proposed methods
             vector< vector<double> > _inv_reduced_A; // For Nation et al.
-            double _exact_one_norm_of_reduced_inv_A; // For proposed methods
-            double _exact_one_norm_of_inv_reduced_A; // For Nation et al.
-
-            double _iterative_one_norm_of_inv_reduced_A; // For Nation et al.
+            double _exact_one_norm_of_reduced_inv_A = -1; // For proposed methods
+            double _exact_one_norm_of_inv_reduced_A = -1; // For Nation et al.
+            double _iterative_one_norm_of_inv_reduced_A = -1; // For Nation et al.
 
             vector<int> _qubits_to_clbits;
             vector< vector<int> > _poses_clbits;
@@ -80,6 +79,10 @@ namespace libs_qrem {
             void compute_reduced_A(size_t size);
 
             void compute_reduced_inv_A(size_t size);
+
+            void exact_one_norm_of_inv_reduced_A();
+            void exact_one_norm_of_reduced_inv_A();
+            void iterative_one_norm_of_inv_reduced_A(string method = "iterative");
 
             double mitigate_one_state(int target_index, 
                                       vector<double>& extended_hist, 

@@ -44,12 +44,18 @@ cdef class BaseFilter:
         return matrix_to_ndarray(self.ptr._reduced_inv_A)
 
     def exact_one_norm_of_inv_reduced_A(self):
+        if self.ptr._exact_one_norm_of_inv_reduced_A < 0:
+            self.ptr.exact_one_norm_of_inv_reduced_A()
         return self.ptr._exact_one_norm_of_inv_reduced_A
 
     def exact_one_norm_of_reduced_inv_A(self):
+        if self.ptr._exact_one_norm_of_reduced_inv_A < 0:
+            self.ptr.exact_one_norm_of_reduced_inv_A()
         return self.ptr._exact_one_norm_of_reduced_inv_A
 
-    def iterative_one_norm_of_inv_reduced_A(self):
+    def iterative_one_norm_of_inv_reduced_A(self, method="iterative"):
+        if self.ptr._iterative_one_norm_of_inv_reduced_A < 0:
+            self.ptr.iterative_one_norm_of_inv_reduced_A(method.encode('utf-8'))
         return self.ptr._iterative_one_norm_of_inv_reduced_A
 
     def mitigated_hist(self):

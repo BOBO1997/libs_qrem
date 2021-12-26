@@ -35,6 +35,10 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         map[string, double] _mitigated_hist
         vector[string] _indices_to_keys_vector
 
+        void exact_one_norm_of_inv_reduced_A()
+        void exact_one_norm_of_reduced_inv_A()
+        void iterative_one_norm_of_inv_reduced_A(string method)
+
         QREM_Filter(int num_clbits,
                           vector[vector[vector[double]]] cal_matrices,
                           vector[vector[int]] mit_pattern,

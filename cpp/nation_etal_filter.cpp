@@ -51,7 +51,6 @@ namespace libs_qrem {
 
         this->compute_reduced_A(this->_indices_to_keys_vector.size());
         normalize_cols(this->_reduced_A);
-        this->_iterative_one_norm_of_inv_reduced_A = harger_higham_bicgstab(stdvec2d_to_MatrixXd(this->_reduced_A));
 
         if (method == "iterative" | method == "bicgstab") {
             BiCGSTAB<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));

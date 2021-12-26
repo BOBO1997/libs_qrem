@@ -148,6 +148,23 @@ namespace libs_qrem {
         }
     }
 
+    void QREM_Filter::exact_one_norm_of_inv_reduced_A() {
+        this->_exact_one_norm_of_inv_reduced_A = stdvec2d_to_MatrixXd(this->_reduced_A).inverse().lpNorm<1>();
+    }
+
+    void QREM_Filter::exact_one_norm_of_reduced_inv_A() {
+        this->compute_reduced_inv_A(this->_indices_to_keys_vector.size());
+    }
+
+    void QREM_Filter::iterative_one_norm_of_inv_reduced_A(string method) {
+        if (method == "iterative" | method == "bicgstab") {
+            this->_iterative_one_norm_of_inv_reduced_A = harger_higham_bicgstab(stdvec2d_to_MatrixXd(this->_reduced_A));
+        }
+        else {
+            this->_iterative_one_norm_of_inv_reduced_A = harger_higham_lu(stdvec2d_to_MatrixXd(this->_reduced_A));
+        }
+    }
+
     double QREM_Filter::mitigate_one_state(int target_index, 
                                            vector<double>& extended_hist, 
                                            vector<string>& indices_to_keys_vector) {
