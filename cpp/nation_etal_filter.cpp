@@ -53,7 +53,7 @@ namespace libs_qrem {
         normalize_cols(this->_reduced_A);
         this->_iterative_one_norm_of_inv_reduced_A = harger_higham_bicgstab(stdvec2d_to_MatrixXd(this->_reduced_A));
 
-        if (method == "iterative") {
+        if (method == "iterative" | method == "bicgstab") {
             BiCGSTAB<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
             VectorXd v = solver.solve(stdvec1d_to_VectorXd(extended_y));
             this->_x_s = VectorXd_to_stdvec1d(v);
