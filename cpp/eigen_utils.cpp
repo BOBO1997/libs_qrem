@@ -1,4 +1,5 @@
 #include <vector>
+#include <cmath>
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <Eigen/SVD>
@@ -62,4 +63,68 @@ namespace libs_qrem {
         }
     }
 
+
+    double compute_one_norm_of_MatrixXd(MatrixXd matrix) {
+        double one_norm = 0;
+        for (int j = 0; j < matrix.cols(); j++) {
+            double col_sum = 0;
+            for (int i = 0; i < matrix.rows(); i++) {
+                col_sum += abs(matrix(i, j));
+            }
+            if (one_norm < col_sum) {
+                one_norm = col_sum;
+            }
+        }
+        return one_norm;
+    }
+
+    double compute_one_norm_of_stdvec2d(vector< vector<double> > matrix) {
+        double one_norm = 0;
+        for (int j = 0; j < matrix.cols(); j++) {
+            double col_sum = 0;
+            for (int i = 0; i < matrix.rows(); i++) {
+                col_sum += abs(matrix[i][j]));
+            }
+            if (one_norm < col_sum) {
+                one_norm = col_sum;
+            }
+        }
+        return one_norm;
+    }
+
+    double compute_one_norm_of_VectorXd(VectorXd vec) {
+        double col_sum = 0;
+        for (int i = 0; i < vec.size(); i++) {
+            col_sum += abs(vec(i));
+        }
+        return col_sum;
+    }
+
+    double compute_one_norm_of_stdvec1d(vector<double> vec) {
+        double col_sum = 0;
+        for (int i = 0; i < vec.size(); i++) {
+            col_sum += abs(vec[i]);
+        }
+        return col_sum;
+    }
+
+    double compute_infty_norm_of_VectorXd(VectorXd vec) {
+        double col_max = 0;
+        for (int i = 0; i < vec.size(); i++) {
+            if (col_max < abs(vec(i))) {
+                col_max = abs(vec(i));
+            }
+        }
+        return col_max;
+    }
+
+    double compute_infty_norm_of_stdvec1d(vector<double> vec) {
+        double col_max = 0;
+        for (int i = 0; i < vec.size(); i++) {
+            if (col_max < abs(vec[i])) {
+                col_max = abs(vec[i]);
+            }
+        }
+        return col_max;
+    }
 }

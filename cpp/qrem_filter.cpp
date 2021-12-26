@@ -149,7 +149,8 @@ namespace libs_qrem {
     }
 
     void QREM_Filter::exact_one_norm_of_inv_reduced_A() {
-        this->_exact_one_norm_of_inv_reduced_A = stdvec2d_to_MatrixXd(this->_reduced_A).inverse().lpNorm<1>();
+        // this->_exact_one_norm_of_inv_reduced_A = stdvec2d_to_MatrixXd(this->_reduced_A).inverse().lpNorm<1>();
+        this->_exact_one_norm_of_inv_reduced_A = compute_one_norm_of_MatrixXd(stdvec2d_to_MatrixXd(this->_reduced_A).inverse());
     }
 
     void QREM_Filter::exact_one_norm_of_reduced_inv_A() {

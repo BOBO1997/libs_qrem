@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include <Eigen/Dense>
 #include <Eigen/Core>
 
@@ -12,6 +13,20 @@ Matrix2d ConvertToEigenMatrix(vector< vector<double> > data) {
     for (int i = 0; i < data.size(); ++i)
         eMatrix.row(i) = VectorXd::Map(&data[i][0], data[0].size());
     return eMatrix;
+}
+
+double compute_one_norm_of_matrix(MatrixXd mat2d) {
+	double one_norm = 0;
+	for (int j = 0; j < mat2d.cols(); j++) {
+		double col_sum = 0;
+		for (int i = 0; i < mat2d.rows(); i++) {
+			col_sum += abs(mat2d(i, j));
+		}
+		if (one_norm < col_sum) {
+			one_norm = col_sum;
+		}
+	}
+	return one_norm;
 }
 
 int main() {
@@ -43,5 +58,14 @@ int main() {
 	// for (int i = 0; i < 2; i++) {
 	// }
 	cout << mat2d << endl;
+	cout << mat2d.inverse() << endl;
+	cout << mat2d.inverse().lpNorm<1>() << endl;
+	cout << compute_one_norm_of_matrix(mat2d.inverse()) << endl;
+	cout << mat2d.inverse().col(0) << endl;
+	cout << mat2d.inverse().col(0).lpNorm<1>() << endl;
+	cout << mat2d.inverse().col(0).lpNorm<Infinity>() << endl;
+	cout << mat2d.inverse().col(1) << endl;
+	cout << mat2d.inverse().col(1).lpNorm<1>() << endl;
+	cout << mat2d.inverse().col(1).lpNorm<Infinity>() << endl;
 }	
 

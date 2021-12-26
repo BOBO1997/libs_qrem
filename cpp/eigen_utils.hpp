@@ -14,5 +14,11 @@ namespace libs_qrem {
     vector<double> stdvec2d_stdvec_prod(vector< vector<double> >& A, vector<double>& y);
     vector<double> MatrixXd_stdvec_prod(MatrixXd& A, vector<double>& y);
     void normalize_cols(vector< vector<double> >& A);
+    double compute_one_norm_of_MatrixXd(MatrixXd matrix);
+    double compute_one_norm_of_stdvec2d(vector<double> matrix);
+    double compute_one_norm_of_VectorXd(VectorXd vec);
+    double compute_one_norm_of_stdvec1d(vector<double> vec);
+    double compute_infty_norm_of_VectorXd(VectorXd vec);
+    double compute_infty_norm_of_stdvec1d(vector<double> vec);
 
 }

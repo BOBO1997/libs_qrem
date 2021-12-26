@@ -99,7 +99,7 @@ cdef class BaseFilter:
         if self.method == "delta" or self.method == "SLSQP" or self.method == "least norm":
             return self.exact_one_norm_of_reduced_inv_A() / np.sqrt(self.shots)
         elif self.method == "Nation et al.":
-            if norm_type == "exact":
+            if norm_type == "exact" or norm_type == "direct":
                 return self.exact_one_norm_of_inv_reduced_A() / np.sqrt(self.shots)
             else:
                 return self.iterative_one_norm_of_inv_reduced_A() / np.sqrt(self.shots)

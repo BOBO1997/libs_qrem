@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "harger_higham.hpp"
+#include "eigen_utils.hpp"
 
 using namespace std;
 using namespace Eigen;
