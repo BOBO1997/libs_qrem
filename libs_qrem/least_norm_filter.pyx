@@ -25,7 +25,10 @@ cdef class LeastNormFilter(BaseFilter):
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
             self.shots += <double>value
-        self.ptr.apply(cpp_hist, d, threshold)
+        cdef Args args
+        args.hist = cpp_hist
+        args.d = d
+        self.ptr.apply(args)
         if not silent:
             print("mitigation finished")
             for item in self.ptr._durations:

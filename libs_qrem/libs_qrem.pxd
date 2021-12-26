@@ -9,6 +9,13 @@ from libcpp.string cimport string
 from libcpp cimport bool
 
 cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
+
+    cdef cppclass Args:
+        map[string, int] hist
+        int d
+        double threshold
+        string method
+
     cdef cppclass QREM_Filter:
         double _sum_of_x
         double _sum_of_x_hat
@@ -33,9 +40,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
                           vector[vector[int]] mit_pattern,
                           vector[int] meas_layout)
         void compute_reduced_A(int size)
-        void apply(map[string, int] hist,
-                   int d,
-                   double threshold)
+        void apply(Args args)
 
 cdef extern from "../cpp/delta_filter.hpp" namespace "libs_qrem":
     cdef cppclass Delta_Filter(QREM_Filter):
@@ -43,9 +48,7 @@ cdef extern from "../cpp/delta_filter.hpp" namespace "libs_qrem":
                           vector[vector[vector[double]]] cal_matrices,
                           vector[vector[int]] mit_pattern,
                           vector[int] meas_layout)
-        void apply(map[string, int] hist,
-                   int d,
-                   double threshold)
+        void apply(Args args)
 
 cdef extern from "../cpp/slsqp_filter.hpp" namespace "libs_qrem":
     cdef cppclass SLSQP_Filter(QREM_Filter):
@@ -53,9 +56,7 @@ cdef extern from "../cpp/slsqp_filter.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
-        void apply(map[string, int] hist,
-                   int d,
-                   double threshold)
+        void apply(Args args)
 
 cdef extern from "../cpp/least_norm_filter.hpp" namespace "libs_qrem":
     cdef cppclass Least_Norm_Filter(QREM_Filter):
@@ -63,9 +64,7 @@ cdef extern from "../cpp/least_norm_filter.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
-        void apply(map[string, int] hist,
-                   int d,
-                   double threshold)
+        void apply(Args args)
 
 cdef extern from "../cpp/mooney_etal_filter.hpp" namespace "libs_qrem":
     cdef cppclass MooneyEtal_Filter(QREM_Filter):
@@ -73,9 +72,7 @@ cdef extern from "../cpp/mooney_etal_filter.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
-        void apply(map[string, int] hist,
-                   int d,
-                   double threshold)
+        void apply(Args args)
 
 cdef extern from "../cpp/nation_etal_filter.hpp" namespace "libs_qrem":
     cdef cppclass NationEtal_Filter(QREM_Filter):
@@ -83,9 +80,7 @@ cdef extern from "../cpp/nation_etal_filter.hpp" namespace "libs_qrem":
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,
                     vector[int] meas_layout)
-        void apply(map[string, int] hist,
-                   int d,
-                   double threshold)
+        void apply(Args args)
 
 cdef extern from "../cpp/sgs_algorithm.hpp" namespace "libs_qrem":
     cdef vector[double] sgs_algorithm(vector[double], bool make_sum_to_one)

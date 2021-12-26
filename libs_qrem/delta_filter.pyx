@@ -20,12 +20,15 @@ cdef class DeltaFilter(BaseFilter):
     def __dealloc__(self):
         del self.ptr
     
-    def apply(self, hist, d = 0, threshold = 0.1, silent = True):
+    def apply(self, hist, d = 0, silent = True):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
             self.shots += <double>value
-        self.ptr.apply(cpp_hist, d, threshold)
+        cdef Args args
+        args.hist = cpp_hist
+        args.d = d
+        self.ptr.apply(args)
         if not silent:
             print("mitigation finished")
             for item in self.ptr._durations:

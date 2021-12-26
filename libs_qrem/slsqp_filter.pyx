@@ -36,8 +36,11 @@ cdef class SLSQPFilter(BaseFilter):
             cpp_hist[key.encode('utf-8')] = value
             self.shots += <double>value
 
+        cdef Args args
+        args.hist = cpp_hist
+        args.d = d
         # apply inverse
-        self.ptr.apply(cpp_hist, d, threshold)
+        self.ptr.apply(args)
         self.x_hat_vector.vec = self.ptr._x_s
         
         cdef int vec_size = self.ptr._indices_to_keys_vector.size()

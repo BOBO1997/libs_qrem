@@ -49,7 +49,6 @@ namespace libs_qrem {
     void MooneyEtal_Filter::apply(Args args) {
         
         map<string, int> hist = args.hist;
-        int d = args.d;
         double threshold = args.threshold;
 
         int shots = 0;
