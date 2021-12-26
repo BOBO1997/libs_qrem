@@ -3,6 +3,7 @@
 #include <Eigen/Dense>
 #include <Eigen/IterativeLinearSolvers>
 #include <unsupported/Eigen/IterativeSolvers>
+#include <iostream>
 
 #include "harger_higham.hpp"
 
@@ -62,7 +63,7 @@ namespace libs_qrem {
             }
         }
         for (int i = 1; i < x.size() + 1; i++) {
-            x(i) = (double)pow(-1, i + 1) * (1 + (double)(i - 1) / (double)(n - 1));
+            x(i - 1) = (double)pow(-1, i + 1) * (1 + (double)(i - 1) / (double)(n - 1));
         }
         x = solver.solve(x);
         if (2 * x.lpNorm<1>() / (double)(3 * n) > gamma) {
@@ -102,7 +103,7 @@ namespace libs_qrem {
             }
         }
         for (int i = 1; i < x.size() + 1; i++) {
-            x(i) = (double)pow(-1, i + 1) * (1 + (double)(i - 1) / (double)(n - 1));
+            x(i - 1) = (double)pow(-1, i + 1) * (1 + (double)(i - 1) / (double)(n - 1));
         }
         x = solver.solve(x);
         if (2 * x.lpNorm<1>() / (double)(3 * n) > gamma) {

@@ -54,12 +54,12 @@ namespace libs_qrem {
         normalize_cols(this->_reduced_A);
         this->_iterative_one_norm_of_inv_reduced_A = harger_higham_bicgstab(stdvec2d_to_MatrixXd(this->_reduced_A));
 
-        if (method == "iterative") { // TODO
+        if (method == "iterative") {
             BiCGSTAB<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
             VectorXd v = solver.solve(stdvec1d_to_VectorXd(extended_y));
             this->_x_s = VectorXd_to_stdvec1d(v);
         }
-        else { // TODO
+        else {
             PartialPivLU<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
             VectorXd v = solver.solve(stdvec1d_to_VectorXd(extended_y));
             this->_x_s = VectorXd_to_stdvec1d(v);
@@ -75,7 +75,7 @@ namespace libs_qrem {
 
         /*------------ sgs algorithm ------------*/
 
-        this->_x_tilde = sgs_algorithm(this->_x_hat, false);
+        this->_x_tilde = sgs_algorithm(this->_x_s, false);
 
         // time for sgs algorithm
         tp_now t_sgs = chrono::system_clock::now();

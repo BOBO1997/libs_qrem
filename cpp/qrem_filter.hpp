@@ -93,8 +93,8 @@ namespace libs_qrem {
             void recover_histogram();
 
             virtual void apply(map<string, int> hist,
-                               int d,
-                               double threshold) = 0;
+                               int d = 0,
+                               double threshold = 0.1) = 0;
 
     };
 }
