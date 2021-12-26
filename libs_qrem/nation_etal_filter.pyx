@@ -1,3 +1,4 @@
+import sys
 import cython
 import numpy as np
 cimport numpy as np
@@ -28,7 +29,11 @@ cdef class NationEtalFilter(BaseFilter):
         cdef Args args
         args.hist = cpp_hist
         args.d = d
-        args.method = method.encode('utf-8')
+        if method == "bicgstab" or method == "iterative" or method == "lu" or method == "exact" or method == "direct":
+            args.method = method.encode('utf-8')
+        else:
+            raise Exception("No such method: " + method)
+            sys.exit(1)
         self.ptr.apply(args)
         if not silent:
             print("mitigation finished")
