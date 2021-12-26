@@ -82,7 +82,7 @@ Each class inherits the base class `BaseFilter` which has the following methods 
     - `indices_to_keys_vector()`: returns a `list` with `str` elements
     - `times()`: returns a `dict` with `str` keys and `double` values
     - `expval()`: returns a `double` value
-    - `mitigation_overhead(norm_type = "exact")`: returns a `double` value
+    - `mitigation_stddev(norm_type = "exact")`: returns a `double` value
 
 ## Examples
 

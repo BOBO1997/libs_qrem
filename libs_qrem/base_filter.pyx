@@ -89,7 +89,7 @@ cdef class BaseFilter:
         expval /= self.shots
         return expval
 
-    def mitigation_overhead(self, norm_type = "exact"):
+    def mitigation_stddev(self, norm_type = "exact"):
         if self.method == "delta" or self.method == "SLSQP" or self.method == "least norm":
             return self.exact_one_norm_of_reduced_inv_A() / np.sqrt(self.shots)
         elif self.method == "Nation et al.":
@@ -98,4 +98,4 @@ cdef class BaseFilter:
             else:
                 return self.iterative_one_norm_of_inv_reduced_A() / np.sqrt(self.shots)
         elif self.method == "Mooney et al.":
-            print("Cannot compute mitigation overhead.")
+            print("Cannot compute the standard deviation of mitigation.")
