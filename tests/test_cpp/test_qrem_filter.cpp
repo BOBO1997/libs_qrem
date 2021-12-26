@@ -61,4 +61,8 @@ int main() {
     cout << "}" << endl;
 
     cout << "shots: " << qf->_shots << endl;
+
+    cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;
+    qf->iterative_one_norm_of_inv_reduced_A();
+    cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;
 }
