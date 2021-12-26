@@ -28,7 +28,7 @@ cdef class SLSQPFilter(BaseFilter):
     def __dealloc__(self):
         del self.ptr
     
-    def apply(self, hist, d = 0, threshold = 0.1, silent = True):
+    def apply(self, hist, d = 0, silent = True):
         cdef str key
         cdef int value
         cdef map[string, int] cpp_hist

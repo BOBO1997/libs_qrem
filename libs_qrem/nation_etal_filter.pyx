@@ -20,7 +20,7 @@ cdef class NationEtalFilter(BaseFilter):
     def __dealloc__(self):
         del self.ptr
     
-    def apply(self, hist, d = 0, threshold = 0.1, method = "iterative", silent = True):
+    def apply(self, hist, d = 0, method = "iterative", silent = True):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
