@@ -60,24 +60,29 @@ There are 4 different classes that support 4 different QREM methods.
 
 where SGS algorithm is the algorithm proposed by [Smolin, Gambetta, Smith, 2012](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.108.070502).
 
-Each class inherits the base class `BaseFilter` which has the following methods.
-- `sum_of_x()`: returns a `double` value
-- `sum_of_x_hat()`: returns a `double` value
-- `sum_of_x_tilde()`: returns a `double` value
-- `reduced_A()`: returns a `list` of `list` with `double` elements
-- `normalized_reduced_A()`: returns a `list` of `list` with `double` elements
-- `reduced_inv_A()`: returns a `list` of `list` with `double` elements
-- `exact_one_norm_of_inv_reduced_A()`: returns a `double` value
-- `exact_one_norm_of_reduced_inv_A()`: returns a `double` value
-- `exact_one_norm_of_inv_reduced_A()`: returns a `double` value
-- `mitigated_hist()`: returns a `dict` with `str` keys and `double` values
-- `x_s()`: returns a `list` with `double` elements
-- `x_hat()`: returns a `list` with `double` elements
-- `x_tilde()`: returns a `list` with `double` elements
-- `indices_to_keys_vector()`: returns a `list` with `str` elements
-- `times()`: returns a `dict` with `str` keys and `double` values
-- `expval()`: returns a `double` value
-- `mitigation_overhead(norm_type = "exact")`: returns a `double` value
+Each class inherits the base class `BaseFilter` which has the following methods in order to get access to the internal information.
+
+- Matrices
+    - `reduced_A()`: returns a `list` of `list` with `double` elements
+    - `normalized_reduced_A()`: returns a `list` of `list` with `double` elements
+    - `reduced_inv_A()`: returns a `list` of `list` with `double` elements
+    - `exact_one_norm_of_inv_reduced_A()`: returns a `double` value
+    - `iterative_one_norm_of_inv_reduced_A()`: returns a `double` value
+    - `exact_one_norm_of_reduced_inv_A()`: returns a `double` value
+- Mitigated vectors and vectors under the procedure
+    - `mitigated_hist()`: returns a `dict` with `str` keys and `double` values
+    - `x_s()`: returns a `list` with `double` elements
+    - `x_hat()`: returns a `list` with `double` elements
+    - `x_tilde()`: returns a `list` with `double` elements
+- Sum of vectors
+    - `sum_of_x()`: returns a `double` value
+    - `sum_of_x_hat()`: returns a `double` value
+    - `sum_of_x_tilde()`: returns a `double` value
+- Other information
+    - `indices_to_keys_vector()`: returns a `list` with `str` elements
+    - `times()`: returns a `dict` with `str` keys and `double` values
+    - `expval()`: returns a `double` value
+    - `mitigation_overhead(norm_type = "exact")`: returns a `double` value
 
 ## Examples
 
