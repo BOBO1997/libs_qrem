@@ -46,9 +46,12 @@ namespace libs_qrem {
         return state_idx;
     }
 
-    void MooneyEtal_Filter::apply(map<string, int> hist,
-                                    int d,
-                                    double threshold) {
+    void MooneyEtal_Filter::apply(Args args) {
+        
+        map<string, int> hist = args.hist;
+        int d = args.d;
+        double threshold = args.threshold;
+
         int shots = 0;
         for (const auto& item: hist) {
             shots += item.second;

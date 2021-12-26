@@ -17,6 +17,13 @@ namespace libs_qrem {
 
     typedef chrono::system_clock::time_point tp_now;
 
+    struct Args {
+        map<string, int> hist;
+        int d;
+        double threshold;
+        string method;
+    };
+
     /*
     The base class of all qrem filters
     */
@@ -92,9 +99,7 @@ namespace libs_qrem {
 
             void recover_histogram();
 
-            virtual void apply(map<string, int> hist,
-                               int d = 0,
-                               double threshold = 0.1) = 0;
+            virtual void apply(Args args) = 0;
 
     };
 }

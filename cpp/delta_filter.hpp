@@ -22,8 +22,6 @@ namespace libs_qrem {
                               vector< vector<int> > mit_pattern,
                               vector<int> meas_layout);
 
-            virtual void apply(map<string, int> hist, 
-                               int d = 0, 
-                               double threshold = 0.1);
+            virtual void apply(Args args);
     };
 }

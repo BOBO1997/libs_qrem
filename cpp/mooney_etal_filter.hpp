@@ -26,8 +26,6 @@ namespace libs_qrem {
 
             int flip_state(int state, int mat_idx, vector<int>& flip_poses);
 
-            virtual void apply(map<string, int> hist, 
-                               int d = 0, 
-                               double threshold = 0.1);
+            virtual void apply(Args args);
     };
 }

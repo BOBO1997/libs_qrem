@@ -12,11 +12,11 @@
 #include <chrono>
 #include <ctime>
 
-#include "../cpp/qrem_filter.hpp"
-#include "../cpp/delta_filter.hpp"
-#include "../cpp/least_norm_filter.hpp"
-#include "../cpp/mooney_etal_filter.hpp"
-#include "../cpp/nation_etal_filter.hpp"
+#include "../../cpp/qrem_filter.hpp"
+#include "../../cpp/delta_filter.hpp"
+#include "../../cpp/least_norm_filter.hpp"
+#include "../../cpp/mooney_etal_filter.hpp"
+#include "../../cpp/nation_etal_filter.hpp"
 #include "./dummy_data.hpp"
 
 using namespace std;
@@ -39,7 +39,13 @@ int main() {
 
     map<string, int> hist = make_hist();
 
-    qf->apply(hist);
+    Args args;
+    args.hist = hist;
+    args.d = 0;
+    args.method = "lu";
+    // args.method = "iterative";
+
+    qf->apply(args);
     
     map<string, double> mitigated_hist = qf->_mitigated_hist;
     cout << "mitigated hist = {";

@@ -26,9 +26,10 @@ namespace libs_qrem {
                               vector<int> meas_layout = vector<int>(0)) :
                               QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
-    void SLSQP_Filter::apply(map<string, int> hist,
-                             int d,
-                             double threshold) {
+    void SLSQP_Filter::apply(Args args) {
+        
+        map<string, int> hist = args.hist;
+        int d = args.d;
 
         chrono::system_clock::time_point t_start = chrono::system_clock::now();
 
