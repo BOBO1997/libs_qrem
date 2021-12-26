@@ -31,7 +31,23 @@ pprint("others")
 pprint(delta_mitigator.indices_to_keys_vector()[:10])
 pprint(delta_mitigator.times())
 pprint(delta_mitigator.expval())
-pprint(delta_mitigator.mitigation_overhead())
+pprint(delta_mitigator.mitigation_stddev())
+
+dct = {"exact_one_norm_of_reduced_inv_A": delta_mitigator.exact_one_norm_of_reduced_inv_A(),
+       "mitigated_hist": delta_mitigator.mitigated_hist(),
+       "x_s": delta_mitigator.x_s(),
+       "x_hat": delta_mitigator.x_hat(),
+       "x_tilde": delta_mitigator.x_tilde(),
+       "sum_of_x": delta_mitigator.sum_of_x(),
+       "sum_of_x_hat": delta_mitigator.sum_of_x_hat(),
+       "sum_of_x_tilde": delta_mitigator.sum_of_x_tilde(),
+       "indices_to_keys_vector": delta_mitigator.indices_to_keys_vector(),
+       "times": delta_mitigator.times(),
+       "expval": delta_mitigator.expval(),
+       "mitigation_stddev": delta_mitigator.mitigation_stddev(norm_type="exact"),
+       }
+
+pprint(dct)
 
 """
 print("proposed (slsqp)")
@@ -51,7 +67,7 @@ pprint(slsqp_mitigator.x_tilde()[:10])
 pprint(slsqp_mitigator.indices_to_keys_vector()[:10])
 pprint(slsqp_mitigator.times())
 pprint(slsqp_mitigator.expval())
-pprint(slsqp_mitigator.mitigation_overhead())
+pprint(slsqp_mitigator.mitigation_stddev())
 
 
 print("proposed (least norm)")
@@ -71,7 +87,7 @@ pprint(lnp_mitigator.x_tilde()[:10])
 pprint(lnp_mitigator.indices_to_keys_vector()[:10])
 pprint(lnp_mitigator.times())
 pprint(lnp_mitigator.expval())
-pprint(lnp_mitigator.mitigation_overhead())
+pprint(lnp_mitigator.mitigation_stddev())
 
 
 print("Mooney et al.")
@@ -91,7 +107,7 @@ pprint(mooney_mitigator.x_tilde()[:10])
 pprint(mooney_mitigator.indices_to_keys_vector()[:10])
 pprint(mooney_mitigator.times())
 pprint(mooney_mitigator.expval())
-pprint(mooney_mitigator.mitigation_overhead())
+pprint(mooney_mitigator.mitigation_stddev())
 
 print("Nation et al.")
 nation_hist = nation_mitigator.apply(hist)
@@ -110,5 +126,5 @@ pprint(nation_mitigator.x_tilde()[:10])
 pprint(nation_mitigator.indices_to_keys_vector()[:10])
 pprint(nation_mitigator.times())
 pprint(nation_mitigator.expval())
-pprint(nation_mitigator.mitigation_overhead())
+pprint(nation_mitigator.mitigation_stddev())
 """
