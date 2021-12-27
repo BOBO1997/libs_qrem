@@ -33,98 +33,20 @@ pprint(delta_mitigator.times())
 pprint(delta_mitigator.expval())
 pprint(delta_mitigator.mitigation_stddev())
 
-dct = {"exact_one_norm_of_reduced_inv_A": delta_mitigator.exact_one_norm_of_reduced_inv_A(),
-       "mitigated_hist": delta_mitigator.mitigated_hist(),
-       "x_s": delta_mitigator.x_s(),
-       "x_hat": delta_mitigator.x_hat(),
-       "x_tilde": delta_mitigator.x_tilde(),
+dct = {# "exact_one_norm_of_reduced_inv_A": delta_mitigator.exact_one_norm_of_reduced_inv_A(),
+       "mitigated_hist": list(delta_mitigator.mitigated_hist().keys())[:10],
+       "x_s": delta_mitigator.x_s()[:10],
+       "x_hat": delta_mitigator.x_hat()[:10],
+       "x_tilde": delta_mitigator.x_tilde()[:10],
        "sum_of_x": delta_mitigator.sum_of_x(),
-       "sum_of_x_hat": delta_mitigator.sum_of_x_hat(),
-       "sum_of_x_tilde": delta_mitigator.sum_of_x_tilde(),
-       "indices_to_keys_vector": delta_mitigator.indices_to_keys_vector(),
-       "times": delta_mitigator.times(),
-       "expval": delta_mitigator.expval(),
-       "mitigation_stddev": delta_mitigator.mitigation_stddev(norm_type="exact"),
+       # "sum_of_x_hat": delta_mitigator.sum_of_x_hat(),
+       # "sum_of_x_tilde": delta_mitigator.sum_of_x_tilde(),
+       # "indices_to_keys_vector": delta_mitigator.indices_to_keys_vector(),
+       # "times": delta_mitigator.times(),
+       # "expval": delta_mitigator.expval(),
+       # "mitigation_stddev": delta_mitigator.mitigation_stddev(norm_type="exact"),
        }
 
+print("abort?????")
+
 pprint(dct)
-
-"""
-print("proposed (slsqp)")
-slsqp_hist = slsqp_mitigator.apply(hist)
-pprint(slsqp_mitigator.sum_of_x())
-pprint(slsqp_mitigator.sum_of_x_hat())
-pprint(slsqp_mitigator.sum_of_x_tilde())
-pprint(slsqp_mitigator.reduced_A()[:10][:10])
-pprint(slsqp_mitigator.normalized_reduced_A()[:10][:10])
-pprint(slsqp_mitigator.reduced_inv_A()[:10][:10])
-pprint(slsqp_mitigator.exact_one_norm_of_inv_reduced_A())
-pprint(slsqp_mitigator.exact_one_norm_of_reduced_inv_A())
-pprint(slsqp_mitigator.iterative_one_norm_of_inv_reduced_A())
-pprint(slsqp_mitigator.x_s()[:10])
-pprint(slsqp_mitigator.x_hat()[:10])
-pprint(slsqp_mitigator.x_tilde()[:10])
-pprint(slsqp_mitigator.indices_to_keys_vector()[:10])
-pprint(slsqp_mitigator.times())
-pprint(slsqp_mitigator.expval())
-pprint(slsqp_mitigator.mitigation_stddev())
-
-
-print("proposed (least norm)")
-lnp_hist = lnp_mitigator.apply(hist)
-pprint(lnp_mitigator.sum_of_x())
-pprint(lnp_mitigator.sum_of_x_hat())
-pprint(lnp_mitigator.sum_of_x_tilde())
-pprint(lnp_mitigator.reduced_A()[:10][:10])
-pprint(lnp_mitigator.normalized_reduced_A()[:10][:10])
-pprint(lnp_mitigator.reduced_inv_A()[:10][:10])
-pprint(lnp_mitigator.exact_one_norm_of_inv_reduced_A())
-pprint(lnp_mitigator.exact_one_norm_of_reduced_inv_A())
-pprint(lnp_mitigator.iterative_one_norm_of_inv_reduced_A())
-pprint(lnp_mitigator.x_s()[:10])
-pprint(lnp_mitigator.x_hat()[:10])
-pprint(lnp_mitigator.x_tilde()[:10])
-pprint(lnp_mitigator.indices_to_keys_vector()[:10])
-pprint(lnp_mitigator.times())
-pprint(lnp_mitigator.expval())
-pprint(lnp_mitigator.mitigation_stddev())
-
-
-print("Mooney et al.")
-mooney_hist = mooney_mitigator.apply(hist)
-pprint(mooney_mitigator.sum_of_x())
-pprint(mooney_mitigator.sum_of_x_hat())
-pprint(mooney_mitigator.sum_of_x_tilde())
-pprint(mooney_mitigator.reduced_A()[:10][:10])
-pprint(mooney_mitigator.normalized_reduced_A()[:10][:10])
-pprint(mooney_mitigator.reduced_inv_A()[:10][:10])
-pprint(mooney_mitigator.exact_one_norm_of_inv_reduced_A())
-pprint(mooney_mitigator.exact_one_norm_of_reduced_inv_A())
-pprint(mooney_mitigator.iterative_one_norm_of_inv_reduced_A())
-pprint(mooney_mitigator.x_s()[:10])
-pprint(mooney_mitigator.x_hat()[:10])
-pprint(mooney_mitigator.x_tilde()[:10])
-pprint(mooney_mitigator.indices_to_keys_vector()[:10])
-pprint(mooney_mitigator.times())
-pprint(mooney_mitigator.expval())
-pprint(mooney_mitigator.mitigation_stddev())
-
-print("Nation et al.")
-nation_hist = nation_mitigator.apply(hist)
-pprint(nation_mitigator.sum_of_x_hat())
-pprint(nation_mitigator.sum_of_x_tilde())
-pprint(nation_mitigator.reduced_A()[:10][:10])
-pprint(nation_mitigator.normalized_reduced_A()[:10][:10])
-pprint(nation_mitigator.reduced_inv_A()[:10][:10])
-pprint(nation_mitigator.exact_one_norm_of_inv_reduced_A())
-pprint(nation_mitigator.exact_one_norm_of_reduced_inv_A())
-pprint(nation_mitigator.iterative_one_norm_of_inv_reduced_A())
-pprint(nation_mitigator.mitigated_hist()[:10])
-pprint(nation_mitigator.x_s()[:10])
-pprint(nation_mitigator.x_hat()[:10])
-pprint(nation_mitigator.x_tilde()[:10])
-pprint(nation_mitigator.indices_to_keys_vector()[:10])
-pprint(nation_mitigator.times())
-pprint(nation_mitigator.expval())
-pprint(nation_mitigator.mitigation_stddev())
-"""

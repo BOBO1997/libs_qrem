@@ -96,7 +96,9 @@ namespace libs_qrem {
             this->_poses_clbits[i] = pos_clbits;
         }
 
-    };
+    }
+
+    QREM_Filter::~QREM_Filter() {}
 
     int QREM_Filter::index_of_matrix(string state, vector<int>& pos_clbits) {
         int index = 0;

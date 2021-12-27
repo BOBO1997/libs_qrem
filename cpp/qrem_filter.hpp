@@ -74,6 +74,8 @@ namespace libs_qrem {
                         vector< vector<int> > mit_pattern = vector< vector<int> >(0),
                         vector<int> meas_layout = vector<int>(0));
 
+            virtual ~QREM_Filter();
+
             int index_of_matrix(string state, 
                                 vector<int>& pos_clbits);
 
