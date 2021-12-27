@@ -15,6 +15,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         int d
         double threshold
         string method
+        int step
 
     cdef cppclass QREM_Filter:
         double _sum_of_x

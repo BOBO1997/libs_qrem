@@ -22,6 +22,7 @@ namespace libs_qrem {
         int d;
         double threshold;
         string method;
+        int step;
     };
 
     /*

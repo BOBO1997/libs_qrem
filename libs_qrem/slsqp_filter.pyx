@@ -12,7 +12,7 @@ from libcpp.string cimport string
 
 include "vector_wrapper.pyx"
 
-# x
+# OK
 cdef class SLSQPFilter(BaseFilter):
     cdef SLSQP_Filter* instance_ptr
     cdef VectorDouble x_hat_vector
@@ -28,7 +28,7 @@ cdef class SLSQPFilter(BaseFilter):
     def __dealloc__(self):
         del self.ptr
     
-    def apply(self, hist, d = 0, silent = True):
+    def apply(self, hist, d = 0, step = 3, silent = True):
         cdef str key
         cdef int value
         cdef map[string, int] cpp_hist
@@ -39,6 +39,7 @@ cdef class SLSQPFilter(BaseFilter):
         cdef Args args
         args.hist = cpp_hist
         args.d = d
+        args.step = step
         # apply inverse
         self.ptr.apply(args)
         self.x_hat_vector.vec = self.ptr._x_s

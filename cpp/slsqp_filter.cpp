@@ -30,6 +30,7 @@ namespace libs_qrem {
         
         map<string, int> hist = args.hist;
         int d = args.d;
+        int step = args.step;
 
         chrono::system_clock::time_point t_start = chrono::system_clock::now();
 

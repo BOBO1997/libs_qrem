@@ -21,7 +21,7 @@ cdef class NationEtalFilter(BaseFilter):
     def __dealloc__(self):
         del self.ptr
     
-    def apply(self, hist, d = 0, method = "bicgstab", silent = True):
+    def apply(self, hist, d = 0, method = "bicgstab", step = 3, silent = True):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
@@ -29,6 +29,7 @@ cdef class NationEtalFilter(BaseFilter):
         cdef Args args
         args.hist = cpp_hist
         args.d = d
+        args.step = step
         if method == "bicgstab" or method == "iterative" or method == "lu" or method == "exact" or method == "direct":
             args.method = method.encode('utf-8')
         else:

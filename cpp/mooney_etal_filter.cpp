@@ -50,6 +50,7 @@ namespace libs_qrem {
         
         map<string, int> hist = args.hist;
         double threshold = args.threshold;
+        int step = args.step;
 
         int shots = 0;
         for (const auto& item: hist) {

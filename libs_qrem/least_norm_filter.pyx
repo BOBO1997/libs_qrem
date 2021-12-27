@@ -20,7 +20,7 @@ cdef class LeastNormFilter(BaseFilter):
     def __dealloc__(self):
         del self.ptr
     
-    def apply(self, hist, d = 0, silent = True):
+    def apply(self, hist, d = 0, step = 3, silent = True):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
@@ -28,6 +28,7 @@ cdef class LeastNormFilter(BaseFilter):
         cdef Args args
         args.hist = cpp_hist
         args.d = d
+        args.step = step
         self.ptr.apply(args)
         if not silent:
             print("mitigation finished")
