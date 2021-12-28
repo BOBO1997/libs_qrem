@@ -4,10 +4,7 @@
 #include <vector>
 #include <Eigen/Core>
 #include <Eigen/Dense>
-#include <Eigen/SVD>
-#include <time.h>
 #include <algorithm>
-#include <chrono>
 #include <ctime>
 
 #include "eigen_utils.hpp"
@@ -31,17 +28,12 @@ namespace libs_qrem {
         
         map<string, int> hist = args.hist;
         int d = args.d;
-        int step = args.step;
-
-        tp_now t_start = chrono::system_clock::now();
+        clock_t t_start = clock();
 
         /*------------ preprocess ------------*/
 
         vector<double> extended_y = this->preprocess(hist, d);
-        
-        // time for preprocess
-        tp_now t_prep = chrono::system_clock::now();
-        this->_durations.insert(make_pair("preprocess", chrono::duration_cast<chrono::milliseconds>(t_prep - t_start).count()));
+                clock_t t_prep = clock();
 
         /*------------ inverse operation ------------*/
 
@@ -51,10 +43,7 @@ namespace libs_qrem {
         for (size_t i = 0; i < this->_x_s.size(); i++) {
             this->_sum_of_x += this->_x_s[i];
         }
-
-        // time for inverse operation
-        tp_now t_inv = chrono::system_clock::now();
-        this->_durations.insert(make_pair("inverse", chrono::duration_cast<chrono::milliseconds>(t_inv - t_prep).count()));
+        clock_t t_inv = clock();
 
         /*------------ correction by least norm problem ------------*/
 
@@ -65,27 +54,24 @@ namespace libs_qrem {
             this->_x_hat[state_idx] = this->_x_s[state_idx] + diff;
             this->_sum_of_x_hat += this->_x_hat[state_idx];
         }
-
-        // time for correction by least norm problem
-        tp_now t_lnp = chrono::system_clock::now();
-        this->_durations.insert(make_pair("least_norm", chrono::duration_cast<chrono::milliseconds>(t_lnp - t_inv).count()));
+        clock_t t_lnp = clock();
 
         /*------------ sgs algorithm ------------*/
 
         this->_x_tilde = sgs_algorithm(this->_x_hat, false);
-
-        // time for sgs algorithm
-        tp_now t_sgs = chrono::system_clock::now();
-        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_lnp).count()));
+        clock_t t_sgs = clock();
 
         /*------------ recovering histogram ------------*/
 
         recover_histogram();
 
-        // time for postprocess and total time
-        tp_now t_finish = chrono::system_clock::now();
-        this->_durations.insert(make_pair("postprocess", chrono::duration_cast<chrono::milliseconds>(t_finish - t_sgs).count()));
-        this->_durations.insert(make_pair("total", chrono::duration_cast<chrono::milliseconds>(t_finish - t_start).count()));
+        clock_t t_finish = clock();
+        this->_durations.insert(make_pair("preprocess", (double)(t_prep - t_start)));
+        this->_durations.insert(make_pair("inverse", (double)(t_inv - t_prep)));
+        this->_durations.insert(make_pair("least_norm", (double)(t_lnp - t_inv)));
+        this->_durations.insert(make_pair("sgs_algorithm", (double)(t_sgs - t_lnp)));
+        this->_durations.insert(make_pair("postprocess", (double)(t_finish - t_sgs)));
+        this->_durations.insert(make_pair("total", (double)(t_finish - t_start)));
         
         return;
     }

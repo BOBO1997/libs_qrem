@@ -15,7 +15,7 @@ using namespace Eigen;
 
 namespace libs_qrem {
 
-    typedef chrono::system_clock::time_point tp_now;
+    // typedef chrono::system_clock::time_point tp_now;
 
     struct Args {
         map<string, int> hist;

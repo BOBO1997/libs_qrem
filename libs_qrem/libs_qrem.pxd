@@ -15,7 +15,6 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         int d
         double threshold
         string method
-        int step
 
     cdef cppclass QREM_Filter:
         double _sum_of_x
@@ -53,14 +52,6 @@ cdef extern from "../cpp/delta_filter.hpp" namespace "libs_qrem":
                           vector[vector[vector[double]]] cal_matrices,
                           vector[vector[int]] mit_pattern,
                           vector[int] meas_layout)
-        void apply(Args args)
-
-cdef extern from "../cpp/slsqp_filter.hpp" namespace "libs_qrem":
-    cdef cppclass SLSQP_Filter(QREM_Filter):
-        SLSQP_Filter(int num_clbits,
-                    vector[vector[vector[double]]] cal_matrices,
-                    vector[vector[int]] mit_pattern,
-                    vector[int] meas_layout)
         void apply(Args args)
 
 cdef extern from "../cpp/least_norm_filter.hpp" namespace "libs_qrem":

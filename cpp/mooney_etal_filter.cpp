@@ -4,10 +4,7 @@
 #include <vector>
 #include <Eigen/Core>
 #include <Eigen/Dense>
-#include <Eigen/SVD>
-#include <time.h>
 #include <algorithm>
-#include <chrono>
 #include <ctime>
 #include <cstdlib>
 #include <bitset>
@@ -50,14 +47,13 @@ namespace libs_qrem {
         
         map<string, int> hist = args.hist;
         double threshold = args.threshold;
-        int step = args.step;
 
         int shots = 0;
         for (const auto& item: hist) {
             shots += item.second;
         }
 
-        tp_now t_start = chrono::system_clock::now();
+        clock_t t_start = clock();
 
         /*------------ preprocess ------------*/
 
@@ -68,10 +64,7 @@ namespace libs_qrem {
             prob_dist.insert(make_pair(item.first, (double)item.second / shots));
         }
 
-        // time for preprocess
-        tp_now t_prep = chrono::system_clock::now();
-        double dur_prep = chrono::duration_cast<chrono::milliseconds>(t_prep - t_start).count();
-        this->_durations.insert(make_pair("preprocess", dur_prep));
+        clock_t t_prep = clock();
 
         /*------------ inverse operation ------------*/
 
@@ -99,9 +92,7 @@ namespace libs_qrem {
             cout << "negative counts" << endl;
         }
 
-        // time for inverse operation
-        tp_now t_inv = chrono::system_clock::now();
-        this->_durations.insert(make_pair("inverse", chrono::duration_cast<chrono::milliseconds>(t_inv - t_prep).count()));
+        clock_t t_inv = clock();
 
         /*------------ sgs algorithm ------------*/
 
@@ -116,12 +107,9 @@ namespace libs_qrem {
 
         this->_x_tilde = sgs_algorithm(this->_x_s, false);
 
-        // time for sgs algorithm
-        tp_now t_sgs = chrono::system_clock::now();
-        this->_durations.insert(make_pair("sgs_algorithm", chrono::duration_cast<chrono::milliseconds>(t_sgs - t_inv).count()));
+        clock_t t_sgs = clock();
 
         /*------------ recovering histogram ------------*/
-
 
         this->_sum_of_x_tilde = 0;
         this->_mitigated_hist.clear();
@@ -131,11 +119,13 @@ namespace libs_qrem {
                 this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * shots));
             }
         }
+        clock_t t_finish = clock();
 
-        // time for postprocess
-        tp_now t_finish = chrono::system_clock::now();
-        this->_durations.insert(make_pair("postprocess", chrono::duration_cast<chrono::milliseconds>(t_finish - t_sgs).count()));
-        this->_durations.insert(make_pair("total", chrono::duration_cast<chrono::milliseconds>(t_finish - t_start).count()));
+        this->_durations.insert(make_pair("preprocess", (double)(t_prep - t_start)));
+        this->_durations.insert(make_pair("inverse", (double)(t_inv - t_prep)));
+        this->_durations.insert(make_pair("sgs_algorithm", (double)(t_sgs - t_inv)));
+        this->_durations.insert(make_pair("postprocess", (double)(t_finish - t_sgs)));
+        this->_durations.insert(make_pair("total", (double)(t_finish - t_start)));
         
         return;
     }

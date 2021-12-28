@@ -43,7 +43,7 @@ namespace libs_qrem {
             return v.lpNorm<1>(); // v(0); is also ok
         }
         double gamma = v.lpNorm<1>();
-        VectorXd gsi = v.unaryExpr(ptr_fun(sign));
+        VectorXd gsi = v.unaryExpr( [](double arg){ return sign(arg); } );
         VectorXd x = solver_T.solve(gsi);
         int k = 2;
         while (k < 6) {
@@ -56,7 +56,7 @@ namespace libs_qrem {
             if ((v - gsi).isMuchSmallerThan(1 / (double)n, 1e-3) | (gamma <= gamma_bar)) {
                 break;
             }
-            gsi = v.unaryExpr(ptr_fun(sign));
+            gsi = v.unaryExpr( [](double arg){ return sign(arg); } );
             x = solver_T.solve(gsi);
             k++;
             if (x_infty_norm.first == x.lpNorm<Infinity>()) {
@@ -83,7 +83,7 @@ namespace libs_qrem {
             return v.lpNorm<1>(); // v(0); is also ok
         }
         double gamma = v.lpNorm<1>();
-        VectorXd gsi = v.unaryExpr(ptr_fun(sign));
+        VectorXd gsi = v.unaryExpr( [](double arg){ return sign(arg); } );
         VectorXd x = solver_T.solve(gsi);
         int k = 2;
         while (k < 6) {
@@ -96,7 +96,7 @@ namespace libs_qrem {
             if ((v - gsi).isMuchSmallerThan(1 / (double)n, 1e-3) | (gamma <= gamma_bar)) {
                 break;
             }
-            gsi = v.unaryExpr(ptr_fun(sign));
+            gsi = v.unaryExpr( [](double arg){ return sign(arg); } );
             x = solver_T.solve(gsi);
             k++;
             if (x_infty_norm.first == x.lpNorm<Infinity>()) {

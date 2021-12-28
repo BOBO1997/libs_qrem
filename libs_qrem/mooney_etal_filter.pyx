@@ -20,7 +20,7 @@ cdef class MooneyEtalFilter(BaseFilter):
     def __dealloc__(self):
         del self.ptr
     
-    def apply(self, hist, threshold = 0.1, step = 3, silent = True):
+    def apply(self, hist, threshold = 0.1, silent = True):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
@@ -28,7 +28,6 @@ cdef class MooneyEtalFilter(BaseFilter):
         cdef Args args
         args.hist = cpp_hist
         args.threshold = threshold
-        args.step = step
         self.ptr.apply(args)
         if not silent:
             print("mitigation finished")

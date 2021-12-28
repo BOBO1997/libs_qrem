@@ -32,7 +32,6 @@ ext_modules = [
             "./cpp/harger_higham.cpp",
             "./cpp/qrem_filter.cpp",
             "./cpp/delta_filter.cpp",
-            "./cpp/slsqp_filter.cpp",
             "./cpp/least_norm_filter.cpp",
             "./cpp/mooney_etal_filter.cpp",
             "./cpp/nation_etal_filter.cpp",
