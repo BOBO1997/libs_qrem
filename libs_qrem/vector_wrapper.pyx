@@ -102,14 +102,14 @@ cdef class VectorULong(VectorWrapper):
 
 cdef vector_to_list_double(vector[double] vec):
     lst = []
-    cdef int i
+    cdef size_t i
     for i in range(vec.size()):
         lst.append(vec[i])
     return lst
 
 cdef vector_to_list_string(vector[string] vec):
     lst = []
-    cdef int i
+    cdef size_t i
     for i in range(vec.size()):
         lst.append(vec[i].decode())
     return lst
@@ -117,7 +117,7 @@ cdef vector_to_list_string(vector[string] vec):
 cdef vector_to_dict(vector[double] vec, vector[string] indices_to_keys_vector):
     assert vec.size() == indices_to_keys_vector.size()
     dct = dict()
-    cdef int i
+    cdef size_t i
     for i in range(vec.size()):
         dct[indices_to_keys_vector[i]] = vec[i]
     return dct
@@ -126,7 +126,7 @@ cdef matrix_to_ndarray(vector[vector[double]] matrix):
     # cdef np.ndarray[double, ndim=2] array
     array = []
     # array = np.zeros((matrix.size(), matrix[0].size()))
-    cdef int i, j
+    cdef size_t i, j
     for i in range(matrix.size()):
         sub_array = []
         for j in range(matrix[0].size()):

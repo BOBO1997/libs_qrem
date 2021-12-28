@@ -4,12 +4,11 @@ from dummy_data import n, cal_matrices, hist
 from pprint import pprint
 
 delta_mitigator = DeltaFilter(n, cal_matrices)
-# slsqp_mitigator = SLSQPFilter(n, cal_matrices)
-# lnp_mitigator = LeastNormFilter(n, cal_matrices)
-# mooney_mitigator = MooneyEtalFilter(n, cal_matrices)
-# nation_mitigator = NationEtalFilter(n, cal_matrices)
+slsqp_mitigator = SLSQPFilter(n, cal_matrices)
+lnp_mitigator = LeastNormFilter(n, cal_matrices)
+mooney_mitigator = MooneyEtalFilter(n, cal_matrices)
+nation_mitigator = NationEtalFilter(n, cal_matrices)
 
-"""
 pprint("proposed (delta)")
 delta_hist = delta_mitigator.apply(hist)
 pprint("sums")
@@ -33,9 +32,7 @@ pprint(delta_mitigator.indices_to_keys_vector()[:10])
 pprint(delta_mitigator.times())
 pprint(delta_mitigator.expval())
 pprint(delta_mitigator.mitigation_stddev())
-"""
 
-"""
 dct = {# "exact_one_norm_of_reduced_inv_A": delta_mitigator.exact_one_norm_of_reduced_inv_A(),
        "mitigated_hist": list(delta_mitigator.mitigated_hist().keys())[:10],
        "x_s": delta_mitigator.x_s()[:10],
@@ -49,12 +46,7 @@ dct = {# "exact_one_norm_of_reduced_inv_A": delta_mitigator.exact_one_norm_of_re
        # "expval": delta_mitigator.expval(),
        # "mitigation_stddev": delta_mitigator.mitigation_stddev(norm_type="exact"),
        }
-"""
 
 print("abort?????")
 
-# pprint(dct)
-
-print("segfo?????????")
-del delta_mitigator
-print("segfo?????????")
+pprint(dct)
