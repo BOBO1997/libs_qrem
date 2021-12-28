@@ -48,18 +48,23 @@ int main() {
     qf->apply(args);
     
     map<string, double> mitigated_hist = qf->_mitigated_hist;
+
+    /*
     cout << "mitigated hist = {";
     for (auto& item: mitigated_hist) {
         cout << "\"" << item.first << "\", " << item.second << endl;
     }
     cout << "}" << endl;
+    */
 
+    /*
     cout << "x_s = {";
     for (auto& item: qf->_x_s) {
         cout << item << endl;
     }
     cout << "}" << endl;
-
+    */
+    
     cout << "shots: " << qf->_shots << endl;
 
     cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;

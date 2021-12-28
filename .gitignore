@@ -28,6 +28,9 @@ MANIFEST
 # c++ codes automatically generated from cython
 libs_qrem/*cpp
 
+# the record of installation
+install_record.txt
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.

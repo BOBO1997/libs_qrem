@@ -18,7 +18,7 @@ cdef class BaseFilter:
         pass
     
     def __dealloc__(self):
-        del self.ptr
+        pass
     
     def sum_of_x(self):
         return self.ptr._sum_of_x

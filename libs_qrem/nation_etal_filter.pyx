@@ -19,7 +19,7 @@ cdef class NationEtalFilter(BaseFilter):
         self.method = "Nation et al."
     
     def __dealloc__(self):
-        del self.ptr
+        del self.instance_ptr
     
     def apply(self, hist, d = 0, method = "bicgstab", silent = True):
         cdef map[string, int] cpp_hist
