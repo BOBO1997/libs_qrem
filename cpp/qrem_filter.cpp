@@ -149,7 +149,6 @@ namespace libs_qrem {
     }
 
     void QREM_Filter::exact_one_norm_of_inv_reduced_A() {
-        // this->_exact_one_norm_of_inv_reduced_A = stdvec2d_to_MatrixXd(this->_reduced_A).inverse().lpNorm<1>();
         this->_exact_one_norm_of_inv_reduced_A = compute_one_norm_of_MatrixXd(stdvec2d_to_MatrixXd(this->_reduced_A).inverse());
     }
 
@@ -185,7 +184,6 @@ namespace libs_qrem {
     vector<double> QREM_Filter::col_basis(int col_index, 
                                           vector<Matrix2d>& pinv_mats, 
                                           vector<string>& indices_to_keys_vector) {
-        
         vector<double> col_i(indices_to_keys_vector.size());
         for (size_t source_index = 0; source_index < indices_to_keys_vector.size(); source_index++) {
             double tensor_elem = 1;

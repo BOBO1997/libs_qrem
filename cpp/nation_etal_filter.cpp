@@ -30,6 +30,9 @@ namespace libs_qrem {
                               QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
     void NationEtal_Filter::apply(Args args) {
+
+        this->_exact_one_norm_of_inv_reduced_A = -1;
+        this->_iterative_one_norm_of_inv_reduced_A = -1;
         
         map<string, int> hist = args.hist;
         int d = args.d;
