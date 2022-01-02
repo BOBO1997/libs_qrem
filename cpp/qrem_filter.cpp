@@ -243,7 +243,7 @@ namespace libs_qrem {
                 this->_indices_of_matrices[source_index][i] = matrix_index;
             }
         }
-        return extend_vectors(prob_dist, this->_indices_to_keys_vector); // extended_y
+        return extend_vector(prob_dist, this->_indices_to_keys_vector); // extended_y
     }
 
     void QREM_Filter::recover_histogram() {

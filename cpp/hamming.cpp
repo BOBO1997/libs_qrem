@@ -40,7 +40,7 @@ set<string> extend_keys(set<string>& original_keys, int max_dist) {
     return extended_key_set;
 }
 
-vector<double> extend_vectors(map<string, double>& y, vector<string>& indices_to_keys_vector) {
+vector<double> extend_vector(map<string, double>& y, vector<string>& indices_to_keys_vector) {
     vector<double> extended_y(indices_to_keys_vector.size(), 0);
     for (size_t i = 0; i < indices_to_keys_vector.size(); i++) {
         extended_y[i] = y[ indices_to_keys_vector[i] ];

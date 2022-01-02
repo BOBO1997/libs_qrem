@@ -1,29 +1,41 @@
 CPP = g++
 CPPFLAGS = -std=c++14
 
-SRCS = combinations.cpp \
-hamming.cpp \
-sgs_algorithm.cpp \
-harger_higham.cpp \
-eigen_utils.cpp \
-qrem_filter.cpp \
-delta_filter.cpp \
-least_norm_filter.cpp \
-mooney_etal_filter.cpp \
-nation_etal_filter.cpp \
-test_qrem_filter.cpp \
+LIB_SRCS = ../../combinations.cpp \
+../../hamming.cpp \
+../../sgs_algorithm.cpp \
+../../harger_higham.cpp \
+../../eigen_utils.cpp \
+../../qrem_filter.cpp \
+../../ignis_filter.cpp \
+../../delta_filter.cpp \
+../../least_norm_filter.cpp \
+../../mooney_etal_filter.cpp \
+../../nation_etal_filter.cpp
+
+SRCS = test_qrem_filter.cpp \
 dummy_data.cpp
 
+LIB_OBJS = $(LIB_SRCS:%.cpp=%.o)
 OBJS = $(SRCS:%.cpp=%.o)
 
-test_qrem_filter.out: $(OBJS)
+test_qrem_filter.out: $(OBJS) $(LIB_OBJS:../../%=%)
 	$(CPP) $(CPPFLAGS) -o $@ $^
+
+# %.o: $(SRCS:%.cpp=%.cpp)
+# 	$(CPP) $(CPPFLAGS) -c $@ -o $^
+
+# %.o: $(LIB_SRCS:%.cpp=%.cpp)
+# 	$(CPP) $(CPPFLAGS) -c $@ -o $^
 
 test_qrem_filter.o: test_qrem_filter.cpp
 	$(CPP) $(CPPFLAGS) -c test_qrem_filter.cpp -o test_qrem_filter.o
 
 dummy_data.o: dummy_data.cpp
 	$(CPP) $(CPPFLAGS) -c dummy_data.cpp -o dummy_data.o
+
+ignis_filter.o: ../../cpp/ignis_filter.cpp
+	$(CPP) $(CPPFLAGS) -c ../../cpp/ignis_filter.cpp -o ignis_filter.o
 
 delta_filter.o: ../../cpp/delta_filter.cpp
 	$(CPP) $(CPPFLAGS) -c ../../cpp/delta_filter.cpp -o delta_filter.o

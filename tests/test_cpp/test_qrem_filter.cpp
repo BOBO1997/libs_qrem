@@ -13,6 +13,7 @@
 #include <ctime>
 
 #include "../../cpp/qrem_filter.hpp"
+#include "../../cpp/ignis_filter.hpp"
 #include "../../cpp/delta_filter.hpp"
 #include "../../cpp/least_norm_filter.hpp"
 #include "../../cpp/mooney_etal_filter.hpp"
@@ -35,7 +36,7 @@ int main() {
     for (int i = 0; i < n; i++) meas_layout[i] = i;
 
     // QREM_Filter* qf = new Least_Norm_Filter(n, cal_matrices, mit_pattern, meas_layout);
-    QREM_Filter* qf = new NationEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    QREM_Filter* qf = new Ignis_Filter(n, cal_matrices, mit_pattern, meas_layout);
 
     map<string, int> hist = make_hist();
 
@@ -49,13 +50,11 @@ int main() {
     
     map<string, double> mitigated_hist = qf->_mitigated_hist;
 
-    /*
     cout << "mitigated hist = {";
     for (auto& item: mitigated_hist) {
         cout << "\"" << item.first << "\", " << item.second << endl;
     }
     cout << "}" << endl;
-    */
 
     /*
     cout << "x_s = {";
@@ -67,7 +66,7 @@ int main() {
     
     cout << "shots: " << qf->_shots << endl;
 
-    cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;
-    qf->iterative_one_norm_of_inv_reduced_A();
+    // cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;
+    // qf->iterative_one_norm_of_inv_reduced_A();
     cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;
 }
