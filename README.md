@@ -56,6 +56,7 @@ There are 4 different classes that support 4 different QREM methods.
 2. `LeastNormFilter`: Apply inverse matrix for the vector elements in subspace + apply the solution of least norm problem to compute the closest vector that meets all elements are summed up to 1 + apply SGS algorithm.
 3. `MooneyEtalFilter`: Method by [Mooney, White, Hill, Hollenberg, 2021](https://arxiv.org/abs/2101.08946) + apply SGS algorithm.
 4. `NationEtalFilter`: Method by [Nation, Kang, Sundaresan, Gambetta, 2021](https://arxiv.org/abs/2108.12518) + apply SGS algorithm.
+5. `IgnisFilter`: Apply full inverse matrix under tensor product noise model (such as `TensoredFilter` in [qiskit.ignis](https://github.com/Qiskit/qiskit-ignis)) + apply SGS algorithm.
 
 where SGS algorithm is the algorithm proposed by [Smolin, Gambetta, Smith, 2012](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.108.070502).
 

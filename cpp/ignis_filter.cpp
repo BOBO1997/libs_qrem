@@ -27,7 +27,6 @@ namespace libs_qrem {
     void Ignis_Filter::apply(Args args) {
         
         map<string, int> hist = args.hist;
-        int d = args.d;
         clock_t t_start = clock();
 
         /*------------ preprocess ------------*/
