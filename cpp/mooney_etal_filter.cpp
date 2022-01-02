@@ -78,6 +78,7 @@ namespace libs_qrem {
                     this->_sum_of_x += sum_of_count;
                 }
             }
+            map<string double>().swap(prob_dist);
             prob_dist = x;
         }
         if (this->_sum_of_x < 0) {
