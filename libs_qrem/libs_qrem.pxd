@@ -40,18 +40,26 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         void iterative_one_norm_of_inv_reduced_A(string method)
 
         QREM_Filter(int num_clbits,
-                          vector[vector[vector[double]]] cal_matrices,
-                          vector[vector[int]] mit_pattern,
-                          vector[int] meas_layout)
+                    vector[vector[vector[double]]] cal_matrices,
+                    vector[vector[int]] mit_pattern,
+                    vector[int] meas_layout)
         void compute_reduced_A(int size)
+        void apply(Args args)
+
+cdef extern from "../cpp/ignis_filter.hpp" namespace "libs_qrem":
+    cdef cppclass Ignis_Filter(QREM_Filter):
+        Ignis_Filter(int num_clbits,
+                    vector[vector[vector[double]]] cal_matrices,
+                    vector[vector[int]] mit_pattern,
+                    vector[int] meas_layout)
         void apply(Args args)
 
 cdef extern from "../cpp/delta_filter.hpp" namespace "libs_qrem":
     cdef cppclass Delta_Filter(QREM_Filter):
         Delta_Filter(int num_clbits,
-                          vector[vector[vector[double]]] cal_matrices,
-                          vector[vector[int]] mit_pattern,
-                          vector[int] meas_layout)
+                    vector[vector[vector[double]]] cal_matrices,
+                    vector[vector[int]] mit_pattern,
+                    vector[int] meas_layout)
         void apply(Args args)
 
 cdef extern from "../cpp/least_norm_filter.hpp" namespace "libs_qrem":
