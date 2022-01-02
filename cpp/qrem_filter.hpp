@@ -105,6 +105,8 @@ namespace libs_qrem {
 
             void recover_histogram();
 
+            string btos(int target_int, int n);
+
             virtual void apply(Args args) = 0;
 
     };

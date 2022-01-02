@@ -26,14 +26,6 @@ namespace libs_qrem {
                               vector<int> meas_layout = vector<int>(0)) : 
                               QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
-    string MooneyEtal_Filter::btos(int target_int, int n) {
-        string s;
-        for (int i = 0; i < n; i++) {
-            s += to_string( (target_int >> (n - 1 - i)) & 1 );
-        }
-        return s;
-    }
-
     int MooneyEtal_Filter::flip_state(int state_idx, int mat_idx, vector<int>& flip_poses) {
         for (size_t i = 0; i < flip_poses.size(); i++) {
             if ((mat_idx >> i) & 1) {

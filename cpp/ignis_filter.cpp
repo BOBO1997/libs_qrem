@@ -66,7 +66,14 @@ namespace libs_qrem {
 
         /*------------ recovering histogram ------------*/
 
-        recover_histogram();
+        this->_sum_of_x_tilde = 0;
+        this->_mitigated_hist.clear();
+        for (size_t i = 0; i < (1 << this->_num_clbits); i++) {
+            if (this->_x_tilde[i] != 0) {
+                this->_sum_of_x_tilde += this->_x_tilde[i];
+                this->_mitigated_hist.insert(make_pair(btos(i, this->_num_clbits), this->_x_tilde[i] * this->_shots));
+            }
+        }
 
         clock_t t_finish = clock();
         this->_durations.insert(make_pair("preprocess", (double)(t_prep - t_start)));

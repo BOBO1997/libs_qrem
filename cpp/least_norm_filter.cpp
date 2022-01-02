@@ -63,7 +63,7 @@ namespace libs_qrem {
 
         /*------------ recovering histogram ------------*/
 
-        recover_histogram();
+        this->recover_histogram();
 
         clock_t t_finish = clock();
         this->_durations.insert(make_pair("preprocess", (double)(t_prep - t_start)));

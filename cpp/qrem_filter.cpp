@@ -257,4 +257,14 @@ namespace libs_qrem {
         }
     }
 
+    //! unncecessary to be included in the class method
+    //! only used in ignis_filter.cpp and mooney_etal_filter.cpp
+    string QREM_Filter::btos(int target_int, int n) {
+        string s;
+        for (int i = 0; i < n; i++) {
+            s += to_string( (target_int >> (n - 1 - i)) & 1 );
+        }
+        return s;
+    }
+
 }
