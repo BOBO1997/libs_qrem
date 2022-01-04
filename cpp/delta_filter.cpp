@@ -73,12 +73,12 @@ namespace libs_qrem {
         clock_t t_finish = clock();
 
         /*------------ add time durations ------------*/ 
-        this->_durations.insert(make_pair("preprocess", (double)(t_prep - t_start)));
-        this->_durations.insert(make_pair("inverse", (double)(t_inv - t_prep)));
-        this->_durations.insert(make_pair("delta", (double)(t_delta - t_inv)));
-        this->_durations.insert(make_pair("sgs_algorithm", (double)(t_sgs - t_delta)));
-        this->_durations.insert(make_pair("postprocess", (double)(t_finish - t_sgs)));
-        this->_durations.insert(make_pair("total", (double)(t_finish - t_start)));
+        this->_durations.insert(make_pair("preprocess", (double)(t_prep - t_start) / CLOCKS_PER_SEC));
+        this->_durations.insert(make_pair("inverse", (double)(t_inv - t_prep) / CLOCKS_PER_SEC));
+        this->_durations.insert(make_pair("delta", (double)(t_delta - t_inv) / CLOCKS_PER_SEC));
+        this->_durations.insert(make_pair("sgs_algorithm", (double)(t_sgs - t_delta) / CLOCKS_PER_SEC));
+        this->_durations.insert(make_pair("postprocess", (double)(t_finish - t_sgs) / CLOCKS_PER_SEC));
+        this->_durations.insert(make_pair("total", (double)(t_finish - t_start) / CLOCKS_PER_SEC));
 
         return;
     }

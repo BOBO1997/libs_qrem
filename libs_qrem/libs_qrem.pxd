@@ -17,6 +17,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
         string method
 
     cdef cppclass QREM_Filter:
+        int _num_clbits
         double _sum_of_x
         double _sum_of_x_hat
         double _sum_of_x_tilde
