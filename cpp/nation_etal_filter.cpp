@@ -49,6 +49,9 @@ namespace libs_qrem {
 
         this->compute_reduced_A(this->_indices_to_keys_vector.size());
         normalize_cols(this->_reduced_A);
+        clock_t t_mat = clock();
+
+        /*------------ matrix free method ------------*/
 
         if (method == "iterative" | method == "bicgstab") {
             BiCGSTAB<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
@@ -77,7 +80,8 @@ namespace libs_qrem {
         clock_t t_finish = clock();
 
         this->_durations.insert(make_pair("preprocess", (double)(t_prep - t_start) / CLOCKS_PER_SEC));
-        this->_durations.insert(make_pair("inverse", (double)(t_inv - t_prep) / CLOCKS_PER_SEC));
+        this->_durations.insert(make_pair("reduction", (double)(t_mat - t_prep) / CLOCKS_PER_SEC));
+        this->_durations.insert(make_pair("inverse", (double)(t_inv - t_mat) / CLOCKS_PER_SEC));
         this->_durations.insert(make_pair("sgs_algorithm", (double)(t_sgs - t_inv) / CLOCKS_PER_SEC));
         this->_durations.insert(make_pair("postprocess", (double)(t_finish - t_sgs) / CLOCKS_PER_SEC));
         this->_durations.insert(make_pair("total", (double)(t_finish - t_start) / CLOCKS_PER_SEC)); 

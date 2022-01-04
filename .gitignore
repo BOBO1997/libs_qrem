@@ -31,6 +31,10 @@ libs_qrem/*cpp
 # the record of installation
 install_record.txt
 
+# object files and binary files in tests/test_cpp/
+tests/test_cpp/*.o
+tests/test_cpp/*.out
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
