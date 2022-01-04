@@ -60,7 +60,6 @@ namespace libs_qrem {
 
         /*------------ inverse operation ------------*/
 
-        this->_sum_of_x = 0;
         for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
             map<string, double> x;
             for (const auto& key: keys) {
@@ -75,28 +74,25 @@ namespace libs_qrem {
                 }
                 if (abs(sum_of_count) >= threshold) {
                     x[key] = sum_of_count;
-                    this->_sum_of_x += sum_of_count;
                 }
             }
             map<string, double>().swap(prob_dist);
             prob_dist = x;
         }
-
         this->_dim = prob_dist.size();
-        if (this->_sum_of_x < 0) {
-            cout << "negative counts" << endl;
-        }
 
         clock_t t_inv = clock();
 
         /*------------ sgs algorithm ------------*/
 
+        this->_sum_of_x = 0;
         this->_indices_to_keys_vector = vector<string>(prob_dist.size());
         this->_x_s = vector<double>(prob_dist.size());
         int i = 0;
         for (auto& item: prob_dist) {
             this->_indices_to_keys_vector[i] = item.first;
             this->_x_s[i] = item.second;
+            this->_sum_of_x += item.second;
             i++;
         }
 
