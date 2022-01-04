@@ -18,6 +18,7 @@ namespace libs_qrem {
             
             int flip_state(int state, int mat_idx, vector<int>& flip_poses);
             string flip_state(string state, int mat_idx, vector<int>& flip_poses);
+            string flip_binary_string_at_pos(string str, int pos);
 
             virtual void apply(Args args);
     };

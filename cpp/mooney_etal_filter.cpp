@@ -49,6 +49,16 @@ namespace libs_qrem {
         return state;
     }
 
+    string MooneyEtal_Filter::flip_binary_string_at_pos(string str, int pos) {
+        if (str[pos] == '0') {
+            str[pos] = '1';
+        }
+        else {
+            str[pos] = '0';
+        }
+        return str;
+    }
+
     void MooneyEtal_Filter::apply(Args args) {
         
         map<string, int> hist = args.hist;
@@ -72,17 +82,21 @@ namespace libs_qrem {
         for (size_t i = 0; i < this->_pinv_matrices.size(); i++) { // O(n)
             map<string, double> x;
             for (const auto& item: prob_dist) { // O(1/t)
-                int first_index = this->index_of_matrix(item.first, this->_poses_clbits[i]);
+                string target_state = item.first;
+                int first_index = this->index_of_matrix(target_state, this->_poses_clbits[i]);
                 double sum_of_count = 0;
-                for (int k = 0; k < this->_pinv_matrices[i].rows(); k++) { // if completely local, k = 0 or 1
-                    string source_state = this->flip_state(item.first, k, this->_poses_clbits[i]);
-                    if (prob_dist.count(source_state) > 0) { // if the key exists
-                        int second_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
-                        sum_of_count += this->_pinv_matrices[i](first_index, second_index) * prob_dist[source_state];
-                    }
-                }
+
+                // first
+                string source_state = target_state;
+                int second_index = source_state[i] - '0'; // bit of i-th digit from the top
+                if (prob_dist.count(source_state) > 0) sum_of_count += this->_pinv_matrices[i](first_index, second_index) * prob_dist[source_state];
+                // second
+                source_state = this->flip_binary_string_at_pos(target_state, i); // flip state
+                second_index = source_state[i] - '0'; // bit of i-th digit from the top
+                if (prob_dist.count(source_state) > 0) sum_of_count += this->_pinv_matrices[i](first_index, second_index) * prob_dist[source_state];
+
                 if (abs(sum_of_count) >= threshold) {
-                    x[item.first] = sum_of_count;
+                    x[target_state] = sum_of_count;
                 }
             }
             map<string, double>().swap(prob_dist);
