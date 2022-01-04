@@ -57,6 +57,8 @@ namespace libs_qrem {
             BiCGSTAB<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
             VectorXd v = solver.solve(stdvec1d_to_VectorXd(extended_y));
             this->_x_s = VectorXd_to_stdvec1d(v);
+            this->_iterations = solver.iterations();
+            this->_error = solver.error();
         }
         else {
             PartialPivLU<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));

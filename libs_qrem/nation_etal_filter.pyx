@@ -20,6 +20,12 @@ cdef class NationEtalFilter(BaseFilter):
     
     def __dealloc__(self):
         del self.instance_ptr
+
+    def iterations(self):
+        return self.instance_ptr._iterations
+    
+    def error(self):
+        return self.instance_ptr._error
     
     def apply(self, hist, d = 0, method = "bicgstab", silent = True):
         cdef map[string, int] cpp_hist

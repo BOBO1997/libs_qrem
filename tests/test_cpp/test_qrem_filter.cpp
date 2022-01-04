@@ -44,18 +44,20 @@ int main() {
     Args args;
     args.hist = hist;
     args.d = 0;
-    args.method = "lu";
-    // args.method = "iterative";
+    // args.method = "lu";
+    args.method = "iterative";
 
     qf->apply(args);
     
     map<string, double> mitigated_hist = qf->_mitigated_hist;
 
+    /*
     cout << "mitigated hist = {";
     for (auto& item: mitigated_hist) {
         cout << "\"" << item.first << "\", " << item.second << endl;
     }
     cout << "}" << endl;
+    */
 
     /*
     cout << "x_s = {";

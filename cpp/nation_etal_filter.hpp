@@ -9,6 +9,9 @@ namespace libs_qrem {
 
     class NationEtal_Filter : public QREM_Filter {
         public:
+            
+            int _iterations;
+            double _error;
 
             NationEtal_Filter(int num_clbits,
                         vector< vector< vector<double> > > cal_matrices,

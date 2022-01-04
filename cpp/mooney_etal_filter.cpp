@@ -81,6 +81,8 @@ namespace libs_qrem {
             map<string, double>().swap(prob_dist);
             prob_dist = x;
         }
+
+        this->_dim = prob_dist.size();
         if (this->_sum_of_x < 0) {
             cout << "negative counts" << endl;
         }

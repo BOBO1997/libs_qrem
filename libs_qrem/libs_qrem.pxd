@@ -18,6 +18,7 @@ cdef extern from "../cpp/qrem_filter.hpp" namespace "libs_qrem":
 
     cdef cppclass QREM_Filter:
         int _num_clbits
+        size_t _dim
         double _sum_of_x
         double _sum_of_x_hat
         double _sum_of_x_tilde
@@ -81,6 +82,8 @@ cdef extern from "../cpp/mooney_etal_filter.hpp" namespace "libs_qrem":
 
 cdef extern from "../cpp/nation_etal_filter.hpp" namespace "libs_qrem":
     cdef cppclass NationEtal_Filter(QREM_Filter):
+        int _iterations
+        double _error
         NationEtal_Filter(int num_clbits,
                     vector[vector[vector[double]]] cal_matrices,
                     vector[vector[int]] mit_pattern,

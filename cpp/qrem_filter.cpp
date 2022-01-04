@@ -228,6 +228,7 @@ namespace libs_qrem {
 
         set<string> extended_keys = extend_keys(keys, d);
         this->_indices_to_keys_vector = vector<string>(extended_keys.size());
+        this->_dim = this->_indices_to_keys_vector.size();
         int i = 0;
         for (const auto& key: extended_keys) {
             this->_indices_to_keys_vector[i] = key;

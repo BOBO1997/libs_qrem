@@ -47,6 +47,7 @@ namespace libs_qrem {
             vector<Matrix2d> _pinvVs;
 
             int _shots;
+            size_t _dim;
             vector< vector<double> > _reduced_A;
             vector< vector<double> > _reduced_inv_A; // For proposed methods
             vector< vector<double> > _inv_reduced_A; // For Nation et al.

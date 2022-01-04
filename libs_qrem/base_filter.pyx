@@ -23,6 +23,9 @@ cdef class BaseFilter:
     def num_clbits(self):
         return self.ptr._num_clbits
     
+    def dim(self):
+        return self.ptr._dim
+    
     def sum_of_x(self):
         return self.ptr._sum_of_x
 

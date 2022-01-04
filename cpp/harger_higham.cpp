@@ -11,6 +11,8 @@
 using namespace std;
 using namespace Eigen;
 
+// assume the lpNorm<1>() and lpNorm<Infinity>() is correct for VectorXd
+
 namespace libs_qrem {
 
     double sign(double x) {
@@ -67,9 +69,9 @@ namespace libs_qrem {
             x(i - 1) = (double)pow(-1, i + 1) * (1 + (double)(i - 1) / (double)(n - 1));
         }
         x = solver.solve(x);
-        if (2 * x.lpNorm<1>() / (double)(3 * n) > gamma) {
-            v = x;
-            gamma = 2 * x.lpNorm<1>() / (double)(2 * n);
+        double temp = 2 * x.lpNorm<1>() / (double)(3 * n);
+        if (temp > gamma) {
+            gamma = temp;
         }
         return gamma;
     }
@@ -107,9 +109,9 @@ namespace libs_qrem {
             x(i - 1) = (double)pow(-1, i + 1) * (1 + (double)(i - 1) / (double)(n - 1));
         }
         x = solver.solve(x);
-        if (2 * x.lpNorm<1>() / (double)(3 * n) > gamma) {
-            v = x;
-            gamma = 2 * x.lpNorm<1>() / (double)(2 * n);
+        double temp = 2 * x.lpNorm<1>() / (double)(3 * n);
+        if (temp > gamma) {
+            gamma = temp;
         }
         return gamma;
     }
