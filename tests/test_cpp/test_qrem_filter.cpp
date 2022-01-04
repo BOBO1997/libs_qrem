@@ -12,6 +12,7 @@
 #include <chrono>
 #include <ctime>
 
+#include "../../cpp/sgs_algorithm.hpp"
 #include "../../cpp/qrem_filter.hpp"
 #include "../../cpp/ignis_filter.hpp"
 #include "../../cpp/delta_filter.hpp"
@@ -35,9 +36,9 @@ int main() {
     vector<int> meas_layout(n, 0);
     for (int i = 0; i < n; i++) meas_layout[i] = i;
 
-    // QREM_Filter* qf = new Least_Norm_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    QREM_Filter* qf = new Least_Norm_Filter(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter* qf = new Ignis_Filter(n, cal_matrices, mit_pattern, meas_layout);
-    QREM_Filter* qf = new NationEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    // QREM_Filter* qf = new NationEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
 
     map<string, int> hist = make_hist();
 
@@ -76,4 +77,17 @@ int main() {
     // cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;
     // qf->iterative_one_norm_of_inv_reduced_A();
     cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;
+
+    cout << "sum of x hat " << qf->_sum_of_x_hat << endl;
+    cout << "sum of x tilde " << qf->_sum_of_x_tilde << endl;
+
+    double sum_of_x_hat = 0;
+    for (size_t i = 0; i < qf->_x_hat.size(); i++) {
+        sum_of_x_hat += qf->_x_hat[i];
+    }
+
+    cout << "computed sum of x hat " << sum_of_x_hat << endl;
+
+    vector<double> x_tilde = sgs_algorithm(qf->_x_hat, false);
+    // cout << x_tilde << endl;
 }

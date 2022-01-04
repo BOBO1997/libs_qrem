@@ -15,15 +15,21 @@ vector<double> sgs_algorithm(vector<double>& x, bool make_sum_to_one = false) {
                     vector< pair<double, int> >,
                     greater< pair<double, int> > > pq;
     double sum_of_x = 0;
-    for (int state_idx = 0; state_idx < (int)x.size(); state_idx++) {
-        if (x[state_idx] > 0) {
+    double negative_accumulator = 0;
+    if (make_sum_to_one) {
+        for (size_t state_idx = 0; state_idx < x.size(); state_idx++) {
+            if (x[state_idx] > 0) {
+                pq.push(make_pair(x[state_idx], state_idx));
+                sum_of_x += x[state_idx];
+            }
+        }
+        negative_accumulator = 1 - sum_of_x;
+    }
+    else {
+        for (size_t state_idx = 0; state_idx < x.size(); state_idx++) {
             pq.push(make_pair(x[state_idx], state_idx));
             sum_of_x += x[state_idx];
         }
-    }
-    double negative_accumulator = 0;
-    if (make_sum_to_one) {
-        negative_accumulator = 1 - sum_of_x;
     }
     while (pq.size() > 0) {
         pair<double, int> top = pq.top();

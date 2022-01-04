@@ -67,14 +67,18 @@ def sgs_algorithm_py(x, make_sum_to_one = False):
     # compute the number and the sum of negative values
     pq = priority_queue(key_index=1)
     sum_of_x = 0
-    for state_idx in x:  # O(N) time
-        if x[state_idx] > 0:
+    negative_accumulator = 0
+
+    if make_sum_to_one:
+        for state_idx in x:  # O(N) time
+            if x[state_idx] > 0:
+                pq.push((state_idx, x[state_idx]))  # O(log(N)) time
+                sum_of_x += x[state_idx]
+        negative_accumulator = 1 - sum_of_x
+    else:
+        for state_idx in x:  # O(N) time
             pq.push((state_idx, x[state_idx]))  # O(log(N)) time
             sum_of_x += x[state_idx]
-
-    negative_accumulator = 0
-    if make_sum_to_one:
-        negative_accumulator = 1 - sum_of_x
 
     while pq.size() > 0:  # O(N) time
         _, x_hat_i = pq.top()
