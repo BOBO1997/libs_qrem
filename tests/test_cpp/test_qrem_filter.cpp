@@ -36,17 +36,19 @@ int main() {
     vector<int> meas_layout(n, 0);
     for (int i = 0; i < n; i++) meas_layout[i] = i;
 
-    QREM_Filter* qf = new Least_Norm_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    // QREM_Filter* qf = new Least_Norm_Filter(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter* qf = new Ignis_Filter(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter* qf = new NationEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    QREM_Filter* qf = new MooneyEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
 
     map<string, int> hist = make_hist();
 
     Args args;
     args.hist = hist;
     args.d = 0;
-    // args.method = "lu";
-    args.method = "iterative";
+    args.method = "lu";
+    // args.method = "iterative";
+    args.threshold = 0.01;
 
     qf->apply(args);
     
@@ -60,13 +62,11 @@ int main() {
     cout << "}" << endl;
     */
 
-    /*
     cout << "x_s = {";
     for (auto& item: qf->_x_s) {
         cout << item << endl;
     }
     cout << "}" << endl;
-    */
     
     cout << "shots: " << qf->_shots << endl;
 
@@ -78,6 +78,7 @@ int main() {
     // qf->iterative_one_norm_of_inv_reduced_A();
     cout << qf->_iterative_one_norm_of_inv_reduced_A << endl;
 
+    cout << "sum of x s " << qf->_sum_of_x << endl;
     cout << "sum of x hat " << qf->_sum_of_x_hat << endl;
     cout << "sum of x tilde " << qf->_sum_of_x_tilde << endl;
 

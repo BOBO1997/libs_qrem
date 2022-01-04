@@ -17,6 +17,7 @@ namespace libs_qrem {
                         vector<int> meas_layout);
             
             int flip_state(int state, int mat_idx, vector<int>& flip_poses);
+            string flip_state(string state, int mat_idx, vector<int>& flip_poses);
 
             virtual void apply(Args args);
     };

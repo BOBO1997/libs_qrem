@@ -36,24 +36,24 @@ namespace libs_qrem {
             this->_shots += item.second;
         }
         this->_x_s = vector<double>(1 << this->_num_clbits, 0);
-        for (auto& item: hist) {
+        for (const auto& item: hist) {
             this->_x_s[stoi(item.first, nullptr, 2)] = (double)item.second / this->_shots;
         }
         clock_t t_prep = clock();
 
         /*------------ inverse operation ------------*/
 
-        for (size_t i = 0; i < this->_pinv_matrices.size(); i ++) {
+        for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
             vector<double> temp_y(1 << this->_num_clbits, 0);
             for (int target_idx = 0; target_idx < (1 << this->_num_clbits); target_idx++) {
                 int first_index = target_idx >> (this->_num_clbits - 1 - i) & 1;
                 // first
                 int source_idx = target_idx;
-                int second_index = source_idx >> (this->_num_clbits - 1 - i) & 1;
+                int second_index = source_idx >> (this->_num_clbits - 1 - i) & 1; // bit of i-th digit from the top
                 temp_y[target_idx] += this->_pinv_matrices[i](first_index, second_index) * this->_x_s[source_idx];
                 // second
-                source_idx = target_idx ^ (1 << (this->_num_clbits - 1 - i));
-                second_index = source_idx >> (this->_num_clbits - 1 - i) & 1;
+                source_idx = target_idx ^ (1 << (this->_num_clbits - 1 - i)); // flip state
+                second_index = source_idx >> (this->_num_clbits - 1 - i) & 1; // bit of i-th digit from the top
                 temp_y[target_idx] += this->_pinv_matrices[i](first_index, second_index) * this->_x_s[source_idx];
             }
             vector<double>().swap(this->_x_s); // release previous vector;

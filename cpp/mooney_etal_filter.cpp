@@ -27,53 +27,62 @@ namespace libs_qrem {
                               QREM_Filter(num_clbits, cal_matrices, mit_pattern, meas_layout) {};
 
     int MooneyEtal_Filter::flip_state(int state_idx, int mat_idx, vector<int>& flip_poses) {
-        for (size_t i = 0; i < flip_poses.size(); i++) {
+        for (size_t i = 0; i < flip_poses.size(); i++) { // if completely local, size is 1
             if ((mat_idx >> i) & 1) {
-                state_idx = state_idx ^ ((1 << (this->_num_clbits - 1)) >> flip_poses[i]);
+                state_idx = state_idx ^ (1 << (this->_num_clbits - 1 - flip_poses[i]));
             }
         }
         return state_idx;
+    }
+
+    string MooneyEtal_Filter::flip_state(string state, int mat_idx, vector<int>& flip_poses) {
+        for (size_t i = 0; i < flip_poses.size(); i++) { // if completely local, size is 1
+            if ((mat_idx >> i) & 1) { // if completely local, i = 0 (means "if (mat_idx == 1)" )
+                if (state[flip_poses[i]] == '0') {
+                    state[flip_poses[i]] = '1';
+                }
+                else {
+                    state[flip_poses[i]] = '0';
+                }
+            }
+        }
+        return state;
     }
 
     void MooneyEtal_Filter::apply(Args args) {
         
         map<string, int> hist = args.hist;
         double threshold = args.threshold;
-
-        int shots = 0;
-        for (const auto& item: hist) {
-            shots += item.second;
-        }
-
         clock_t t_start = clock();
 
         /*------------ preprocess ------------*/
 
-        set<string> keys;
+        this->_shots = 0;
+        for (const auto& item: hist) {
+            this->_shots += item.second;
+        }
         map<string, double> prob_dist;
         for (auto& item: hist) {
-            keys.insert(item.first);
-            prob_dist.insert(make_pair(item.first, (double)item.second / shots));
+            prob_dist.insert(make_pair(item.first, (double)item.second / this->_shots));
         }
-
         clock_t t_prep = clock();
 
         /*------------ inverse operation ------------*/
 
-        for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
+        for (size_t i = 0; i < this->_pinv_matrices.size(); i++) { // O(n)
             map<string, double> x;
-            for (const auto& key: keys) {
-                int first_index = this->index_of_matrix(key, this->_poses_clbits[i]);
+            for (const auto& item: prob_dist) { // O(1/t)
+                int first_index = this->index_of_matrix(item.first, this->_poses_clbits[i]);
                 double sum_of_count = 0;
-                for (size_t k = 0; k < (size_t)this->_pinv_matrices[i].rows(); k++) {
-                    string source_state = this->btos( this->flip_state(stoi(key, nullptr, 2), k, this->_poses_clbits[i]), this->_num_clbits);
-                    if (prob_dist.count(source_state) > 0) {
+                for (int k = 0; k < this->_pinv_matrices[i].rows(); k++) { // if completely local, k = 0 or 1
+                    string source_state = this->flip_state(item.first, k, this->_poses_clbits[i]);
+                    if (prob_dist.count(source_state) > 0) { // if the key exists
                         int second_index = this->index_of_matrix(source_state, this->_poses_clbits[i]);
                         sum_of_count += this->_pinv_matrices[i](first_index, second_index) * prob_dist[source_state];
                     }
                 }
                 if (abs(sum_of_count) >= threshold) {
-                    x[key] = sum_of_count;
+                    x[item.first] = sum_of_count;
                 }
             }
             map<string, double>().swap(prob_dist);
@@ -107,7 +116,7 @@ namespace libs_qrem {
         for (size_t i = 0; i < this->_indices_to_keys_vector.size(); i++) {
             if (this->_x_tilde[i] != 0) {
                 this->_sum_of_x_tilde += this->_x_tilde[i];
-                this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * shots));
+                this->_mitigated_hist.insert(make_pair(this->_indices_to_keys_vector[i], this->_x_tilde[i] * this->_shots));
             }
         }
         clock_t t_finish = clock();
