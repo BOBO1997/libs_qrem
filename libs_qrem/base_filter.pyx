@@ -89,6 +89,7 @@ cdef class BaseFilter:
         return times
 
     def expval(self):
+        shots = 0
         expval = 0
         cdef str key
         cdef double count, sigma_z
@@ -98,7 +99,8 @@ cdef class BaseFilter:
                 if s == "1":
                     sigma_z *= -1
             expval += sigma_z * count
-        expval /= self.shots
+            shots += count
+        expval /= shots
         return expval
 
     def mitigation_stddev(self, norm_type = "exact"):
