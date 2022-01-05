@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <chrono>
 #include <ctime>
+#include <fstream>
 
 #include "../../cpp/sgs_algorithm.hpp"
 #include "../../cpp/qrem_filter.hpp"
@@ -19,7 +20,8 @@
 #include "../../cpp/least_norm_filter.hpp"
 #include "../../cpp/mooney_etal_filter.hpp"
 #include "../../cpp/nation_etal_filter.hpp"
-#include "./dummy_data.hpp"
+// #include "./dummy_data12.hpp"
+#include "./dummy_data50.hpp"
 
 using namespace std;
 using namespace Eigen;
@@ -27,8 +29,9 @@ using namespace libs_qrem;
 
 int main() {
     
-    int n = 12;
-    vector< vector< vector<double> > > cal_matrices = make_cal_matrices();
+    int n = 50;
+    // vector< vector< vector<double> > > cal_matrices = make_cal_matrices12();
+    vector< vector< vector<double> > > cal_matrices = make_cal_matrices50();
 
     vector< vector<int> > mit_pattern(n, vector<int>(1, 0));
     for (int i = 0; i < n; i++) mit_pattern[i][0] = i;
@@ -38,10 +41,16 @@ int main() {
 
     // QREM_Filter* qf = new Least_Norm_Filter(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter* qf = new Ignis_Filter(n, cal_matrices, mit_pattern, meas_layout);
-    // QREM_Filter* qf = new NationEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
-    QREM_Filter* qf = new MooneyEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    QREM_Filter* qf = new NationEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    // QREM_Filter* qf = new MooneyEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
 
-    map<string, int> hist = make_hist();
+    // map<string, int> hist = make_hist12();
+    map<string, int> hist;
+    ifstream ifs("./dummy_hist50.txt");
+    string one_line;
+    while (getline(ifs, one_line)) {
+        hist.insert(make_pair(one_line.substr(0,50), stoi(one_line.substr(50))));
+    }
 
     Args args;
     args.hist = hist;
@@ -50,6 +59,8 @@ int main() {
     // args.method = "iterative";
     args.threshold = 0.01;
 
+
+    cout << "apply correction" << endl;
     qf->apply(args);
     
     map<string, double> mitigated_hist = qf->_mitigated_hist;
@@ -62,11 +73,13 @@ int main() {
     cout << "}" << endl;
     */
 
+    /*
     cout << "x_s = {";
     for (auto& item: qf->_x_s) {
         cout << item << endl;
     }
     cout << "}" << endl;
+    */
     
     cout << "shots: " << qf->_shots << endl;
 

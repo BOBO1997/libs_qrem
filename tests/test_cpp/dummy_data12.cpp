@@ -4,7 +4,7 @@
 
 using namespace std;
 
-map<string, int> make_hist() {
+map<string, int> make_hist12() {
 
     map<string, int> hist;
     hist.insert(make_pair("000000000000", 3014));
@@ -324,7 +324,7 @@ map<string, int> make_hist() {
     return hist;
 }
 
-vector< vector< vector<double> > > make_cal_matrices() {
+vector< vector< vector<double> > > make_cal_matrices12() {
 
     vector< vector< vector<double> > > cal_matrices;
     cal_matrices.push_back({{0.97753906,0.06420898},{0.02246094,0.93579102}});

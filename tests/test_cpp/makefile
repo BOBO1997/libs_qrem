@@ -14,7 +14,8 @@ LIB_SRCS = ../../combinations.cpp \
 ../../nation_etal_filter.cpp
 
 SRCS = test_qrem_filter.cpp \
-dummy_data.cpp
+dummy_data12.cpp \
+dummy_data50.cpp
 
 LIB_OBJS = $(LIB_SRCS:%.cpp=%.o)
 OBJS = $(SRCS:%.cpp=%.o)
@@ -31,8 +32,11 @@ test_qrem_filter.out: $(OBJS) $(LIB_OBJS:../../%=%)
 test_qrem_filter.o: test_qrem_filter.cpp
 	$(CPP) $(CPPFLAGS) -c test_qrem_filter.cpp -o test_qrem_filter.o
 
-dummy_data.o: dummy_data.cpp
-	$(CPP) $(CPPFLAGS) -c dummy_data.cpp -o dummy_data.o
+dummy_data12.o: dummy_data12.cpp
+	$(CPP) $(CPPFLAGS) -c dummy_data12.cpp -o dummy_data12.o
+
+dummy_data50.o: dummy_data50.cpp
+	$(CPP) $(CPPFLAGS) -c dummy_data50.cpp -o dummy_data50.o
 
 ignis_filter.o: ../../cpp/ignis_filter.cpp
 	$(CPP) $(CPPFLAGS) -c ../../cpp/ignis_filter.cpp -o ignis_filter.o

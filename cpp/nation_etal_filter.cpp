@@ -10,6 +10,7 @@
 #include <unsupported/Eigen/IterativeSolvers>
 #include <algorithm>
 #include <ctime>
+#include <cassert>
 
 #include "eigen_utils.hpp"
 #include "hamming.hpp"
@@ -53,16 +54,18 @@ namespace libs_qrem {
 
         /*------------ matrix free method ------------*/
 
+        MatrixXd A = stdvec2d_to_MatrixXd(this->_reduced_A);
+        VectorXd b = stdvec1d_to_VectorXd(extended_y);
         if (method == "iterative" | method == "bicgstab") {
-            BiCGSTAB<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
-            VectorXd v = solver.solve(stdvec1d_to_VectorXd(extended_y));
-            this->_x_s = VectorXd_to_stdvec1d(v);
+            BiCGSTAB<MatrixXd> solver(A);
+            VectorXd v = solver.solve(b);
             this->_iterations = solver.iterations();
             this->_error = solver.error();
+            this->_x_s = VectorXd_to_stdvec1d(v);
         }
         else {
-            PartialPivLU<MatrixXd> solver(stdvec2d_to_MatrixXd(this->_reduced_A));
-            VectorXd v = solver.solve(stdvec1d_to_VectorXd(extended_y));
+            PartialPivLU<MatrixXd> solver(A);
+            VectorXd v = solver.solve(b);
             this->_x_s = VectorXd_to_stdvec1d(v);
         }
         this->_sum_of_x = 0;
