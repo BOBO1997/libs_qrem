@@ -41,8 +41,8 @@ int main() {
 
     // QREM_Filter* qf = new Least_Norm_Filter(n, cal_matrices, mit_pattern, meas_layout);
     // QREM_Filter* qf = new Ignis_Filter(n, cal_matrices, mit_pattern, meas_layout);
-    QREM_Filter* qf = new NationEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
-    // QREM_Filter* qf = new MooneyEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    // QREM_Filter* qf = new NationEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
+    QREM_Filter* qf = new MooneyEtal_Filter(n, cal_matrices, mit_pattern, meas_layout);
 
     // map<string, int> hist = make_hist12();
     map<string, int> hist;
@@ -57,7 +57,8 @@ int main() {
     args.d = 0;
     args.method = "lu";
     // args.method = "iterative";
-    args.threshold = 0.01;
+    args.threshold = 0.1;
+    // args.threshold = 0.01;
 
 
     cout << "apply correction" << endl;
