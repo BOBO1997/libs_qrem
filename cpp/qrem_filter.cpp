@@ -62,7 +62,8 @@ namespace libs_qrem {
             this->_pinvVs[i] = this->_svd_matrices[i].matrixV().inverse();
         }
 
-        // set mit_pattern
+        // set mit_pattern: default = [[0], [1], [2], [3], ...]
+        // related to the index of calibration matrix
         if (mit_pattern.size() == 0) {
             for (int i = 0; i < num_clbits; i++) {
                 mit_pattern.push_back(vector<int>(1, i));
@@ -70,7 +71,10 @@ namespace libs_qrem {
         }
         this->_mit_pattern = mit_pattern;
 
-        // set meas_layout
+        // set meas_layout: default = [n-1, n-2, ..., 2, 1, 0]
+        // related to the endian of measurement results
+        // since the measurement results in qiskit takes big-endian, the indices in meas_layout are sorted in the descending order
+        // meas_layout = clbits_to_qubits
         if (meas_layout.size() == 0) {
             for (int i = 0; i < num_clbits; i++) {
                 meas_layout.push_back(num_clbits - 1 - i);
@@ -78,13 +82,19 @@ namespace libs_qrem {
         }
         this->_meas_layout = meas_layout;
         
-        // set qubits_to_clbits
+        // set qubits_to_clbits: [-1, -1, ..., -1]
+        // clbit = qubits_to_clbits[qubit]
         this->_qubits_to_clbits = vector<int>(1 + *max_element(this->_meas_layout.begin(), this->_meas_layout.end()), -1);
         for (size_t i = 0; i < this->_meas_layout.size(); i++) {
             this->_qubits_to_clbits[this->_meas_layout[i]] = i;
         }
 
-        // set poses_clbits
+        // indicate the qubits block for each calibration matrix
+        // set poses_clbits: 
+        // [[0],     A_0
+        //  [1],     A_1
+        //  [2],     A_2
+        // ...]      ...
         this->_poses_clbits = vector< vector<int> >(this->_pinv_matrices.size());
         for (size_t i = 0; i < this->_pinv_matrices.size(); i++) {
             vector<int> pos_clbits(this->_mit_pattern[i].size());
@@ -93,11 +103,11 @@ namespace libs_qrem {
             }
             this->_poses_clbits[i] = pos_clbits;
         }
-
     }
 
     QREM_Filter::~QREM_Filter() {}
 
+    // Ready for general calibration matrix blocks
     int QREM_Filter::index_of_matrix(string state, vector<int>& pos_clbits) {
         int index = 0;
         int i = 0;
@@ -110,6 +120,7 @@ namespace libs_qrem {
         return index;
     }
 
+    // TODO: extend the program
     void QREM_Filter::compute_reduced_A(size_t size) {
         this->_reduced_A = vector< vector<double> >(size, vector<double>(size, 0));
         for (size_t i = 0; i < size; i++) { // target
@@ -125,6 +136,7 @@ namespace libs_qrem {
         }
     }
 
+    // TODO: extend the program
     void QREM_Filter::compute_reduced_inv_A(size_t size) {
         this->_reduced_inv_A = vector< vector<double> >(size, vector<double>(size, 0));
         vector<double> abs_sum_of_rows(size, 0);
@@ -165,6 +177,7 @@ namespace libs_qrem {
         }
     }
 
+    // TODO: extend the program
     double QREM_Filter::mitigate_one_state(int target_index, 
                                            vector<double>& extended_hist, 
                                            vector<string>& indices_to_keys_vector) {
@@ -181,6 +194,7 @@ namespace libs_qrem {
         return new_count;
     }
 
+    // TODO: extend the program
     vector<double> QREM_Filter::col_basis(int col_index, 
                                           vector<Matrix2d>& pinv_mats, 
                                           vector<string>& indices_to_keys_vector) {
@@ -236,6 +250,7 @@ namespace libs_qrem {
         }
 
         // set indices_of_matrices table
+        // TODO: extend the program
         this->_indices_of_matrices = vector< vector<int> >(this->_indices_to_keys_vector.size(), vector<int>(this->_pinv_matrices.size(), 0));
         for (size_t source_index = 0; source_index < this->_indices_to_keys_vector.size(); source_index++) {
             string source_state = this->_indices_to_keys_vector[source_index];
