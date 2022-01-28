@@ -2,7 +2,7 @@
 
 `libs_qrem` is a python package which executes efficient quantum readout error mitigation (QREM) written in C++/Cython.
 This package mitigates the readout errors in 65 qubit measurement result of GHZ state from ibmq_brooklyn in few seconds.
-- Time Complexity: $O(s^2 + ns)$
+- Time Complexity: $O(ns^2)$
 - Space Complexity: $O(s^2)$ ( Can be reduced into $O(ns)$ )
 
 # Installation
@@ -130,11 +130,15 @@ meas_filter = LeastNormFilter(n, meas_fitter.cal_matrices)
 mitigated_hist = meas_filter.apply(noisy_hist)
 ```
 
-For a detailed example, see [here](https://github.com/BOBO1997/qip2021_poster549/blob/main/master_thesis/qrem_benchmarkings/ghz_states/brooklyn_main8192_mit8192/mitigation.ipynb).
+For detailed examples, see [here](https://github.com/BOBO1997/master_thesis/tree/main/test_libs_qrem).
 
 # Publications
 
 ## Paper
+
+This package is based on the paper: [An Efficient Quantum Readout Error Mitigation for Sparse Measurement Outcomes of Near-term Quantum Devices](https://arxiv.org/abs/2201.11046).
+
+Demonstrations in the paper are also stored [here](https://github.com/BOBO1997/master_thesis/tree/main/test_libs_qrem).
 
 ## International Conferences
 <!-- 
@@ -143,6 +147,17 @@ For a detailed example, see [here](https://github.com/BOBO1997/qip2021_poster549
 - Efficient Readout Error Mitigation Heuristic for Measurement Outcomes with Few
 States (Bo Yang, Rudy Raymond and Shumpei Uno) [AQIS2021, Poster Session B22](http://aqis-conf.org/2021/)
 
-## Cite this package
+## Cite This Package
 
-To be updated
+```
+@misc{yang2022efficient,
+      title={An Efficient Quantum Readout Error Mitigation for Sparse Measurement Outcomes of Near-term Quantum Devices}, 
+      author={Bo Yang and Rudy Raymond and Shumpei Uno},
+      year={2022},
+      eprint={2201.11046},
+      archivePrefix={arXiv},
+      primaryClass={quant-ph}
+}
+```
+
+Now in the preparation for journal submission.
