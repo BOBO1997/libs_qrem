@@ -1,4 +1,4 @@
-# An Efficient Quantum Readout Error Mitigation Heuristic for Sparse Probability Distribution
+# An Efficient Quantum Readout Error Mitigation for Sparse Measurement Outcomes of Near-term Quantum Devices
 
 `libs_qrem` is a python package which executes efficient quantum readout error mitigation (QREM) written in C++/Cython.
 This package mitigates the readout errors in 65 qubit measurement result of GHZ state from ibmq_brooklyn in few seconds.
@@ -25,7 +25,7 @@ pip install --upgrade --force-reinstall git+https://github.com/BOBO1997/libs_qre
 ```sh
 git clone https://github.com/BOBO1997/libs_qrem.git
 cd libs_qrem
-python3 setup.py install --record install_record.txt
+python setup.py install --record install_record.txt
 ```
 
 ## Uninstall via pip
@@ -38,7 +38,7 @@ pip uninstall libs_qrem
 
 - build
 ```sh
-python3 setup.py build_ext --inplace
+python setup.py build_ext --inplace
 ```
 
 - clean
