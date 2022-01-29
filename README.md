@@ -106,7 +106,7 @@ from qiskit.ignis.mitigation.measurement import tensored_meas_cal
 # prepare calibration circuit (same as qiskit tutorial)
 n = 5
 qr = qiskit.QuantumRegister(n)
-mit_pattern = [[2], [3], [4]] # only completely local noise setting is supported currently, but we will extend our mitigator soon
+mit_pattern = [[2], [3, 4]]
 meas_calibs, state_labels = tensored_meas_cal(mit_pattern=mit_pattern, qr=qr, circlabel='mcal')
 
 # run calibration circuit (same as qiskit tutorial)
