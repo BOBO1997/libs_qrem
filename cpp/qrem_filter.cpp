@@ -28,24 +28,24 @@ namespace libs_qrem {
         this->_num_clbits = num_clbits;
 
         // convert vector obj to Matrix obj
-        this->_cal_matrices = vector<Matrix2d>(cal_matrices.size());
+        this->_cal_matrices = vector<MatrixXd>(cal_matrices.size());
         for (size_t i = 0; i < cal_matrices.size(); i++) {
             this->_cal_matrices[i] = stdvec2d_to_MatrixXd(cal_matrices[i]);
         }
         
         // inverse of each matrix
-        this->_pinv_matrices = vector<Matrix2d>(this->_cal_matrices.size());
+        this->_pinv_matrices = vector<MatrixXd>(this->_cal_matrices.size());
         for (size_t i = 0; i < this->_cal_matrices.size(); i++) {
             this->_pinv_matrices[i] = this->_cal_matrices[i].inverse();
         }
 
         // svd of each matrix
-        this->_svd_matrices = vector< JacobiSVD<Matrix2d> >(this->_cal_matrices.size());
-        this->_Us = vector<Matrix2d>(this->_cal_matrices.size());
-        this->_Sigmas = vector<Matrix2d>(this->_cal_matrices.size());
-        this->_Vs = vector<Matrix2d>(this->_cal_matrices.size());
+        this->_svd_matrices = vector< JacobiSVD<MatrixXd> >(this->_cal_matrices.size());
+        this->_Us = vector<MatrixXd>(this->_cal_matrices.size());
+        this->_Sigmas = vector<MatrixXd>(this->_cal_matrices.size());
+        this->_Vs = vector<MatrixXd>(this->_cal_matrices.size());
         for (size_t i = 0; i < this->_cal_matrices.size(); i++) {
-            JacobiSVD<Matrix2d> svd(this->_cal_matrices[i], Eigen::ComputeFullU | Eigen::ComputeFullV);
+            JacobiSVD<MatrixXd> svd(this->_cal_matrices[i], Eigen::ComputeFullU | Eigen::ComputeFullV);
             this->_svd_matrices[i] = svd;
             this->_Us[i] = svd.matrixU();
             this->_Sigmas[i] = svd.singularValues().asDiagonal();
@@ -53,9 +53,9 @@ namespace libs_qrem {
         }
 
         // inverse of each svd matrices
-        this->_pinvUs = vector<Matrix2d>(this->_cal_matrices.size());
-        this->_pinvSigmas = vector<Matrix2d>(this->_cal_matrices.size()); 
-        this->_pinvVs = vector<Matrix2d>(this->_cal_matrices.size());
+        this->_pinvUs = vector<MatrixXd>(this->_cal_matrices.size());
+        this->_pinvSigmas = vector<MatrixXd>(this->_cal_matrices.size()); 
+        this->_pinvVs = vector<MatrixXd>(this->_cal_matrices.size());
         for (size_t i = 0; i < this->_svd_matrices.size(); i++) {
             this->_pinvUs[i] = this->_svd_matrices[i].matrixU().inverse();
             this->_pinvSigmas[i] = this->_svd_matrices[i].singularValues().asDiagonal().inverse();
@@ -120,7 +120,19 @@ namespace libs_qrem {
         return index;
     }
 
-    // TODO: extend the program
+    int QREM_Filter::index_of_matrix(int state, vector<int>& pos_clbits) {
+        int index = 0;
+        int i = 0;
+        for (const auto& pos: pos_clbits) {
+            if (state >> (this->_num_clbits - 1 - pos) & 1) {
+                index += 1 << i;
+            }
+            i++;
+        }
+        return index;
+    }
+
+    // generalized to the arbitrary qubit blocks: essence: this->_indices_of_matrices
     void QREM_Filter::compute_reduced_A(size_t size) {
         this->_reduced_A = vector< vector<double> >(size, vector<double>(size, 0));
         for (size_t i = 0; i < size; i++) { // target
@@ -136,7 +148,7 @@ namespace libs_qrem {
         }
     }
 
-    // TODO: extend the program
+    // generalized to the arbitrary qubit blocks: essence: this->_indices_of_matrices
     void QREM_Filter::compute_reduced_inv_A(size_t size) {
         this->_reduced_inv_A = vector< vector<double> >(size, vector<double>(size, 0));
         vector<double> abs_sum_of_rows(size, 0);
@@ -177,7 +189,7 @@ namespace libs_qrem {
         }
     }
 
-    // TODO: extend the program
+    // generalized to the arbitrary qubit blocks: essence: this->_indices_of_matrices
     double QREM_Filter::mitigate_one_state(int target_index, 
                                            vector<double>& extended_hist, 
                                            vector<string>& indices_to_keys_vector) {
@@ -194,9 +206,9 @@ namespace libs_qrem {
         return new_count;
     }
 
-    // TODO: extend the program
+    // generalized to the arbitrary qubit blocks: essence: this->_indices_of_matrices
     vector<double> QREM_Filter::col_basis(int col_index, 
-                                          vector<Matrix2d>& pinv_mats, 
+                                          vector<MatrixXd>& pinv_mats, 
                                           vector<string>& indices_to_keys_vector) {
         vector<double> col_i(indices_to_keys_vector.size());
         for (size_t source_index = 0; source_index < indices_to_keys_vector.size(); source_index++) {
@@ -211,15 +223,15 @@ namespace libs_qrem {
         return col_i;
     }
     
-    vector<Vector2d> QREM_Filter::choose_vecs(string state, vector<Matrix2d> matrices) {
-        vector<Vector2d> vecs(matrices.size());
+    vector<VectorXd> QREM_Filter::choose_vecs(string state, vector<MatrixXd> matrices) {
+        vector<VectorXd> vecs(matrices.size());
         for (size_t i = 0; i < matrices.size(); i++) {
             vecs[i] = matrices[i].row(this->index_of_matrix(state, this->_poses_clbits[i]));
         }
         return vecs;
     }
 
-    double QREM_Filter::sum_of_tensored_vector(vector<Vector2d> vecs) {
+    double QREM_Filter::sum_of_tensored_vector(vector<VectorXd> vecs) {
         double sum_val = 1;
         for (const auto& vec: vecs) {
             sum_val *= vec.sum();
@@ -250,7 +262,7 @@ namespace libs_qrem {
         }
 
         // set indices_of_matrices table
-        // TODO: extend the program
+        // generalized to the arbitrary qubit blocks
         this->_indices_of_matrices = vector< vector<int> >(this->_indices_to_keys_vector.size(), vector<int>(this->_pinv_matrices.size(), 0));
         for (size_t source_index = 0; source_index < this->_indices_to_keys_vector.size(); source_index++) {
             string source_state = this->_indices_to_keys_vector[source_index];

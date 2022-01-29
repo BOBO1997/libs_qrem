@@ -1,7 +1,7 @@
 CPP = g++
 CPPFLAGS = -std=c++14 -O3 -Wall
 
-LIB_SRCS = ../../combinations.cpp \
+SRCS_LIB = ../../combinations.cpp \
 ../../hamming.cpp \
 ../../sgs_algorithm.cpp \
 ../../harger_higham.cpp \
@@ -13,14 +13,24 @@ LIB_SRCS = ../../combinations.cpp \
 ../../mooney_etal_filter.cpp \
 ../../nation_etal_filter.cpp
 
-SRCS = test_qrem_filter.cpp \
+SRCS_QREM_FILTER = test_qrem_filter.cpp \
+dummy_data50.cpp \
+# dummy_data12.cpp
+
+SRCS_GENERAL_CAL_MAT = test_general_cal_mat.cpp \
 dummy_data12.cpp \
-dummy_data50.cpp
+# dummy_data50.cpp
 
-LIB_OBJS = $(LIB_SRCS:%.cpp=%.o)
-OBJS = $(SRCS:%.cpp=%.o)
+OBJS_LIB = $(SRCS_LIB:%.cpp=%.o)
+OBJS_QREM_FILTER = $(SRCS_QREM_FILTER:%.cpp=%.o)
+OBJS_GENERAL_CAL_MAT = $(SRCS_GENERAL_CAL_MAT:%.cpp=%.o)
 
-test_qrem_filter.out: $(OBJS) $(LIB_OBJS:../../%=%)
+all: test_qrem_filter test_general_cal_mat
+
+test_qrem_filter.out: $(OBJS_QREM_FILTER) $(OBJS_LIB:../../%=%)
+	$(CPP) $(CPPFLAGS) -o $@ $^
+
+test_general_cal_mat.out: $(OBJS_GENERAL_CAL_MAT) $(OBJS_LIB:../../%=%)
 	$(CPP) $(CPPFLAGS) -o $@ $^
 
 # %.o: $(SRCS:%.cpp=%.cpp)
@@ -28,6 +38,9 @@ test_qrem_filter.out: $(OBJS) $(LIB_OBJS:../../%=%)
 
 # %.o: $(LIB_SRCS:%.cpp=%.cpp)
 # 	$(CPP) $(CPPFLAGS) -c $@ -o $^
+
+test_general_cal_mat.o: test_general_cal_mat.cpp
+	$(CPP) $(CPPFLAGS) -c test_general_cal_mat.cpp -o test_general_cal_mat.o
 
 test_qrem_filter.o: test_qrem_filter.cpp
 	$(CPP) $(CPPFLAGS) -c test_qrem_filter.cpp -o test_qrem_filter.o
@@ -73,6 +86,12 @@ harger_higham.o: ../../cpp/harger_higham.cpp
 
 clean:
 	rm -rf *.o *.out
+
+clean_general:
+	rm -rf test_general_cal_mat.o*
+
+clean_qrem:
+	rm -rf test_qrem_filter.o*
 
 echo_objs: $(OBJS)
 	@echo $^

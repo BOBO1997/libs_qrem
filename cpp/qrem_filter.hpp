@@ -32,19 +32,19 @@ namespace libs_qrem {
         public:
 
             int _num_clbits;
-            vector<Matrix2d> _cal_matrices;
+            vector<MatrixXd> _cal_matrices;
             vector< vector<int> > _mit_pattern;
             vector<int> _meas_layout;
             
-            vector< JacobiSVD<Matrix2d> > _svd_matrices;
-            vector<Matrix2d> _Us;
-            vector<Matrix2d> _Sigmas;
-            vector<Matrix2d> _Vs;
+            vector< JacobiSVD<MatrixXd> > _svd_matrices;
+            vector<MatrixXd> _Us;
+            vector<MatrixXd> _Sigmas;
+            vector<MatrixXd> _Vs;
 
-            vector<Matrix2d> _pinv_matrices;
-            vector<Matrix2d> _pinvUs; // unused
-            vector<Matrix2d> _pinvSigmas;
-            vector<Matrix2d> _pinvVs;
+            vector<MatrixXd> _pinv_matrices;
+            vector<MatrixXd> _pinvUs; // unused
+            vector<MatrixXd> _pinvSigmas;
+            vector<MatrixXd> _pinvVs;
 
             int _shots;
             size_t _dim;
@@ -80,6 +80,9 @@ namespace libs_qrem {
             int index_of_matrix(string state, 
                                 vector<int>& pos_clbits);
 
+            int index_of_matrix(int state, 
+                                vector<int>& pos_clbits);
+
             void compute_reduced_A(size_t size);
 
             void compute_reduced_inv_A(size_t size);
@@ -93,13 +96,13 @@ namespace libs_qrem {
                                       vector<string>& indices_to_keys_vector);
 
             vector<double> col_basis(int col_index, 
-                                     vector<Matrix2d>& pinv_mats,
+                                     vector<MatrixXd>& pinv_mats,
                                      vector<string>& indices_to_keys_vector);
 
-            vector<Vector2d> choose_vecs(string state, 
-                                         vector<Matrix2d> matrices);
+            vector<VectorXd> choose_vecs(string state, 
+                                         vector<MatrixXd> matrices);
 
-            double sum_of_tensored_vector(vector<Vector2d> vecs);
+            double sum_of_tensored_vector(vector<VectorXd> vecs);
 
             vector<double> preprocess(map<string, int> hist, 
                                       int d);
