@@ -1,5 +1,5 @@
 CPP = g++
-CPPFLAGS = -std=c++14 -O3 -Wall
+CPPFLAGS = -std=c++17 -O3 -Wall -pthread
 
 SRCS_LIB = ../../combinations.cpp \
 ../../hamming.cpp \

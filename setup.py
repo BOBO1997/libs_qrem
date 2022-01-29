@@ -37,14 +37,14 @@ ext_modules = [
             "./cpp/mooney_etal_filter.cpp",
             "./cpp/nation_etal_filter.cpp",
         ],
-        extra_compile_args=["-std=c++14"],
+        extra_compile_args=["-std=c++17", "-pthread"],
         language="c++"
     ),
 ]
 
 setup(
     name="libs_qrem",
-    version="0.1.5",
+    version="0.1.6",
     description="efficient quantum readout error mitigation library",
     cmdclass={"build_ext": build_ext},
     ext_modules=cythonize(ext_modules, language_level=3),

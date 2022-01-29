@@ -6,6 +6,7 @@
 #include <Eigen/Dense>
 #include <algorithm>
 #include <ctime>
+#include <thread>
 
 #include "eigen_utils.hpp"
 #include "hamming.hpp"
@@ -34,20 +35,6 @@ namespace libs_qrem {
         return source_idx;
     }
 
-    /*
-    def flip_state(self, state: str, mat_index: int, flip_poses: List[int]) -> str:
-        flip_poses = [pos for i, pos in enumerate(flip_poses) if (mat_index >> i) & 1]
-        flip_poses = sorted(flip_poses)
-        new_state = ""
-        pos = 0
-        for flip_pos in flip_poses:
-            new_state += state[pos:flip_pos]
-            new_state += str(int(state[flip_pos], 2) ^ 1)  # flip the state
-            pos = flip_pos + 1
-        new_state += state[pos:]
-        return 
-    */
-
     void Ignis_Filter::apply(Args args) {
         
         map<string, int> hist = args.hist;
@@ -65,46 +52,21 @@ namespace libs_qrem {
         }
         clock_t t_prep = clock();
 
-        cout << "mit_pattern" << endl;
-        for (size_t i = 0; i < this->_mit_pattern.size(); i++) {
-            for (size_t j = 0; j < this->_mit_pattern[i].size(); j++) { 
-                cout << this->_mit_pattern[i][j] << " ";
-            }
-            cout << endl;
-        }
-
-        cout << "pos_clbits" << endl;
-        for (size_t i = 0; i < this->_poses_clbits.size(); i++) {
-            for (size_t j = 0; j < this->_poses_clbits[i].size(); j++) { 
-                cout << this->_poses_clbits[i][j] << " ";
-            }
-            cout << endl;
-        }
-
-        cout << "indices_of_matrices" << endl;
-        for (size_t i = 0; i < this->_indices_of_matrices.size(); i++) {
-            for (size_t j = 0; j < this->_indices_of_matrices[i].size(); j++) { 
-                cout << this->_indices_of_matrices[i][j] << " ";
-            }
-            cout << endl;
-        }
-
         /*------------ inverse operation ------------*/
 
         for (size_t i = 0; i < this->_pinv_matrices.size(); i++) { // O(n)
             vector<double> temp_y(1 << this->_num_clbits, 0);
-            for (int target_idx = 0; target_idx < (1 << this->_num_clbits); target_idx++) { // O(2^n)
-                cout << "target_idx: " << target_idx << endl;
-                cout << "size of pinv mat: " << this->_pinv_matrices[i].rows() << endl;
-                int first_index = this->index_of_matrix(target_idx, this->_poses_clbits[i]);
-                for (size_t j = 0; j < this->_pinv_matrices[i].rows(); j++) { // for each index of inverse calibration matrix
-                    int source_idx = this->flip_state(target_idx, j, this->_poses_clbits[i]);
-                    int second_index = this->index_of_matrix(source_idx, this->_poses_clbits[i]);
-                    cout << first_index << " " << second_index << endl;
-                    temp_y[target_idx] += this->_pinv_matrices[i](first_index, second_index) * this->_x_s[source_idx];
+            // thread th([&]{
+                for (int target_idx = 0; target_idx < (1 << this->_num_clbits); target_idx++) { // O(2^n)
+                    int first_index = this->index_of_matrix(target_idx, this->_poses_clbits[i]);
+                    for (int j = 0; j < this->_pinv_matrices[i].rows(); j++) { // for each index of inverse calibration matrix
+                        int source_idx = this->flip_state(target_idx, j, this->_poses_clbits[i]);
+                        int second_index = this->index_of_matrix(source_idx, this->_poses_clbits[i]);
+                        temp_y[target_idx] += this->_pinv_matrices[i](first_index, second_index) * this->_x_s[source_idx];
+                    }
                 }
-            }
-            cout << "next" << endl;
+            // });
+            // th.join();
             vector<double>().swap(this->_x_s); // release previous vector;
             this->_x_s = temp_y; // update the vector
         }
@@ -113,12 +75,6 @@ namespace libs_qrem {
             this->_sum_of_x += this->_x_s[i];
         }
         clock_t t_inv = clock();
-
-        /*
-        for (size_t i = 0; i < this->_x_s.size(); i++) {
-            cout << this->_x_s[i] << endl;
-        }
-        */
 
         /*------------ sgs algorithm ------------*/
 

@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cmath>
 #include <ctime>
+#include <thread>
 
 #include "eigen_utils.hpp"
 #include "hamming.hpp"
@@ -135,35 +136,41 @@ namespace libs_qrem {
     // generalized to the arbitrary qubit blocks: essence: this->_indices_of_matrices
     void QREM_Filter::compute_reduced_A(size_t size) {
         this->_reduced_A = vector< vector<double> >(size, vector<double>(size, 0));
-        for (size_t i = 0; i < size; i++) { // target
-            for (size_t j = 0; j < size; j++) { // source
-                double tensor_elem = 1;
-                for (size_t k = 0; k < this->_cal_matrices.size(); k++) {
-                    int first_index = this->_indices_of_matrices[i][k]; // target
-                    int second_index = this->_indices_of_matrices[j][k]; // source
-                    tensor_elem *= this->_cal_matrices[k](first_index, second_index);
+        thread th([&] {
+            for (size_t i = 0; i < size; i++) { // target
+                for (size_t j = 0; j < size; j++) { // source
+                    double tensor_elem = 1;
+                    for (size_t k = 0; k < this->_cal_matrices.size(); k++) {
+                        int first_index = this->_indices_of_matrices[i][k]; // target
+                        int second_index = this->_indices_of_matrices[j][k]; // source
+                        tensor_elem *= this->_cal_matrices[k](first_index, second_index);
+                    }
+                    this->_reduced_A[i][j] = tensor_elem; // original: y[target] = A[target][source] * x[source]
                 }
-                this->_reduced_A[i][j] = tensor_elem; // original: y[target] = A[target][source] * x[source]
             }
-        }
+        });
+        th.join();
     }
 
     // generalized to the arbitrary qubit blocks: essence: this->_indices_of_matrices
     void QREM_Filter::compute_reduced_inv_A(size_t size) {
         this->_reduced_inv_A = vector< vector<double> >(size, vector<double>(size, 0));
         vector<double> abs_sum_of_rows(size, 0);
-        for (size_t i = 0; i < size; i++) { // target
-            for (size_t j = 0; j < size; j++) { // source
-                double tensor_elem = 1;
-                for (size_t k = 0; k < this->_pinv_matrices.size(); k++) {
-                    int first_index = this->_indices_of_matrices[i][k]; // target
-                    int second_index = this->_indices_of_matrices[j][k]; // source
-                    tensor_elem *= this->_pinv_matrices[k](first_index, second_index);
+        // thread th([&] {
+            for (size_t i = 0; i < size; i++) { // target
+                for (size_t j = 0; j < size; j++) { // source
+                    double tensor_elem = 1;
+                    for (size_t k = 0; k < this->_pinv_matrices.size(); k++) {
+                        int first_index = this->_indices_of_matrices[i][k]; // target
+                        int second_index = this->_indices_of_matrices[j][k]; // source
+                        tensor_elem *= this->_pinv_matrices[k](first_index, second_index);
+                    }
+                    this->_reduced_inv_A[i][j] = tensor_elem; // original: x[target] = A^-1[target][source] * y[source]
+                    abs_sum_of_rows[i] += abs(tensor_elem);
                 }
-                this->_reduced_inv_A[i][j] = tensor_elem; // original: x[target] = A^-1[target][source] * y[source]
-                abs_sum_of_rows[i] += abs(tensor_elem);
             }
-        }
+        // });
+        // th.join();
         this->_exact_one_norm_of_reduced_inv_A = 0;
         for (size_t i = 0; i < size; i++) {
             if (this->_exact_one_norm_of_reduced_inv_A < abs_sum_of_rows[i]) {
