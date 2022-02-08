@@ -38,6 +38,7 @@ ext_modules = [
             "./cpp/nation_etal_filter.cpp",
         ],
         extra_compile_args=["-std=c++17", "-pthread"],
+		include_dirs=["./eigen"],
         language="c++"
     ),
 ]
