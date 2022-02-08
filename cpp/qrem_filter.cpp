@@ -188,7 +188,7 @@ namespace libs_qrem {
     }
 
     void QREM_Filter::iterative_one_norm_of_inv_reduced_A(string method) {
-        if (method == "iterative" | method == "bicgstab") {
+        if ((method == "iterative") | (method == "bicgstab")) {
             this->_iterative_one_norm_of_inv_reduced_A = harger_higham_bicgstab(stdvec2d_to_MatrixXd(this->_reduced_A));
         }
         else {

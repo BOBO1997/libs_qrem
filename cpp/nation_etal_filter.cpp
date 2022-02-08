@@ -56,7 +56,7 @@ namespace libs_qrem {
 
         MatrixXd A = stdvec2d_to_MatrixXd(this->_reduced_A);
         VectorXd b = stdvec1d_to_VectorXd(extended_y);
-        if (method == "iterative" | method == "bicgstab") {
+        if ((method == "iterative") | (method == "bicgstab")) {
             BiCGSTAB<MatrixXd> solver(A);
             VectorXd v = solver.solve(b);
             this->_iterations = solver.iterations();
