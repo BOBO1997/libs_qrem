@@ -162,6 +162,7 @@ States (Bo Yang, Rudy Raymond and Shumpei Uno) [AQIS2021, Poster Session B22](ht
 
 Now in the preparation for journal submission.
 
-# Acknowledgements
+# Package Contributors
 
-Thanks to [Dongjia Zhang](https://github.com/tokatoka) for his detailed advice on the compiling methods.
+- [Bo Yang](https://github.com/BOBO1997)
+- [Dongjia Zhang](https://github.com/tokatoka)
