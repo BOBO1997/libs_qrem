@@ -3,8 +3,8 @@ from libs_qrem import DeltaFilter, LeastNormFilter, MooneyEtalFilter, NationEtal
 from dummy_data12 import n, cal_matrices, hist
 from pprint import pprint
 
-# mitigator = DeltaFilter(n, cal_matrices)
-mitigator = MooneyEtalFilter(n, cal_matrices)
+mitigator = LeastNormFilter(n, cal_matrices) # succeed
+# mitigator = MooneyEtalFilter(n, cal_matrices) # fail
 
 
 hist = mitigator.apply(hist, threshold = 0.1)
@@ -46,7 +46,7 @@ dct = {# "exact_one_norm_of_reduced_inv_A": mitigator.exact_one_norm_of_reduced_
 
 print("abort?????")
 
-# pprint(dct)
+pprint(dct)
 
 print("segfo?????????")
 # del mitigator
