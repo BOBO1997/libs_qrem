@@ -5,6 +5,9 @@ cimport cython
 
 from scipy.optimize import minimize
 
+from qiskit.result import Result
+import copy
+
 from libcpp.map cimport map
 from libcpp.string cimport string
 
@@ -113,3 +116,22 @@ cdef class BaseFilter:
                 return self.iterative_one_norm_of_inv_reduced_A() / np.sqrt(self.shots)
         elif self.method == "Mooney et al.":
             print("Cannot compute the standard deviation of mitigation.")
+
+    def apply(self, inputs, d=0, silent=True, threshold=0.1, method="bicgstab"):
+        cdef int i
+        cdef str key
+        cdef dict hist
+        if isinstance(inputs, Result):
+            mitigated_results = copy.deepcopy(inputs)
+            for i, hist in enumerate(inputs.get_counts()):
+                mitigated_hist = self.apply(hist, d=d, silent=silent, threshold=threshold, method=method)
+                mitigated_hist = {format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
+                mitigated_results.results[i].data.counts = mitigated_hist
+            return mitigated_results
+        elif isinstance(inputs, list):
+            mitigated_hists = []
+            for hist in inputs:
+                mitigated_hists.append(self.apply_specific(hist, d=d, silent=silent, threshold=threshold, method=method))
+            return mitigated_hists
+        elif isinstance(inputs, dict):
+            return self.apply_specific(inputs, d=d, silent=silent, threshold=threshold, method=method)

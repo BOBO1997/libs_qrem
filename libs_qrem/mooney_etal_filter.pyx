@@ -20,7 +20,7 @@ cdef class MooneyEtalFilter(BaseFilter):
     def __dealloc__(self):
         del self.instance_ptr
     
-    def apply(self, hist, threshold = 0.1, silent = True):
+    def apply_specific(self, hist, d=0, silent=True, threshold=0.1, method="bicgstab"):
         cdef map[string, int] cpp_hist
         for key, value in hist.items():
             cpp_hist[key.encode('utf-8')] = value
