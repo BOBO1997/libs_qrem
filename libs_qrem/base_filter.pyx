@@ -116,7 +116,7 @@ cdef class BaseFilter:
             else:
                 return self.iterative_one_norm_of_inv_reduced_A() / np.sqrt(self.shots)
         elif self.method == "Mooney et al.":
-            print("Cannot compute the standard deviation of mitigation.")
+            print("Cannot compute the standard deviation of mitigation for Mooney et al.'s method.")
 
     def apply(self, inputs, d=0, silent=True, threshold=0.1, method="bicgstab"):
         cdef int i, k
@@ -127,7 +127,7 @@ cdef class BaseFilter:
             printf("result")
             mitigated_results = copy.deepcopy(inputs)
             for i, result in enumerate(inputs.results):
-                hist = result.data.counts
+                hist = {format(int(key, 16), "0"+str(self.num_clbits)+"b"): val for key, val in result.data.counts.items()}
                 mitigated_hist = self.apply(hist, d=d, silent=silent, threshold=threshold, method=method)
                 mitigated_hist = {format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
                 mitigated_results.results[i].data.counts = mitigated_hist
