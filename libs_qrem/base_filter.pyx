@@ -2,7 +2,6 @@ import cython
 import numpy as np
 cimport numpy as np
 cimport cython
-from libc.stdio cimport printf
 
 from scipy.optimize import minimize
 
@@ -116,37 +115,30 @@ cdef class BaseFilter:
             else:
                 return self.iterative_one_norm_of_inv_reduced_A() / np.sqrt(self.shots)
         elif self.method == "Mooney et al.":
-            print("Cannot compute the standard deviation of mitigation for Mooney et al.'s method.")
+            raise Exception("Cannot compute the standard deviation of mitigation for Mooney et al.'s method.")
 
     def apply(self, inputs, d=0, silent=True, threshold=0.1, method="bicgstab"):
         cdef int i, k
         cdef str key
         cdef dict hist
-        printf("start mitigation")
         if isinstance(inputs, Result):
-            printf("result")
             mitigated_results = copy.deepcopy(inputs)
             for i, result in enumerate(inputs.results):
-                hist = {format(int(key, 16), "0"+str(self.num_clbits)+"b"): val for key, val in result.data.counts.items()}
+                hist = {format(int(key, 16), "0"+str(self.num_clbits())+"b"): val for key, val in result.data.counts.items()}
                 mitigated_hist = self.apply(hist, d=d, silent=silent, threshold=threshold, method=method)
-                mitigated_hist = {format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
+                mitigated_hist = {"0x"+format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
                 mitigated_results.results[i].data.counts = mitigated_hist
             return mitigated_results
         elif isinstance(inputs, dict):
-            printf("dict")
             return self.apply_specific(inputs, d=d, silent=silent, threshold=threshold, method=method)
         elif isinstance(inputs, Counts):
-            printf("count")
-            hist = {format(k, "0"+str(self.num_clbits)+"b"): v for k, v in inputs.int_raw.items()}
-            printf(hist)
+            hist = {format(k, "0"+str(self.num_clbits())+"b"): v for k, v in inputs.int_raw.items()}
             mitigated_count = copy.deepcopy(inputs)
             mitigated_hist = self.apply_specific(hist, d=d, silent=silent, threshold=threshold, method=method)
-            printf(mitigated_hist)
-            mitigated_count.hex_raw = {format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
+            mitigated_count.hex_raw = {"0x"+format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
             mitigated_count.int_raw = {int(key, 2): val for key, val in mitigated_hist.items()}
             return mitigated_count
         elif isinstance(inputs, list):
-            printf("list")
             mitigated_hists = []
             for hist_or_counts in inputs:
                 mitigated_hists.append(self.apply(hist_or_counts, d=d, silent=silent, threshold=threshold, method=method))
