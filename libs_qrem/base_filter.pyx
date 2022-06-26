@@ -2,6 +2,7 @@ import cython
 import numpy as np
 cimport numpy as np
 cimport cython
+from libc.stdio cimport printf
 
 from scipy.optimize import minimize
 
@@ -121,7 +122,9 @@ cdef class BaseFilter:
         cdef int i, k
         cdef str key
         cdef dict hist
+        printf("start mitigation")
         if isinstance(inputs, Result):
+            printf("result")
             mitigated_results = copy.deepcopy(inputs)
             for i, result in enumerate(inputs.results):
                 hist = result.data.counts
@@ -129,17 +132,24 @@ cdef class BaseFilter:
                 mitigated_hist = {format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
                 mitigated_results.results[i].data.counts = mitigated_hist
             return mitigated_results
-        elif isinstance(inputs, list):
-            mitigated_hists = []
-            for hist in inputs:
-                mitigated_hists.append(self.apply_specific(hist, d=d, silent=silent, threshold=threshold, method=method))
-            return mitigated_hists
         elif isinstance(inputs, dict):
+            printf("dict")
             return self.apply_specific(inputs, d=d, silent=silent, threshold=threshold, method=method)
         elif isinstance(inputs, Counts):
+            printf("count")
             hist = {format(k, "0"+str(self.num_clbits)+"b"): v for k, v in inputs.int_raw.items()}
+            printf(hist)
             mitigated_count = copy.deepcopy(inputs)
             mitigated_hist = self.apply_specific(hist, d=d, silent=silent, threshold=threshold, method=method)
+            printf(mitigated_hist)
             mitigated_count.hex_raw = {format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
             mitigated_count.int_raw = {int(key, 2): val for key, val in mitigated_hist.items()}
             return mitigated_count
+        elif isinstance(inputs, list):
+            printf("list")
+            mitigated_hists = []
+            for hist_or_counts in inputs:
+                mitigated_hists.append(self.apply(hist_or_counts, d=d, silent=silent, threshold=threshold, method=method))
+            return mitigated_hists
+        else:
+            raise Exception("inputs should be qiskit.result.Result or qiskit.result.Counts or Dict[str, Union[int, float]] or the list of them")
