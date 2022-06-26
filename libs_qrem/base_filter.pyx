@@ -5,7 +5,7 @@ cimport cython
 
 from scipy.optimize import minimize
 
-from qiskit.result import Result
+from qiskit.result import Result, Counts
 import copy
 
 from libcpp.map cimport map
@@ -118,12 +118,13 @@ cdef class BaseFilter:
             print("Cannot compute the standard deviation of mitigation.")
 
     def apply(self, inputs, d=0, silent=True, threshold=0.1, method="bicgstab"):
-        cdef int i
+        cdef int i, k
         cdef str key
         cdef dict hist
         if isinstance(inputs, Result):
             mitigated_results = copy.deepcopy(inputs)
-            for i, hist in enumerate(inputs.get_counts()):
+            for i, result in enumerate(inputs.results):
+                hist = result.data.counts
                 mitigated_hist = self.apply(hist, d=d, silent=silent, threshold=threshold, method=method)
                 mitigated_hist = {format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
                 mitigated_results.results[i].data.counts = mitigated_hist
@@ -135,3 +136,10 @@ cdef class BaseFilter:
             return mitigated_hists
         elif isinstance(inputs, dict):
             return self.apply_specific(inputs, d=d, silent=silent, threshold=threshold, method=method)
+        elif isinstance(inputs, Counts):
+            hist = {format(k, "0"+str(self.num_clbits)+"b"): v for k, v in inputs.int_raw.items()}
+            mitigated_count = copy.deepcopy(inputs)
+            mitigated_hist = self.apply_specific(hist, d=d, silent=silent, threshold=threshold, method=method)
+            mitigated_count.hex_raw = {format(int(key, 2), "x"): val for key, val in mitigated_hist.items()}
+            mitigated_count.int_raw = {int(key, 2): val for key, val in mitigated_hist.items()}
+            return mitigated_count
