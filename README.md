@@ -95,6 +95,7 @@ Giving a dictionary typed noisy probability distribution or noisy histogram to `
 ```py
 mitigated_hist = meas_filter.apply(noisy_hist)
 ```
+This `apply` function can also take as input `qiskit.result.Result`, `qiskit.result.Counts`, and their lists.
 
 For running calibration circuit, please see [qiskit tutorial](https://qiskit.org/documentation/tutorials/noise/3_measurement_error_mitigation.html).
 
