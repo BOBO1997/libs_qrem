@@ -137,7 +137,7 @@ For detailed examples, see [here](https://github.com/BOBO1997/master_thesis/tree
 
 ## Paper
 
-This package is based on the paper: [An Efficient Quantum Readout Error Mitigation for Sparse Measurement Outcomes of Near-term Quantum Devices](https://arxiv.org/abs/2201.11046).
+This package is based on the paper: [Efficient Quantum Readout Error Mitigation for Sparse Measurement Outcomes of Near-term Quantum Devices](https://journals.aps.org/pra/abstract/10.1103/PhysRevA.106.012423) by Bo Yang, Rudy Raymond, and Shumpei Uno.
 
 Demonstrations in the paper are also stored [here](https://github.com/BOBO1997/master_thesis/tree/main/test_libs_qrem).
 
