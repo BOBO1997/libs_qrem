@@ -151,13 +151,19 @@ States (Bo Yang, Rudy Raymond and Shumpei Uno) [AQIS2021, Poster Session B22](ht
 ## Cite This Package
 
 ```
-@misc{yang2022efficient,
-      title={An Efficient Quantum Readout Error Mitigation for Sparse Measurement Outcomes of Near-term Quantum Devices}, 
-      author={Bo Yang and Rudy Raymond and Shumpei Uno},
-      year={2022},
-      eprint={2201.11046},
-      archivePrefix={arXiv},
-      primaryClass={quant-ph}
+@article{PhysRevA.106.012423,
+  title = {Efficient quantum readout-error mitigation for sparse measurement outcomes of near-term quantum devices},
+  author = {Yang, Bo and Raymond, Rudy and Uno, Shumpei},
+  journal = {Phys. Rev. A},
+  volume = {106},
+  issue = {1},
+  pages = {012423},
+  numpages = {14},
+  year = {2022},
+  month = {Jul},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevA.106.012423},
+  url = {https://link.aps.org/doi/10.1103/PhysRevA.106.012423}
 }
 ```
 
