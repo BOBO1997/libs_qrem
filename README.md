@@ -167,8 +167,6 @@ States (Bo Yang, Rudy Raymond and Shumpei Uno) [AQIS2021, Poster Session B22](ht
 }
 ```
 
-Now in the preparation for journal submission.
-
 # Package Contributors
 
 - [Bo Yang](https://github.com/BOBO1997)
