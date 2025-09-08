@@ -91,38 +91,39 @@ Each QREM filter in `libs_qrem` takes the number of qubits and calibration matri
 from libs_qrem import LeastNormFilter
 meas_filter = LeastNormFilter(n, meas_fitter.cal_matrices)
 ```
-Giving a dictionary typed noisy probability distribution or noisy histogram to `LeastNormFilter.apply()` method, it returns a mitigated probability distribution.
+Passing a dictionary typed noisy probability distribution or noisy histogram to `LeastNormFilter.apply()` method, it returns a mitigated probability distribution.
 ```py
 mitigated_hist = meas_filter.apply(noisy_hist)
 ```
 This `apply` function can also take as input `qiskit.result.Result`, `qiskit.result.Counts`, and their lists.
 
-For running calibration circuit, please see [qiskit tutorial](https://qiskit.org/documentation/tutorials/noise/3_measurement_error_mitigation.html).
-
-An easy example code becomes as follows.
+A simple example code can be found in [demonstration.ipynb](https://github.com/BOBO1997/libs_qrem/blob/main/demonstration.ipynb)
 
 ```py
-from qiskit import QuantumRegister, Aer
-from qiskit.ignis.mitigation.measurement import tensored_meas_cal
+from qiskit.circuit import QuantumRegister
 # prepare calibration circuit (same as qiskit tutorial)
-n = 5
-qr = qiskit.QuantumRegister(n)
-mit_pattern = [[2], [3, 4]]
-meas_calibs, state_labels = tensored_meas_cal(mit_pattern=mit_pattern, qr=qr, circlabel='mcal')
 
-# run calibration circuit (same as qiskit tutorial)
-backend = qiskit.Aer.get_backend('ibmq_brooklyn')
-job = qiskit.execute(meas_calibs, backend=backend, shots=5000)
-cal_results = job.result()
+num_qubits = 4
+qr = QuantumRegister(num_qubits)
+mit_pattern = [[0], [1], [2], [3]] ### This indicates which sets of qubits to mitigate taking the correlated error into account.
+### mit_pattern = [[0], [1], [2, 3]] ### correlated error is currently not supported (bug found).
 
-from qiskit.ignis.mitigation.measurement import TensoredMeasFitter
-meas_fitter = TensoredMeasFitter(cal_results, mit_pattern=mit_pattern)
+# create quantum circuits for calibrating readout errors
+from libs_qrem import tensored_meas_cal
+qcs_qrem, _ = tensored_meas_cal(mit_pattern=mit_pattern, qr=qr, circlabel='mcal')
+
+# run calibration circuit (same as qiskit tutorial) using the simulated fake backend
+results_qrem = simulator_noisy.run(circuits=qcs_qrem,
+                                   shots=5000).result()
+
+from libs_qrem import TensoredMeasFitter
+meas_fitter = TensoredMeasFitter(results_qrem, mit_pattern=mit_pattern)
 
 # Create mitigator instance (corresponds to meas_fitter.filter in the tutorial code.)
 # this is very similar to the usage of qiskit.ignis.mitigation modules 
 # meas_filter = meas_fitter.filter
 from libs_qrem import LeastNormFilter
-meas_filter = LeastNormFilter(n, meas_fitter.cal_matrices)
+meas_filter = LeastNormFilter(num_qubits, meas_fitter.cal_matrices)
 
 # apply mitigation
 # Let `noisy_hist` be a dict variable representing a noisy histogram obtained from `.get_counts()` method in `qiskit.result.Result` instance.
@@ -130,8 +131,6 @@ meas_filter = LeastNormFilter(n, meas_fitter.cal_matrices)
 # Then you can mitigate it as follows.
 mitigated_hist = meas_filter.apply(noisy_hist)
 ```
-
-For detailed examples, see [here](https://github.com/BOBO1997/master_thesis/tree/main/test_libs_qrem).
 
 # Publications
 
