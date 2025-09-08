@@ -9,6 +9,7 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 
 include "vector_utils.pyx"
+include "processing.pyx"
 include "base_filter.pyx"
 include "ignis_filter.pyx"
 include "delta_filter.pyx"
