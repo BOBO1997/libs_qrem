@@ -5,6 +5,12 @@ This package mitigates the readout errors in 65 qubit measurement result of GHZ 
 - Time Complexity: $O(ns^2)$
 - Space Complexity: $O(s^2)$ ( Can be reduced into $O(ns)$ )
 
+Quick access to the usage: [demonstration.ipynb](https://github.com/BOBO1997/libs_qrem/blob/main/demonstration.ipynb)
+
+![raw histogram](https://github.com/BOBO1997/libs_qrem/blob/main/figures/fig_hist_ghz4_raw.png)
+
+![mitigated histogram](https://github.com/BOBO1997/libs_qrem/blob/main/figures/fig_hist_ghz4_mitigated.png)
+
 # Installation
 
 ## Requirements
