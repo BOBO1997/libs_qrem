@@ -1,20 +1,21 @@
 # Efficient Quantum Readout Error Mitigation for Sparse Measurement Outcomes of Near-term Quantum Devices
 
-`libs_qrem` is a python package which executes efficient quantum readout error mitigation (QREM) written in C++/Cython.
-This package mitigates the readout errors in 65 qubit measurement result of GHZ state from ibmq_brooklyn in few seconds.
+`libs_qrem` is a Python package which executes efficient quantum readout error mitigation (QREM) written in C++/Cython.
+This package mitigates the readout errors in the 65-qubit measurement result of the GHZ state from ibmq_brooklyn in a few seconds.
 - Time Complexity: $O(ns^2)$
 - Space Complexity: $O(s^2)$ ( Can be reduced into $O(ns)$ )
 
 Quick access to the usage: [demonstration.ipynb](https://github.com/BOBO1997/libs_qrem/blob/main/demonstration.ipynb)
 
-![raw histogram](https://github.com/BOBO1997/libs_qrem/blob/main/figures/fig_hist_ghz4_raw.png)
+Raw histogram             |  Mitigated histogram
+:-------------------------:|:-------------------------:
+![raw histogram](https://github.com/BOBO1997/libs_qrem/blob/main/figures/fig_hist_ghz4_raw.png)  |  ![mitigated histogram](https://github.com/BOBO1997/libs_qrem/blob/main/figures/fig_hist_ghz4_mitigated.png)
 
-![mitigated histogram](https://github.com/BOBO1997/libs_qrem/blob/main/figures/fig_hist_ghz4_mitigated.png)
 
 # Installation
 
 ## Requirements
-- [C++/Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page)
+- [C++/Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page): This can be done by downloading the Eigen package and allocating it as `eigen` folder under `libs_qrem`.
 - [Cython](https://cython.org/)
 
 ## Install via pip
@@ -56,17 +57,17 @@ rm -rf dist/ build/ libs_qrem.egg-info/ libs_qrem.cpython-38-darwin.so libs_qrem
 
 ## Classes
 
-There are 4 different classes that support 4 different QREM methods.
+There are four different classes that support four different QREM methods, respectively.
 
 1. `DeltaFilter`: Apply inverse matrix for the vector elements in subspace + correct the vector by adding a correction vector "delta" which is approximated through the solution of Lagrange multiplier + apply SGS algorithm.
-2. `LeastNormFilter`: Apply inverse matrix for the vector elements in subspace + apply the solution of least norm problem to compute the closest vector that meets all elements are summed up to 1 + apply SGS algorithm.
+2. `LeastNormFilter`: Apply inverse matrix for the vector elements in subspace + apply the solution of the least norm problem to compute the closest vector that meets all elements are summed up to 1 + apply the SGS algorithm.
 3. `MooneyEtalFilter`: Method by [Mooney, White, Hill, Hollenberg, 2021](https://arxiv.org/abs/2101.08946) + apply SGS algorithm.
 4. `NationEtalFilter`: Method by [Nation, Kang, Sundaresan, Gambetta, 2021](https://arxiv.org/abs/2108.12518) + apply SGS algorithm.
 5. `IgnisFilter`: Apply full inverse matrix under tensor product noise model (such as `TensoredFilter` in [qiskit.ignis](https://github.com/Qiskit/qiskit-ignis)) + apply SGS algorithm.
 
 where SGS algorithm is the algorithm proposed by [Smolin, Gambetta, Smith, 2012](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.108.070502).
 
-Each class inherits the base class `BaseFilter` which has the following methods in order to get access to the internal information.
+Each class inherits the base class `BaseFilter`, which has the following methods in order to get access to the internal information.
 
 - Matrices
     - `reduced_A()`: returns a `list` of `list` with `double` elements
