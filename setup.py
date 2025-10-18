@@ -3,19 +3,20 @@ import sys
 import subprocess
 import setuptools
 
-try:
-    import numpy as np
-except ImportError:
-    subprocess.call([sys.executable, '-m', 'pip', 'install', 'numpy>=1.17'])
-    import numpy as np
+# try:
+#     import numpy as np
+# except ImportError:
+#     subprocess.call([sys.executable, '-m', 'pip', 'install', 'numpy'])
+#     import numpy as np
     
-try:
-    from Cython.Build import cythonize
-except ImportError:
-    subprocess.call([sys.executable, '-m', 'pip', 'install', 'cython>=0.29'])
-    from Cython.Build import cythonize
+# try:
+#     from Cython.Build import cythonize
+# except ImportError:
+#     subprocess.call([sys.executable, '-m', 'pip', 'install', 'cython'])
+#     from Cython.Build import cythonize
 
 from setuptools import setup, Extension, find_packages
+import numpy as np
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 from distutils.core import setup
