@@ -152,7 +152,8 @@ Demonstrations in the paper are also stored [here](https://github.com/BOBO1997/m
 - [The 3rd Workshop on Quanutm Software, Information Processing Society of Japan](https://www.ipsj.or.jp/kenkyukai/event/qs3.html) 
 -->
 - Efficient Readout Error Mitigation Heuristic for Measurement Outcomes with Few
-States (Bo Yang, Rudy Raymond and Shumpei Uno) [AQIS2021, Poster Session B22](http://aqis-conf.org/2021/)
+States (Bo Yang, Rudy Raymond and Shumpei Uno) [AQIS2021, Poster Session B22, September 2021](http://aqis-conf.org/2021/)
+([Best student poster award](https://aqis-conf.org/2021/best-student-poster-award-winner/))
 
 ## Cite This Package
 
